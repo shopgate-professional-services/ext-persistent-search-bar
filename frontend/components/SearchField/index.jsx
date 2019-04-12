@@ -160,7 +160,7 @@ class SearchField extends Component {
       <div className={styles.icon}>
         <SearchIcon />
       </div>
-      {!this.state.query.length && <I18n.Text string="persistant_search_bar.label" />}
+      {!this.state.query.length && <I18n.Text string="persistent_search_bar.label" />}
     </label>
   );
 
@@ -175,7 +175,7 @@ class SearchField extends Component {
       })}
       onClick={this.reset}
     >
-      <I18n.Text string="persistant_search_bar.cancel" />
+      <I18n.Text string="persistent_search_bar.cancel" />
     </button>
   );
 

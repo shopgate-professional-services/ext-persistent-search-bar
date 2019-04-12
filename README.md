@@ -2,11 +2,11 @@
 Will render a Search Bar Field beneath the App Bar of the iOS and GMD themes. 
 
 ## Configuration
-Add the persistant-search-bar extension to your Shopgate Connect deployment config.
+Add the persistaent-search-bar extension to your Shopgate Connect deployment config.
 ```
 (...)
   {
-    "id": "@shopgate-project/persistant-search-bar",
+    "id": "@shopgate-project/persistent-search-bar",
     "version": "1.0.0"
   }
 (...)

@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "id": "@shopgate-project/persistant-search-bar",
+  "id": "@shopgate-project/persistent-search-bar",
   "components": [
     {
       "type": "portals",
