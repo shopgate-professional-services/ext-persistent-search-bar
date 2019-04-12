@@ -59,6 +59,4 @@ class SuggestionList extends Component {
   }
 }
 
-export { SuggestionList as UnwrappedSuggestionList };
-
 export default connect(SuggestionList);

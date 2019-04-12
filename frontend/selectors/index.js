@@ -1,6 +1,6 @@
 import { createSelector } from 'reselect';
 import { getCurrentRoute } from '@shopgate/pwa-common/helpers/router';
-import { searchBarBlacklist } from '../constants';
+import { SEARCH_BAR_BLACKLIST } from '../constants';
 
 /**
  * Checks if the search bar is visible for the current route.
@@ -9,5 +9,5 @@ import { searchBarBlacklist } from '../constants';
 export const isSearchBarVisible = createSelector(
   getCurrentRoute,
   route =>
-    !searchBarBlacklist.find(entry => route.pattern === entry)
+    !SEARCH_BAR_BLACKLIST.find(entry => route.pattern === entry)
 );
