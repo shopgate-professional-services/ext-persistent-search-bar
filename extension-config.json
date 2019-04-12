@@ -1,0 +1,47 @@
+{
+  "version": "1.0.0",
+  "id": "@shopgate-project/persistant-search-bar",
+  "components": [
+    {
+      "type": "portals",
+      "target": "app-bar.below.before",
+      "path": "frontend/portals/AppBarBelowBefore",
+      "id": "SearchField"
+    },
+    {
+      "type": "portals",
+      "target":  "app-bar.right",
+      "path": "frontend/portals/AppBarRight",
+      "id": "AppBarRight"
+    },
+    {
+      "type": "translations",
+      "path": "frontend/locale/en-US.json",
+      "id": "locale/en-US"
+    },
+    {
+      "type": "translations",
+      "path": "frontend/locale/de-DE.json",
+      "id": "locale/de-DE"
+    }
+  ],
+  "configuration": {
+    "searchBarBlacklist": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": [
+        "/browse",
+        "/cart",
+        "/filter",
+        "/login",
+        "/checkout",
+        "/item/:productId/gallery/:slide",
+        "/search"
+      ],
+      "params": {
+        "type": "json",
+        "label": "Path values for blacklisting"
+      }
+    }
+  }
+}
