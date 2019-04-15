@@ -15,17 +15,13 @@ const AppBarRight = ({ children, pattern, count }) => {
   if (isIOSTheme()) {
     return children;
   }
-  if (pattern === INDEX_PATH && count === 0) {
+  if (pattern === INDEX_PATH) {
     return (
       <Placeholder />
     );
   }
-  if (count > 0) {
-    return (
-      <GMDCartButton count={count} />
-    );
-  }
-  return null;
+
+  return (<GMDCartButton count={count} />);
 };
 
 AppBarRight.propTypes = {

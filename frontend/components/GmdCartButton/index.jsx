@@ -45,7 +45,7 @@ class GMDCartButton extends PureComponent {
           <Fragment key="cart">
             <Portal name={APP_BAR_CART_BUTTON_BEFORE} />
             <Portal name={APP_BAR_CART_BUTTON} >
-              <div className={styles} style={transition[state]}>
+              <div className={styles.transition} style={transition[state]}>
                 <AppBar.Icon
                   background={colors.primary}
                   badge={this.badge}
@@ -58,7 +58,8 @@ class GMDCartButton extends PureComponent {
             </Portal>
             <Portal name={APP_BAR_CART_BUTTON_AFTER} />
           </Fragment>
-        )}
+        )
+      }
       </Transition>
     );
   }
