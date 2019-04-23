@@ -1,0 +1,12 @@
+git:
+  depth: 3
+language: node_js
+node_js:
+- "10"
+install:
+- cd frontend && npm i
+before_script: touch ./config.json && echo "{}" >> ./config.json
+script: npm run coverage --maxWorkers=4 --ci
+after_script: cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js
+notifications:
+  email: false
