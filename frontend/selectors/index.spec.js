@@ -3,10 +3,10 @@ import {
   trueState,
   falseState,
 } from './mock';
-
 import { isSearchBarVisible } from './index';
 
 jest.mock('@shopgate/pwa-common/helpers/router', () => ({ getCurrentRoute: jest.fn() }));
+jest.mock('../constants', () => ({ SEARCH_BAR_BLACKLIST: ['/browse'] }));
 
 describe('selectors', () => {
   describe('isSearchBarVisible', () => {

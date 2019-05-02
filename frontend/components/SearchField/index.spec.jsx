@@ -12,10 +12,12 @@ jest.mock('@shopgate/pwa-common/actions/router', () => ({
   historyPush: jest.fn().mockReturnValue({ type: 'FOO' }),
 }));
 jest.mock('./components/SuggestionList');
-
+jest.mock('../../selectors', () => ({
+  isSearchBarVisible: jest.fn().mockReturnValue(true),
+}));
 const store = createMockStore();
 const mockProps = {
-  isIOSTheme: () => {},
+  isIOSTheme: () => { },
 };
 const mockContext = {
   context: {

@@ -8,7 +8,7 @@ jest.mock('@shopgate-ps/pwa-extension-kit/env/helpers/isIOSTheme', () => () => t
 
 describe('<CouponField />', () => {
   it('should render as expected without any props', () => {
-    const wrapper = shallow(<AppBarRight visible isIOSTheme={isIOSTheme} />);
+    const wrapper = shallow(<AppBarRight count={1} pattern="/browse" visible isIOSTheme={isIOSTheme} />);
     expect(wrapper).toMatchSnapshot();
   });
 });
