@@ -8,6 +8,5 @@ import { SEARCH_BAR_BLACKLIST } from '../constants';
  */
 export const isSearchBarVisible = createSelector(
   getCurrentRoute,
-  route =>
-    !SEARCH_BAR_BLACKLIST.find(entry => route.pattern === entry)
+  route => !SEARCH_BAR_BLACKLIST.find(entry => route.pattern === entry)
 );

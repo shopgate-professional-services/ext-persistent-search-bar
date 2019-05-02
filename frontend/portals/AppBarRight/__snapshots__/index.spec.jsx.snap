@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<CouponField /> should render as expected without any props 1`] = `""`;
