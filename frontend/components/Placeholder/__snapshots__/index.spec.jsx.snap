@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Placeholder /> should render 1`] = `
+<Placeholder>
+  <div
+    className="css-g9nz84"
+  />
+</Placeholder>
+`;

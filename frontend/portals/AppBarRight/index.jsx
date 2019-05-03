@@ -35,3 +35,5 @@ AppBarRight.defaultProps = {
 };
 
 export default connect(withPageState(AppBarRight));
+
+export { AppBarRight as UnwrappedAppBarRight };
