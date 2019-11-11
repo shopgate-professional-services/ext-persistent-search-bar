@@ -35,7 +35,7 @@ class SearchField extends Component {
   static defaultProps = {
     showScannerIcon: true,
     name: 'search',
-    pageId: '',
+    pageId: null,
     query: '',
   };
 
