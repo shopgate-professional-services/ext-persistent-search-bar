@@ -1,5 +1,5 @@
 {
-  "version": "1.0.0",
+  "version": "1.1.0",
   "id": "@shopgate-project/persistent-search-bar",
   "components": [
     {
@@ -10,7 +10,7 @@
     },
     {
       "type": "portals",
-      "target":  "app-bar.right",
+      "target": "app-bar.right",
       "path": "frontend/portals/AppBarRight",
       "id": "AppBarRight"
     },
@@ -36,7 +36,8 @@
         "/login",
         "/checkout",
         "/item/:productId/gallery/:slide",
-        "/search"
+        "/search",
+        "/scanner"
       ],
       "params": {
         "type": "json",

@@ -9,6 +9,7 @@ import I18n from '@shopgate/pwa-common/components/I18n/';
 import Input from '@shopgate/pwa-common/components/Input/';
 import SearchIcon from '@shopgate/pwa-ui-shared/icons/MagnifierIcon';
 import { router } from '@virtuous/conductor';
+import BarcodeScannerIcon from '@shopgate/pwa-ui-shared/icons/BarcodeScannerIcon';
 import SuggestionList from './components/SuggestionList';
 import connect from './connector';
 import styles from './style';
@@ -23,17 +24,29 @@ class SearchField extends Component {
     fetchSuggestions: PropTypes.func.isRequired,
     isIOSTheme: PropTypes.func.isRequired,
     isVisible: PropTypes.bool.isRequired,
+    openScanner: PropTypes.func.isRequired,
     submitSearch: PropTypes.func.isRequired,
     name: PropTypes.string,
     pageId: PropTypes.string,
     query: PropTypes.string,
+    showScannerIcon: PropTypes.bool,
   };
 
   static defaultProps = {
+    showScannerIcon: true,
     name: 'search',
+    pageId: '',
     query: '',
-    pageId: null,
   };
+
+  /**
+ * Fetch the search suggestions, debounced to reduce the request amount.
+ */
+  fetchSuggestions = debounce((query) => {
+    if (query.length > SUGGESTIONS_MIN) {
+      this.props.fetchSuggestions(query);
+    }
+  }, 200, { maxWait: 400 });
 
   /**
    * Creates a new search field instance.
@@ -50,6 +63,7 @@ class SearchField extends Component {
 
     this.input = null;
   }
+
   /**
    * Adds callback for keyboardWillChange.
    */
@@ -110,15 +124,6 @@ class SearchField extends Component {
   };
 
   /**
-   * Fetch the search suggestions, debounced to reduce the request amount.
-   */
-  fetchSuggestions = debounce((query) => {
-    if (query.length > SUGGESTIONS_MIN) {
-      this.props.fetchSuggestions(query);
-    }
-  }, 200, { maxWait: 400 });
-
-  /**
    * Handles changes to the focus of the input element.
    * @param {boolean} focused Whether the element currently became focused.
    */
@@ -174,6 +179,7 @@ class SearchField extends Component {
         [styles.hidden]: !this.state.focused,
       })}
       onClick={this.reset}
+      type="button"
     >
       <I18n.Text string="persistent_search_bar.cancel" />
     </button>
@@ -197,14 +203,33 @@ class SearchField extends Component {
   );
 
   /**
+ * Renders the scanner icon
+ * @returns {JSX}
+ */
+  renderScannerIcon = () => {
+    if (!this.props.showScannerIcon || this.state.focused) {
+      return null;
+    }
+
+    return (
+      <button className={styles.scannerIcon} onClick={this.props.openScanner} type="button">
+        <BarcodeScannerIcon />
+      </button>
+
+    );
+  }
+
+  /**
    * Renders the text field.
    * @return {JSX}
    */
   render() {
     const { focused } = this.state;
+
     if (!this.props.isVisible) {
       return null;
     }
+
     return (
       <div data-test-id="SearchField">
         <div className={styles.container}>
@@ -212,6 +237,7 @@ class SearchField extends Component {
             <form onSubmit={this.handleSubmit} action=".">
               {this.renderLabelElement()}
               {this.renderInputField()}
+              {this.renderScannerIcon()}
             </form>
           </div>
           <div>
