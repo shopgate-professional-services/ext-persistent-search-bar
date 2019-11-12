@@ -25,9 +25,9 @@ class SearchField extends Component {
     isIOSTheme: PropTypes.func.isRequired,
     isVisible: PropTypes.bool.isRequired,
     openScanner: PropTypes.func.isRequired,
+    pageId: PropTypes.string.isRequired,
     submitSearch: PropTypes.func.isRequired,
     name: PropTypes.string,
-    pageId: PropTypes.string,
     query: PropTypes.string,
     showScannerIcon: PropTypes.bool,
   };
@@ -35,7 +35,6 @@ class SearchField extends Component {
   static defaultProps = {
     showScannerIcon: true,
     name: 'search',
-    pageId: null,
     query: '',
   };
 
@@ -54,7 +53,6 @@ class SearchField extends Component {
    */
   constructor(props) {
     super(props);
-
     this.state = {
       focused: false,
       bottomHeight: 0,
