@@ -7,7 +7,7 @@ Add the persistent-search-bar extension to your Shopgate Connect deployment conf
 (...)
   {
     "id": "@shopgate-project/persistent-search-bar",
-    "version": "1.0.0"
+    "version": "1.1.0"
   }
 (...)
 ```
@@ -24,7 +24,8 @@ Set the following value in your Shopgate Connect Admin:
     "/login",
     "/checkout",
     "/item/:productId/gallery/:slide",
-    "/search"
+    "/search",
+    "/scanner"
   ]
 }
 ```

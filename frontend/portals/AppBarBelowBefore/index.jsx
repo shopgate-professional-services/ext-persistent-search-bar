@@ -1,17 +1,17 @@
 import React from 'react';
 import isIOSTheme from '@shopgate-ps/pwa-extension-kit/env/helpers/isIOSTheme';
+import { useRoute } from '@shopgate/engage/core';
 import SearchField from '../../components/SearchField';
-
-jest.mock('../../selectors', () => ({
-  isSearchBarVisible: jest.fn().mockReturnValue(true),
-}));
 
 /**
  * Renders SeachedField component in app-bar.below.before portal
  * @returns {JSX}
  */
-const AppBarBelowBefore = () => (
-  <SearchField isIOSTheme={isIOSTheme} />
-);
+const AppBarBelowBefore = () => {
+  const { id } = useRoute();
+  return (
+    <SearchField pageId={id} isIOSTheme={isIOSTheme} />
+  );
+};
 
 export default AppBarBelowBefore;

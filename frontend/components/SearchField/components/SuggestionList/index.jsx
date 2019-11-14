@@ -48,11 +48,11 @@ class SuggestionList extends Component {
       >
         <List>
           {suggestions.map(suggestion =>
-        (<SearchSuggestion
-          key={suggestion}
-          suggestion={suggestion}
-          onClick={e => onClick(e, suggestion)}
-        />))}
+            (<SearchSuggestion
+              key={suggestion}
+              suggestion={suggestion}
+              onClick={e => onClick(e, suggestion)}
+            />))}
         </List>
       </div>
     );

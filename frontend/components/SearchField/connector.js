@@ -1,8 +1,18 @@
 import { connect } from 'react-redux';
-import fetchSearchSuggestions from '@shopgate/pwa-common-commerce/search/actions/fetchSearchSuggestions';
+import {
+  SCANNER_SCOPE_DEFAULT,
+  SCANNER_TYPE_BARCODE,
+} from '@shopgate/pwa-core/constants/Scanner';
+import appConfig from '@shopgate/pwa-common/helpers/config';
 import { historyPush } from '@shopgate/pwa-common/actions/router';
+import { hasScannerSupport } from '@shopgate/pwa-common/selectors/client';
+import { getScannerRoute } from '@shopgate/pwa-common-commerce/scanner/helpers';
+import fetchSearchSuggestions from '@shopgate/pwa-common-commerce/search/actions/fetchSearchSuggestions';
 import { SEARCH_PATH } from '@shopgate/pwa-common-commerce/search/constants';
 import { isSearchBarVisible } from '../../selectors';
+
+const { hasNoScanner, scanner: { showSearchFieldIcon } = {} } = appConfig;
+const showScannerIcon = !hasNoScanner && showSearchFieldIcon;
 
 /**
  * Maps the contents of the state to the component props.
@@ -10,6 +20,7 @@ import { isSearchBarVisible } from '../../selectors';
  * @return {Object} The extended component props.
  */
 const mapStateToProps = state => ({
+  showScannerIcon: showScannerIcon && hasScannerSupport(state),
   isVisible: isSearchBarVisible(state),
 });
 
@@ -22,6 +33,10 @@ const mapDispatchToProps = dispatch => ({
   fetchSuggestions: query => dispatch(fetchSearchSuggestions(query)),
   submitSearch: query => dispatch(historyPush({
     pathname: `${SEARCH_PATH}?s=${encodeURIComponent(query)}`,
+  })),
+  openScanner: () => dispatch(historyPush({
+    pathname: getScannerRoute(SCANNER_SCOPE_DEFAULT, SCANNER_TYPE_BARCODE),
+    title: 'navigation.scanner',
   })),
 });
 
