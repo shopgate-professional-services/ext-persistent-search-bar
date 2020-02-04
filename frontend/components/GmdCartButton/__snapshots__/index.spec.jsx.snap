@@ -57,6 +57,8 @@ exports[`<GmdCartButton /> should render 1`] = `
             }
           >
             <AppBarIcon
+              aria-hidden={null}
+              aria-label={null}
               background="#fa5400"
               badge={[Function]}
               color="inherit"
@@ -65,6 +67,8 @@ exports[`<GmdCartButton /> should render 1`] = `
               testId="CartButton"
             >
               <button
+                aria-hidden={null}
+                aria-label={null}
                 className={
                   Object {
                     "data-css-z6y5yb": "",
@@ -78,6 +82,7 @@ exports[`<GmdCartButton /> should render 1`] = `
                     "color": "inherit",
                   }
                 }
+                type="button"
               >
                 <CartIcon>
                   <Icon
