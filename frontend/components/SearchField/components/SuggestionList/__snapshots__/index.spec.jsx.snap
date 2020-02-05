@@ -38,18 +38,22 @@ exports[`<SuggestionList /> should render a list of suggestions 1`] = `
         <List>
           <List
             className=""
+            role={null}
           >
             <ul
               className=""
+              role={null}
             >
               <ListItem
                 className="css-1brrprg css-1ym3l2n"
                 isSelected={false}
                 key="child-0/.$foo"
+                role={null}
               >
                 <li
                   className="css-1p5q8vq css-1brrprg css-1ym3l2n css-16gj3o1"
                   data-test-id="listItem"
+                  role={null}
                 >
                   <div
                     className="css-1nnz83b"
@@ -75,53 +79,58 @@ exports[`<SuggestionList /> should render a list of suggestions 1`] = `
                           data-test-id={null}
                           onClick={[Function]}
                         >
-                          <Glow
+                          <ForwardRef(WithForwardedRef(Glow))
                             className={null}
-                            color="#f7f7f7"
-                            styles={
-                              Object {
-                                "container": null,
-                                "glow": null,
-                              }
-                            }
                           >
-                            <div
-                              aria-hidden={true}
-                              className="css-13azwyo"
-                              onClick={[Function]}
-                              style={null}
+                            <Glow
+                              className={null}
+                              color="#f7f7f7"
+                              forwardedRef={null}
+                              styles={
+                                Object {
+                                  "container": null,
+                                  "glow": null,
+                                  "hover": null,
+                                }
+                              }
                             >
                               <div
-                                className="css-1bmd5dz"
-                                style={Object {}}
-                              />
-                              <Grid
-                                className="css-1qcr7hz"
-                                component="div"
-                                wrap={false}
+                                className="css-13azwyo"
+                                onClick={[Function]}
+                                style={null}
                               >
                                 <div
-                                  className="css-1qcr7hz css-h7r55a"
+                                  className="css-1bmd5dz"
+                                  style={Object {}}
+                                />
+                                <Grid
+                                  className="css-1qcr7hz"
+                                  component="div"
+                                  wrap={false}
                                 >
                                   <div
-                                    className="css-jwxytc"
-                                  />
-                                  <GridItem
-                                    className="css-10fxwvh"
-                                    component="div"
-                                    grow={1}
-                                    shrink={1}
+                                    className="css-1qcr7hz css-h7r55a"
                                   >
                                     <div
-                                      className="css-10fxwvh css-1gs0ko2"
+                                      className="css-jwxytc"
+                                    />
+                                    <GridItem
+                                      className="css-10fxwvh"
+                                      component="div"
+                                      grow={1}
+                                      shrink={1}
                                     >
-                                      foo
-                                    </div>
-                                  </GridItem>
-                                </div>
-                              </Grid>
-                            </div>
-                          </Glow>
+                                      <div
+                                        className="css-10fxwvh css-1gs0ko2"
+                                      >
+                                        foo
+                                      </div>
+                                    </GridItem>
+                                  </div>
+                                </Grid>
+                              </div>
+                            </Glow>
+                          </ForwardRef(WithForwardedRef(Glow))>
                         </div>
                       </Item>
                     </SearchSuggestion>
@@ -132,10 +141,12 @@ exports[`<SuggestionList /> should render a list of suggestions 1`] = `
                 className="css-1brrprg css-1ym3l2n"
                 isSelected={false}
                 key="child-1/.$foo bar"
+                role={null}
               >
                 <li
                   className="css-1p5q8vq css-1brrprg css-1ym3l2n css-16gj3o1"
                   data-test-id="listItem"
+                  role={null}
                 >
                   <div
                     className="css-1nnz83b"
@@ -161,53 +172,58 @@ exports[`<SuggestionList /> should render a list of suggestions 1`] = `
                           data-test-id={null}
                           onClick={[Function]}
                         >
-                          <Glow
+                          <ForwardRef(WithForwardedRef(Glow))
                             className={null}
-                            color="#f7f7f7"
-                            styles={
-                              Object {
-                                "container": null,
-                                "glow": null,
-                              }
-                            }
                           >
-                            <div
-                              aria-hidden={true}
-                              className="css-13azwyo"
-                              onClick={[Function]}
-                              style={null}
+                            <Glow
+                              className={null}
+                              color="#f7f7f7"
+                              forwardedRef={null}
+                              styles={
+                                Object {
+                                  "container": null,
+                                  "glow": null,
+                                  "hover": null,
+                                }
+                              }
                             >
                               <div
-                                className="css-1bmd5dz"
-                                style={Object {}}
-                              />
-                              <Grid
-                                className="css-1qcr7hz"
-                                component="div"
-                                wrap={false}
+                                className="css-13azwyo"
+                                onClick={[Function]}
+                                style={null}
                               >
                                 <div
-                                  className="css-1qcr7hz css-h7r55a"
+                                  className="css-1bmd5dz"
+                                  style={Object {}}
+                                />
+                                <Grid
+                                  className="css-1qcr7hz"
+                                  component="div"
+                                  wrap={false}
                                 >
                                   <div
-                                    className="css-jwxytc"
-                                  />
-                                  <GridItem
-                                    className="css-10fxwvh"
-                                    component="div"
-                                    grow={1}
-                                    shrink={1}
+                                    className="css-1qcr7hz css-h7r55a"
                                   >
                                     <div
-                                      className="css-10fxwvh css-1gs0ko2"
+                                      className="css-jwxytc"
+                                    />
+                                    <GridItem
+                                      className="css-10fxwvh"
+                                      component="div"
+                                      grow={1}
+                                      shrink={1}
                                     >
-                                      foo bar
-                                    </div>
-                                  </GridItem>
-                                </div>
-                              </Grid>
-                            </div>
-                          </Glow>
+                                      <div
+                                        className="css-10fxwvh css-1gs0ko2"
+                                      >
+                                        foo bar
+                                      </div>
+                                    </GridItem>
+                                  </div>
+                                </Grid>
+                              </div>
+                            </Glow>
+                          </ForwardRef(WithForwardedRef(Glow))>
                         </div>
                       </Item>
                     </SearchSuggestion>
@@ -218,10 +234,12 @@ exports[`<SuggestionList /> should render a list of suggestions 1`] = `
                 className="css-1brrprg css-1ym3l2n"
                 isSelected={false}
                 key="child-2/.$foo bar buz"
+                role={null}
               >
                 <li
                   className="css-1p5q8vq css-1brrprg css-1ym3l2n css-16gj3o1"
                   data-test-id="listItem"
+                  role={null}
                 >
                   <div
                     className="css-1nnz83b"
@@ -247,53 +265,58 @@ exports[`<SuggestionList /> should render a list of suggestions 1`] = `
                           data-test-id={null}
                           onClick={[Function]}
                         >
-                          <Glow
+                          <ForwardRef(WithForwardedRef(Glow))
                             className={null}
-                            color="#f7f7f7"
-                            styles={
-                              Object {
-                                "container": null,
-                                "glow": null,
-                              }
-                            }
                           >
-                            <div
-                              aria-hidden={true}
-                              className="css-13azwyo"
-                              onClick={[Function]}
-                              style={null}
+                            <Glow
+                              className={null}
+                              color="#f7f7f7"
+                              forwardedRef={null}
+                              styles={
+                                Object {
+                                  "container": null,
+                                  "glow": null,
+                                  "hover": null,
+                                }
+                              }
                             >
                               <div
-                                className="css-1bmd5dz"
-                                style={Object {}}
-                              />
-                              <Grid
-                                className="css-1qcr7hz"
-                                component="div"
-                                wrap={false}
+                                className="css-13azwyo"
+                                onClick={[Function]}
+                                style={null}
                               >
                                 <div
-                                  className="css-1qcr7hz css-h7r55a"
+                                  className="css-1bmd5dz"
+                                  style={Object {}}
+                                />
+                                <Grid
+                                  className="css-1qcr7hz"
+                                  component="div"
+                                  wrap={false}
                                 >
                                   <div
-                                    className="css-jwxytc"
-                                  />
-                                  <GridItem
-                                    className="css-10fxwvh"
-                                    component="div"
-                                    grow={1}
-                                    shrink={1}
+                                    className="css-1qcr7hz css-h7r55a"
                                   >
                                     <div
-                                      className="css-10fxwvh css-1gs0ko2"
+                                      className="css-jwxytc"
+                                    />
+                                    <GridItem
+                                      className="css-10fxwvh"
+                                      component="div"
+                                      grow={1}
+                                      shrink={1}
                                     >
-                                      foo bar buz
-                                    </div>
-                                  </GridItem>
-                                </div>
-                              </Grid>
-                            </div>
-                          </Glow>
+                                      <div
+                                        className="css-10fxwvh css-1gs0ko2"
+                                      >
+                                        foo bar buz
+                                      </div>
+                                    </GridItem>
+                                  </div>
+                                </Grid>
+                              </div>
+                            </Glow>
+                          </ForwardRef(WithForwardedRef(Glow))>
                         </div>
                       </Item>
                     </SearchSuggestion>
@@ -304,10 +327,12 @@ exports[`<SuggestionList /> should render a list of suggestions 1`] = `
                 className="css-1brrprg"
                 isSelected={false}
                 key="child-3/.$foo bar buz quz"
+                role={null}
               >
                 <li
                   className="css-1p5q8vq css-1brrprg css-16gj3o1"
                   data-test-id="listItem"
+                  role={null}
                 >
                   <div
                     className="css-1nnz83b"
@@ -333,53 +358,58 @@ exports[`<SuggestionList /> should render a list of suggestions 1`] = `
                           data-test-id={null}
                           onClick={[Function]}
                         >
-                          <Glow
+                          <ForwardRef(WithForwardedRef(Glow))
                             className={null}
-                            color="#f7f7f7"
-                            styles={
-                              Object {
-                                "container": null,
-                                "glow": null,
-                              }
-                            }
                           >
-                            <div
-                              aria-hidden={true}
-                              className="css-13azwyo"
-                              onClick={[Function]}
-                              style={null}
+                            <Glow
+                              className={null}
+                              color="#f7f7f7"
+                              forwardedRef={null}
+                              styles={
+                                Object {
+                                  "container": null,
+                                  "glow": null,
+                                  "hover": null,
+                                }
+                              }
                             >
                               <div
-                                className="css-1bmd5dz"
-                                style={Object {}}
-                              />
-                              <Grid
-                                className="css-1qcr7hz"
-                                component="div"
-                                wrap={false}
+                                className="css-13azwyo"
+                                onClick={[Function]}
+                                style={null}
                               >
                                 <div
-                                  className="css-1qcr7hz css-h7r55a"
+                                  className="css-1bmd5dz"
+                                  style={Object {}}
+                                />
+                                <Grid
+                                  className="css-1qcr7hz"
+                                  component="div"
+                                  wrap={false}
                                 >
                                   <div
-                                    className="css-jwxytc"
-                                  />
-                                  <GridItem
-                                    className="css-10fxwvh"
-                                    component="div"
-                                    grow={1}
-                                    shrink={1}
+                                    className="css-1qcr7hz css-h7r55a"
                                   >
                                     <div
-                                      className="css-10fxwvh css-1gs0ko2"
+                                      className="css-jwxytc"
+                                    />
+                                    <GridItem
+                                      className="css-10fxwvh"
+                                      component="div"
+                                      grow={1}
+                                      shrink={1}
                                     >
-                                      foo bar buz quz
-                                    </div>
-                                  </GridItem>
-                                </div>
-                              </Grid>
-                            </div>
-                          </Glow>
+                                      <div
+                                        className="css-10fxwvh css-1gs0ko2"
+                                      >
+                                        foo bar buz quz
+                                      </div>
+                                    </GridItem>
+                                  </div>
+                                </Grid>
+                              </div>
+                            </Glow>
+                          </ForwardRef(WithForwardedRef(Glow))>
                         </div>
                       </Item>
                     </SearchSuggestion>

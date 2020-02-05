@@ -4,18 +4,22 @@ exports[`<List /> should not render invalid children 1`] = `
 <List>
   <List
     className=""
+    role={null}
   >
     <ul
       className=""
+      role={null}
     >
       <ListItem
         className="css-1brrprg css-1ym3l2n"
         isSelected={false}
         key="child-0/.0"
+        role={null}
       >
         <li
           className="css-1p5q8vq css-1brrprg css-1ym3l2n css-16gj3o1"
           data-test-id="listItem"
+          role={null}
         >
           <div
             className="css-1nnz83b"
@@ -73,18 +77,22 @@ exports[`<List /> should render a child and add styles for list items with image
 >
   <List
     className=""
+    role={null}
   >
     <ul
       className=""
+      role={null}
     >
       <ListItem
         className="css-1brrprg css-1ym3l2n"
         isSelected={false}
         key="child-0/.0"
+        role={null}
       >
         <li
           className="css-1p5q8vq css-1brrprg css-1ym3l2n css-16gj3o1"
           data-test-id="listItem"
+          role={null}
         >
           <div
             className="css-1nnz83b"
@@ -138,18 +146,22 @@ exports[`<List /> should render with two children 1`] = `
 <List>
   <List
     className=""
+    role={null}
   >
     <ul
       className=""
+      role={null}
     >
       <ListItem
         className="css-1brrprg css-1ym3l2n"
         isSelected={false}
         key="child-0/.0"
+        role={null}
       >
         <li
           className="css-1p5q8vq css-1brrprg css-1ym3l2n css-16gj3o1"
           data-test-id="listItem"
+          role={null}
         >
           <div
             className="css-1nnz83b"
@@ -198,10 +210,12 @@ exports[`<List /> should render with two children 1`] = `
         className="css-1brrprg"
         isSelected={false}
         key="child-1/.1"
+        role={null}
       >
         <li
           className="css-1p5q8vq css-1brrprg css-16gj3o1"
           data-test-id="listItem"
+          role={null}
         >
           <div
             className="css-1nnz83b"
