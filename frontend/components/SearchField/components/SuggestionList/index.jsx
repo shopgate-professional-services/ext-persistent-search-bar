@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import { withWidgetSettings } from '@shopgate/engage/core';
 import List from './components/List';
 import SearchSuggestion from './components/SearchSuggestion';
 import connect from './connector';
 import styles from './style';
+import { bgColor, textColor } from '../../../../config';
 
 /**
  * The SuggestionList component.
@@ -16,12 +17,14 @@ class SuggestionList extends Component {
     onClick: PropTypes.func.isRequired,
     fetching: PropTypes.bool,
     suggestions: PropTypes.arrayOf(PropTypes.string),
-  }
+    widgetSettings: PropTypes.shape(),
+  };
 
   static defaultProps = {
     suggestions: [],
     fetching: false,
-  }
+    widgetSettings: {},
+  };
 
   /**
    * @param { Object } nextProps Next props.
@@ -35,17 +38,26 @@ class SuggestionList extends Component {
    * @return {JSX}
    */
   render() {
-    const { onClick, suggestions, bottomHeight } = this.props;
+    const {
+      onClick, suggestions, bottomHeight, widgetSettings,
+    } = this.props;
 
     if (!suggestions || suggestions.length === 0) {
       return null;
     }
 
+    let { background, color } = widgetSettings;
+
+    if (bgColor) {
+      background = bgColor;
+    }
+
+    if (textColor) {
+      color = textColor;
+    }
+
     return (
-      <div className={this.props.isIOSTheme() ?
-        classnames(styles.iosList, styles.bottom(bottomHeight)) :
-        classnames(styles.gmdList, styles.bottom(bottomHeight))}
-      >
+      <div className={styles.list(this.props.isIOSTheme(), bottomHeight, background, color)}>
         <List>
           {suggestions.map(suggestion =>
             (<SearchSuggestion
@@ -59,4 +71,4 @@ class SuggestionList extends Component {
   }
 }
 
-export default connect(SuggestionList);
+export default withWidgetSettings(connect(SuggestionList), '@shopgate/engage/components/AppBar');

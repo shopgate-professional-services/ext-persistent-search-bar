@@ -1,6 +1,6 @@
 {
   "name": "@shopgate-project/persistent-search-bar",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Adds a search bar beneath header on user defined pages",
   "license": "Apache-2.0",
   "scripts": {
@@ -29,7 +29,7 @@
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
     "coveralls": "^3.0.1",
-    "eslint": "^4.19.1",
+    "eslint": "^5.12.0",
     "jest": "^25.1.0",
     "prop-types": "^15.6.0",
     "react": "^16.8.4",

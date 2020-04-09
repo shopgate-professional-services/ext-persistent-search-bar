@@ -1,5 +1,5 @@
 {
-  "version": "1.1.0",
+  "version": "1.2.0",
   "id": "@shopgate-project/persistent-search-bar",
   "components": [
     {
@@ -42,6 +42,24 @@
       "params": {
         "type": "json",
         "label": "Path values for blacklisting"
+      }
+    },
+    "bgColor": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "",
+      "params": {
+        "type": "textarea",
+        "label": "Background color of the list"
+      }
+    },
+    "textColor": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "",
+      "params": {
+        "type": "textarea",
+        "label": "Text color of the list"
       }
     }
   }
