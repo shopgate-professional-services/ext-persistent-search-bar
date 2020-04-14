@@ -12,6 +12,11 @@ Add the persistent-search-bar extension to your Shopgate Connect deployment conf
 (...)
 ```
 Set the following value in your Shopgate Connect Admin:
+
+* bgColor - (string) Background color of the SearchSuggestionList. By default the extension will use the background color configured for the AppBar
+
+* textColor - (string) Text color of the SearchSuggestionList. By default the extension will use the text color configured for the AppBar
+
 * searchBarBlacklist - (Array) Desired array of pathname values given as strings.
 
 ## Default searchBarBlacklist value
