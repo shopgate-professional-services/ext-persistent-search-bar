@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
+import { SHEET_EVENTS, UIEvents } from '@shopgate/engage/core';
 import event from '@shopgate/pwa-core/classes/Event';
 import { EVENT_KEYBOARD_WILL_CHANGE } from '@shopgate/pwa-core/constants/AppEvents';
 import registerEvents from '@shopgate/pwa-core/commands/registerEvents';
@@ -57,6 +58,7 @@ class SearchField extends Component {
       focused: false,
       bottomHeight: 0,
       query: this.props.query || '',
+      isVisible: props.isVisible,
     };
 
     this.input = null;
@@ -68,6 +70,8 @@ class SearchField extends Component {
   componentDidMount() {
     registerEvents([EVENT_KEYBOARD_WILL_CHANGE]);
     event.addCallback(EVENT_KEYBOARD_WILL_CHANGE, this.handleKeyboardChange);
+    UIEvents.addListener(SHEET_EVENTS.OPEN, this.hide);
+    UIEvents.addListener(SHEET_EVENTS.CLOSE, this.show);
   }
 
   /**
@@ -75,6 +79,8 @@ class SearchField extends Component {
    */
   componentWillUnmount() {
     event.removeCallback(EVENT_KEYBOARD_WILL_CHANGE, this.handleKeyboardChange);
+    UIEvents.removeListener(SHEET_EVENTS.OPEN, this.hide);
+    UIEvents.removeListener(SHEET_EVENTS.CLOSE, this.show);
   }
 
   /**
@@ -96,6 +102,10 @@ class SearchField extends Component {
       bottomHeight: overlap,
     });
   };
+
+  hide = () => this.setState({ isVisible: false })
+
+  show = () => this.setState({ isVisible: true })
 
   /**
    * @param {Event} event The event.
@@ -225,6 +235,10 @@ class SearchField extends Component {
     const { focused } = this.state;
 
     if (!this.props.isVisible) {
+      return null;
+    }
+
+    if (!this.state.isVisible) {
       return null;
     }
 
