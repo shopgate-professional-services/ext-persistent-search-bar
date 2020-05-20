@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
 import { UIEvents } from '@shopgate/engage/core';
-import { SHEET_EVENTS } from '@shopgate/engage/components';
+import { SEARCH_SUGGESTIONS } from '@shopgate/engage/search';
+import { SHEET_EVENTS, SurroundPortals } from '@shopgate/engage/components';
 import event from '@shopgate/pwa-core/classes/Event';
 import { EVENT_KEYBOARD_WILL_CHANGE } from '@shopgate/pwa-core/constants/AppEvents';
 import registerEvents from '@shopgate/pwa-core/commands/registerEvents';
@@ -260,12 +261,20 @@ class SearchField extends Component {
         {focused && (
           <Fragment>
             <div className={this.props.isIOSTheme() ? styles.overlayIOS : styles.overlayGmd} />
-            <SuggestionList
-              isIOSTheme={this.props.isIOSTheme}
-              searchPhrase={this.state.query}
-              onClick={this.handleSubmit}
-              bottomHeight={this.state.bottomHeight}
-            />
+            <SurroundPortals
+              portalName={`persistent-search-bar.${SEARCH_SUGGESTIONS}`}
+              portalProps={{
+                searchPhrase: this.state.query,
+                onClick: this.handleSubmit,
+              }}
+            >
+              <SuggestionList
+                isIOSTheme={this.props.isIOSTheme}
+                searchPhrase={this.state.query}
+                onClick={this.handleSubmit}
+                bottomHeight={this.state.bottomHeight}
+              />
+            </SurroundPortals>
           </Fragment>)
         }
       </div>
