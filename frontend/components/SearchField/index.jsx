@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import debounce from 'lodash/debounce';
 import { UIEvents } from '@shopgate/engage/core';
 import { SEARCH_SUGGESTIONS } from '@shopgate/engage/search';
-import { SHEET_EVENTS, SurroundPortals } from '@shopgate/engage/components';
+import { SurroundPortals } from '@shopgate/engage/components';
 import event from '@shopgate/pwa-core/classes/Event';
 import { EVENT_KEYBOARD_WILL_CHANGE } from '@shopgate/pwa-core/constants/AppEvents';
 import registerEvents from '@shopgate/pwa-core/commands/registerEvents';
@@ -18,6 +18,11 @@ import connect from './connector';
 import styles from './style';
 
 const SUGGESTIONS_MIN = 1;
+
+export const UI_EVENTS = {
+  SHOW: 'SearchField.show',
+  HIDE: 'SearchField.hide',
+};
 
 /**
  * The SearchField component.
@@ -72,8 +77,8 @@ class SearchField extends Component {
   componentDidMount() {
     registerEvents([EVENT_KEYBOARD_WILL_CHANGE]);
     event.addCallback(EVENT_KEYBOARD_WILL_CHANGE, this.handleKeyboardChange);
-    UIEvents.addListener(SHEET_EVENTS.OPEN, this.hide);
-    UIEvents.addListener(SHEET_EVENTS.CLOSE, this.show);
+    UIEvents.addListener(UI_EVENTS.HIDE, this.hide);
+    UIEvents.addListener(UI_EVENTS.SHOW, this.show);
   }
 
   /**
@@ -81,8 +86,8 @@ class SearchField extends Component {
    */
   componentWillUnmount() {
     event.removeCallback(EVENT_KEYBOARD_WILL_CHANGE, this.handleKeyboardChange);
-    UIEvents.removeListener(SHEET_EVENTS.OPEN, this.hide);
-    UIEvents.removeListener(SHEET_EVENTS.CLOSE, this.show);
+    UIEvents.removeListener(UI_EVENTS.HIDE, this.hide);
+    UIEvents.removeListener(UI_EVENTS.SHOW, this.show);
   }
 
   /**
@@ -258,25 +263,25 @@ class SearchField extends Component {
             {this.renderCancelButton()}
           </div>
         </div>
-        {focused && (
-          <Fragment>
-            <div className={this.props.isIOSTheme() ? styles.overlayIOS : styles.overlayGmd} />
-            <SurroundPortals
-              portalName={`persistent-search-bar.${SEARCH_SUGGESTIONS}`}
-              portalProps={{
-                searchPhrase: this.state.query,
-                onClick: this.handleSubmit,
-              }}
-            >
+        <SurroundPortals
+          portalName={`persistent-search-bar.${SEARCH_SUGGESTIONS}`}
+          portalProps={{
+            searchPhrase: this.state.query,
+            onClick: this.handleSubmit,
+          }}
+        >
+          {focused && (
+            <Fragment>
+              <div className={this.props.isIOSTheme() ? styles.overlayIOS : styles.overlayGmd} />
               <SuggestionList
                 isIOSTheme={this.props.isIOSTheme}
                 searchPhrase={this.state.query}
                 onClick={this.handleSubmit}
                 bottomHeight={this.state.bottomHeight}
               />
-            </SurroundPortals>
-          </Fragment>)
-        }
+            </Fragment>
+          )}
+        </SurroundPortals>
       </div>
     );
   }
