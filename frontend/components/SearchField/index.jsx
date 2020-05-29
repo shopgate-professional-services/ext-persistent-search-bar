@@ -59,7 +59,6 @@ class SearchField extends Component {
       focused: false,
       bottomHeight: 0,
       query: this.props.query || '',
-      isVisible: props.isVisible,
     };
 
     this.input = null;
