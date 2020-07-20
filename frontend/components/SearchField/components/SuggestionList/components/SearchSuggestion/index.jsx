@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import List from '../List';
-import styles from '../../style';
 
 /**
  * Search suggestion list entry component.
@@ -12,7 +11,6 @@ import styles from '../../style';
  */
 const SearchSuggestion = ({ suggestion, onClick }) => (
   <List.Item
-    className={styles.listItem}
     title={suggestion}
     onClick={onClick}
   />
