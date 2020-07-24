@@ -25,6 +25,7 @@ const grid = css({
   alignItems: 'center',
   minHeight: variables.navigator.height,
   padding: `${variables.gap.small}px 0`,
+  paddingLeft: 40,
   position: 'relative',
   zIndex: 2,
 }).toString();

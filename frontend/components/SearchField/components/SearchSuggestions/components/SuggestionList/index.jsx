@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { withWidgetSettings } from '@shopgate/engage/core';
 import List from './components/List';
 import SearchSuggestion from './components/SearchSuggestion';
-import connect from './connector';
+import connect from '../../connector';
 import styles from './style';
-import { bgColor, textColor } from '../../../../config';
+import { bgColor, textColor } from '../../../../../../config';
 
 /**
  * The SuggestionList component.
