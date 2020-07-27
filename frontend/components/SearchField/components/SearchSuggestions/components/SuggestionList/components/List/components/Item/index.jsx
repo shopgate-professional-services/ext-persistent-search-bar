@@ -49,7 +49,9 @@ class Item extends Component {
    * @returns {JSX}
    */
   renderContent() {
-    const { isDisabled, isSelected, title } = this.props;
+    const {
+      isDisabled, isSelected, title, image,
+    } = this.props;
 
     let gridStyles = styles.grid;
     let titleStyles = styles.title;
@@ -64,9 +66,11 @@ class Item extends Component {
 
     return (
       <Grid className={gridStyles} component="div">
-        <div className={styles.image}>
-          {this.props.image}
-        </div>
+        {!!image && (
+          <div className={styles.image}>
+            {image}
+          </div>)
+        }
         <Grid.Item
           className={titleStyles}
           component="div"

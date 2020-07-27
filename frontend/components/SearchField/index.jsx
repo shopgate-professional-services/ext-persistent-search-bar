@@ -2,8 +2,6 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
-import { SEARCH_SUGGESTIONS } from '@shopgate/engage/search';
-import { SurroundPortals } from '@shopgate/engage/components';
 import event from '@shopgate/pwa-core/classes/Event';
 import { EVENT_KEYBOARD_WILL_CHANGE } from '@shopgate/pwa-core/constants/AppEvents';
 import registerEvents from '@shopgate/pwa-core/commands/registerEvents';
@@ -12,7 +10,8 @@ import Input from '@shopgate/pwa-common/components/Input/';
 import SearchIcon from '@shopgate/pwa-ui-shared/icons/MagnifierIcon';
 import { router } from '@virtuous/conductor';
 import BarcodeScannerIcon from '@shopgate/pwa-ui-shared/icons/BarcodeScannerIcon';
-import SuggestionList from './components/SuggestionList';
+import SuggestionList from './components/SearchSuggestions/components/SuggestionList';
+import SearchSuggestions from './components/SearchSuggestions';
 import connect from './connector';
 import styles from './style';
 
@@ -248,12 +247,11 @@ class SearchField extends Component {
             {this.renderCancelButton()}
           </div>
         </div>
-        <SurroundPortals
-          portalName={`persistent-search-bar.${SEARCH_SUGGESTIONS}`}
-          portalProps={{
-            searchPhrase: this.state.query,
-            onClick: this.handleSubmit,
-          }}
+        <SearchSuggestions
+          searchPhrase={this.state.query}
+          bottomHeight={this.state.bottomHeight}
+          onClick={this.handleSubmit}
+          visible={focused}
         >
           {focused && (
             <Fragment>
@@ -266,7 +264,7 @@ class SearchField extends Component {
               />
             </Fragment>
           )}
-        </SurroundPortals>
+        </SearchSuggestions>
       </div>
     );
   }

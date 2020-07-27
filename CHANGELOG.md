@@ -6,6 +6,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+## [1.3.0] - 2020-07-24
+### Added
+- support for search-history ext
+## Fixed
+- styling
+
 ## [1.2.0] - 2020-04-09
 ### Added
 - config for text and bg color

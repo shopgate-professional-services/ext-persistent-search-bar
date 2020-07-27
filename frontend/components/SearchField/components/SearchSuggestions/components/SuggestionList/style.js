@@ -1,5 +1,5 @@
 import { css } from 'glamor';
-import { HEADER_HEIGHT, IOS_SEARCH_HEIGHT, GMD_SEARCH_HEIGHT } from '../../style';
+import { HEADER_HEIGHT, IOS_SEARCH_HEIGHT, GMD_SEARCH_HEIGHT } from '../../../../style';
 
 const list = (iOS, paddingBottom, bgColor, textColor) => css({
   fontSize: 16,
