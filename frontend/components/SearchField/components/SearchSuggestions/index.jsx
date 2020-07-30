@@ -26,7 +26,7 @@ const SearchSuggestions = ({
       visible,
     }}
   >
-    {searchPhrase !== '' && children}
+    {children}
   </SurroundPortals>
 );
 

@@ -16,6 +16,7 @@ class SuggestionList extends Component {
     isIOSTheme: PropTypes.func.isRequired,
     onClick: PropTypes.func.isRequired,
     fetching: PropTypes.bool,
+    searchPhrase: PropTypes.string,
     suggestions: PropTypes.arrayOf(PropTypes.string),
     widgetSettings: PropTypes.shape(),
   };
@@ -23,6 +24,7 @@ class SuggestionList extends Component {
   static defaultProps = {
     suggestions: [],
     fetching: false,
+    searchPhrase: '',
     widgetSettings: {},
   };
 
@@ -31,7 +33,15 @@ class SuggestionList extends Component {
    * @return {boolean}
    */
   shouldComponentUpdate(nextProps) {
-    return nextProps.fetching === false && nextProps.suggestions;
+    if (
+      nextProps.suggestions === null &&
+      this.props.suggestions !== null &&
+      nextProps.searchPhrase.length > 2) {
+      return false;
+    }
+
+    return (nextProps.fetching === false && nextProps.suggestions) ||
+      this.props.searchPhrase !== nextProps.searchPhrase;
   }
 
   /**
@@ -39,10 +49,10 @@ class SuggestionList extends Component {
    */
   render() {
     const {
-      onClick, suggestions, bottomHeight, widgetSettings,
+      onClick, suggestions, bottomHeight, widgetSettings, searchPhrase,
     } = this.props;
 
-    if (!suggestions || suggestions.length === 0) {
+    if (searchPhrase === '' || !suggestions || suggestions.length === 0) {
       return null;
     }
 
