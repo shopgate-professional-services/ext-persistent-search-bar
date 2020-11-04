@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { getCartProductDisplayCount } from '@shopgate/pwa-common-commerce/cart/selectors';
+import { isSearchBarVisible } from '../../selectors';
 
 /**
  * Maps the contents of the state to the component props.
@@ -7,6 +8,7 @@ import { getCartProductDisplayCount } from '@shopgate/pwa-common-commerce/cart/s
  * @return {Object} The extended component props.
  */
 const mapStateToProps = state => ({
+  isVisible: isSearchBarVisible(state),
   count: getCartProductDisplayCount(state),
 });
 

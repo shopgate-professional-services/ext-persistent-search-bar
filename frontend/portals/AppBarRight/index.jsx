@@ -8,11 +8,13 @@ import GMDCartButton from '../../components/GmdCartButton';
 import { Placeholder } from '../../components/Placeholder';
 
 /**
- * Renders SeachedField component in app-bar.below.before portal
+ * Renders SearchField component in app-bar.below.before portal
  * @returns {JSX}
  */
-const AppBarRight = ({ children, pattern, count }) => {
-  if (isIOSTheme()) {
+const AppBarRight = ({
+  children, pattern, count, isVisible,
+}) => {
+  if (isIOSTheme() || !isVisible) {
     return children;
   }
   if (pattern === INDEX_PATH) {
@@ -26,6 +28,7 @@ const AppBarRight = ({ children, pattern, count }) => {
 
 AppBarRight.propTypes = {
   count: PropTypes.number.isRequired,
+  isVisible: PropTypes.bool.isRequired,
   pattern: PropTypes.string.isRequired,
   children: PropTypes.node,
 };
