@@ -29,7 +29,7 @@ const input = css({
   padding: '4px 10px 4px 30px',
   lineHeight: '28px',
   outline: 'none',
-  background: '#eaebed',
+  background: colors.background,
   verticalAlign: 'middle',
   WebkitAppearance: 'none',
 }).toString();

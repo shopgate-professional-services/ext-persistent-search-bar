@@ -44,13 +44,22 @@
         "label": "Path values for blacklisting"
       }
     },
+    "barBgColor": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "",
+      "params": {
+        "type": "textarea",
+        "label": "Background color of the search bar"
+      }
+    },
     "bgColor": {
       "type": "admin",
       "destination": "frontend",
       "default": "",
       "params": {
         "type": "textarea",
-        "label": "Background color of the list"
+        "label": "Background color of the suggestion list"
       }
     },
     "textColor": {
@@ -59,7 +68,16 @@
       "default": "",
       "params": {
         "type": "textarea",
-        "label": "Text color of the list"
+        "label": "Text color of the suggestion list"
+      }
+    },
+    "suggestionsMinChars": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": 3,
+      "params": {
+        "type": "text",
+        "label": "Minimum number of chars to trigger search suggestions"
       }
     }
   }
