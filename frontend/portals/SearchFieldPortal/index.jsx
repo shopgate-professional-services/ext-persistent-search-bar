@@ -8,7 +8,7 @@ import ScrollHeader from '../../components/ScrollHeader';
  * Renders SeachedField component in app-bar.below.before portal
  * @returns {JSX}
  */
-const AppBarBelowBefore = () => {
+const SearchFieldPortal = () => {
   const { id } = useRoute();
   return (
     <ScrollHeader>
@@ -17,4 +17,4 @@ const AppBarBelowBefore = () => {
   );
 };
 
-export default AppBarBelowBefore;
+export default SearchFieldPortal;

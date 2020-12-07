@@ -4,8 +4,8 @@
   "components": [
     {
       "type": "portals",
-      "target": "app-bar.below.before",
-      "path": "frontend/portals/AppBarBelowBefore",
+      "target": "view.content.before",
+      "path": "frontend/portals/SearchFieldPortal",
       "id": "SearchField"
     },
     {
