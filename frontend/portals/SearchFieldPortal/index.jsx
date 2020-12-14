@@ -2,16 +2,19 @@ import React from 'react';
 import isIOSTheme from '@shopgate-ps/pwa-extension-kit/env/helpers/isIOSTheme';
 import { useRoute } from '@shopgate/engage/core';
 import SearchField from '../../components/SearchField';
+import ScrollHeader from '../../components/ScrollHeader';
 
 /**
  * Renders SeachedField component in app-bar.below.before portal
  * @returns {JSX}
  */
-const AppBarBelowBefore = () => {
+const SearchFieldPortal = () => {
   const { id } = useRoute();
   return (
-    <SearchField pageId={id} isIOSTheme={isIOSTheme} />
+    <ScrollHeader>
+      <SearchField pageId={id} isIOSTheme={isIOSTheme} />
+    </ScrollHeader>
   );
 };
 
-export default AppBarBelowBefore;
+export default SearchFieldPortal;

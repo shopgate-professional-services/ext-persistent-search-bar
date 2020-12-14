@@ -1,8 +1,0 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
-
-exports[`<AppBarBelowBefore /> should render 1`] = `
-<[object Object]
-  isIOSTheme={[Function]}
-  pageId={123}
-/>
-`;

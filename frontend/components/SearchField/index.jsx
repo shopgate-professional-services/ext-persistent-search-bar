@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
+import { withWidgetSettings } from '@shopgate/engage/core';
 import event from '@shopgate/pwa-core/classes/Event';
 import { EVENT_KEYBOARD_WILL_CHANGE } from '@shopgate/pwa-core/constants/AppEvents';
 import registerEvents from '@shopgate/pwa-core/commands/registerEvents';
@@ -14,8 +15,7 @@ import SuggestionList from './components/SearchSuggestions/components/Suggestion
 import SearchSuggestions from './components/SearchSuggestions';
 import connect from './connector';
 import styles from './style';
-
-const SUGGESTIONS_MIN = 1;
+import { barBgColor, suggestionsMinChars } from '../../config';
 
 /**
  * The SearchField component.
@@ -31,19 +31,21 @@ class SearchField extends Component {
     name: PropTypes.string,
     query: PropTypes.string,
     showScannerIcon: PropTypes.bool,
+    widgetSettings: PropTypes.shape(),
   };
 
   static defaultProps = {
     showScannerIcon: true,
     name: 'search',
     query: '',
+    widgetSettings: {},
   };
 
   /**
  * Fetch the search suggestions, debounced to reduce the request amount.
  */
   fetchSuggestions = debounce((query) => {
-    if (query.length > SUGGESTIONS_MIN) {
+    if (query.length >= suggestionsMinChars) {
       this.props.fetchSuggestions(query);
     }
   }, 200, { maxWait: 400 });
@@ -233,9 +235,17 @@ class SearchField extends Component {
       return null;
     }
 
+    let { widgetSettings: { background } } = this.props;
+    if (barBgColor) {
+      background = barBgColor;
+    }
+
     return (
       <div data-test-id="SearchField">
-        <div className={styles.container}>
+        <div
+          className={styles.container}
+          {...background && { style: { backgroundColor: background } }}
+        >
           <div className={styles.inputWrapper}>
             <form onSubmit={this.handleSubmit} action=".">
               {this.renderLabelElement()}
@@ -270,4 +280,4 @@ class SearchField extends Component {
   }
 }
 
-export default connect(SearchField);
+export default withWidgetSettings(connect(SearchField), '@shopgate/engage/components/AppBar');
