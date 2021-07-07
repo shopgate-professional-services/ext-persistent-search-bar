@@ -21,6 +21,10 @@ function ScrollHeader({ children }) {
   const [offset, setOffset] = useState(0);
 
   const onScroll = useCallback((callbackData) => {
+    if (!ref.current) {
+      // Node is not ready or unmounted
+      return;
+    }
     const { previousScrollTop, currentScrollTop } = callbackData;
     if (previousScrollTop !== currentScrollTop) {
       const isScrolledDown = previousScrollTop < currentScrollTop;
