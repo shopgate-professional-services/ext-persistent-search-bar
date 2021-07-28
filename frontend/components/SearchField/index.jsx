@@ -1,8 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
+import ReactPortal from 'react-portal';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
 import { withWidgetSettings } from '@shopgate/engage/core';
+import { ThemeContext } from '@shopgate/pwa-common/context';
 import event from '@shopgate/pwa-core/classes/Event';
 import { EVENT_KEYBOARD_WILL_CHANGE } from '@shopgate/pwa-core/constants/AppEvents';
 import registerEvents from '@shopgate/pwa-core/commands/registerEvents';
@@ -57,7 +59,7 @@ class SearchField extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      focused: false,
+      focused: null,
       bottomHeight: 0,
       query: this.props.query || '',
     };
@@ -111,7 +113,7 @@ class SearchField extends Component {
        */
       this.setState({
         query: '',
-        focused: false,
+        focused: null,
       });
     }, 0);
   }
@@ -181,7 +183,7 @@ class SearchField extends Component {
   renderCancelButton = () => (
     <button
       className={classNames(styles.button, {
-        [styles.hidden]: !this.state.focused,
+        [styles.hidden]: this.state.focused === null,
       })}
       onClick={this.reset}
       type="button"
@@ -212,7 +214,7 @@ class SearchField extends Component {
  * @returns {JSX}
  */
   renderScannerIcon = () => {
-    if (!this.props.showScannerIcon || this.state.focused) {
+    if (!this.props.showScannerIcon || this.state.focused !== null) {
       return null;
     }
 
@@ -240,6 +242,11 @@ class SearchField extends Component {
       background = barBgColor;
     }
 
+    const overlayClassname = classNames(styles.overlay, {
+      [styles.overlayIOS]: this.props.isIOSTheme(),
+      [styles.overlayGmd]: !this.props.isIOSTheme(),
+    });
+
     return (
       <div data-test-id="SearchField">
         <div
@@ -257,24 +264,39 @@ class SearchField extends Component {
             {this.renderCancelButton()}
           </div>
         </div>
-        <SearchSuggestions
-          searchPhrase={this.state.query}
-          bottomHeight={this.state.bottomHeight}
-          onClick={this.handleSubmit}
-          visible={focused}
-        >
-          {focused && (
-            <Fragment>
-              <div className={this.props.isIOSTheme() ? styles.overlayIOS : styles.overlayGmd} />
-              <SuggestionList
-                isIOSTheme={this.props.isIOSTheme}
-                searchPhrase={this.state.query}
-                onClick={this.handleSubmit}
-                bottomHeight={this.state.bottomHeight}
-              />
-            </Fragment>
+
+        {
+          /**
+          * Since we use React-portal to render outside theme tree
+           * we need to pass theme context value down for children
+          */
+        }
+
+        <ThemeContext.Consumer>
+          {theme => (
+            <ReactPortal isOpened={focused !== null}>
+              <ThemeContext.Provider value={theme}>
+                <div className={overlayClassname}>
+                  <SearchSuggestions
+                    searchPhrase={this.state.query}
+                    bottomHeight={this.state.bottomHeight}
+                    onClick={this.handleSubmit}
+                    visible={focused !== null}
+                  >
+                    {focused !== null && (
+                    <SuggestionList
+                      isIOSTheme={this.props.isIOSTheme}
+                      searchPhrase={this.state.query}
+                      onClick={this.handleSubmit}
+                      bottomHeight={this.state.bottomHeight}
+                    />
+                    )}
+                  </SearchSuggestions>
+                </div>
+              </ThemeContext.Provider>
+            </ReactPortal>
           )}
-        </SearchSuggestions>
+        </ThemeContext.Consumer>
       </div>
     );
   }

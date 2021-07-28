@@ -77,28 +77,23 @@ const scannerIcon = css({
   right: 0,
 }).toString();
 
-const overlayIOS = css({
+const overlay = css({
   background: 'rgba(0,0,0, 0.4)',
   position: 'fixed',
   left: 0,
   width: '100%',
-  top: `calc(var(--safe-area-inset-top) + ${HEADER_HEIGHT}px + ${IOS_SEARCH_HEIGHT}px )`,
   bottom: 0,
   zIndex: 2,
   overflow: 'hidden',
   outline: 'none',
 }).toString();
 
+const overlayIOS = css({
+  top: `calc(var(--safe-area-inset-top) + ${HEADER_HEIGHT}px + ${IOS_SEARCH_HEIGHT}px )`,
+}).toString();
+
 const overlayGmd = css({
-  background: 'rgba(0,0,0, 0.4)',
-  position: 'fixed',
-  left: 0,
-  width: '100%',
   top: `calc(var(--safe-area-inset-top) + ${HEADER_HEIGHT}px + ${GMD_SEARCH_HEIGHT}px )`,
-  bottom: 0,
-  zIndex: 2,
-  overflow: 'hidden',
-  outline: 'none',
 }).toString();
 
 export default {
@@ -111,6 +106,7 @@ export default {
   button,
   icon,
   scannerIcon,
+  overlay,
   overlayIOS,
   overlayGmd,
 };
