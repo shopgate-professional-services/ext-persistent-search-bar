@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+## [1.4.1] - 2020-07-28
+## Fixed
+- Handle missing ref
+- ignore field blur effect
+
 ## [1.3.1] - 2020-11-04
 ## Fixed
 - apply filter button on gmd
