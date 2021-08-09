@@ -136,16 +136,6 @@ class SearchField extends Component {
     const { TabBar } = this.props;
     const bufferTimeout = 100;
 
-    if (TabBar) {
-      if (!focused) {
-        setTimeout(() => {
-          TabBar.show();
-        }, bufferTimeout);
-      } else {
-        TabBar.hide();
-      }
-    }
-
     setTimeout(() => {
       /*
        * Delay the execution of the state change until the next cycle
@@ -153,6 +143,18 @@ class SearchField extends Component {
        */
       this.setState({ focused });
     }, 0);
+
+    if (!TabBar) {
+      return;
+    }
+
+    if (!focused) {
+      setTimeout(() => {
+        TabBar.show();
+      }, bufferTimeout);
+    } else {
+      TabBar.hide();
+    }
   };
 
   /**
