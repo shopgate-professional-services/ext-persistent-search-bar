@@ -42,7 +42,7 @@ class SearchField extends Component {
     name: 'search',
     query: '',
     widgetSettings: {},
-    TabBar: undefined,
+    TabBar: null,
   };
 
   /**
