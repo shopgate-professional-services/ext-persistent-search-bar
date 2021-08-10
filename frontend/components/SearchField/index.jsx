@@ -3,7 +3,7 @@ import ReactPortal from 'react-portal';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
-import { withWidgetSettings } from '@shopgate/engage/core';
+import { withWidgetSettings, withTheme } from '@shopgate/engage/core';
 import { ThemeContext } from '@shopgate/pwa-common/context';
 import event from '@shopgate/pwa-core/classes/Event';
 import { EVENT_KEYBOARD_WILL_CHANGE } from '@shopgate/pwa-core/constants/AppEvents';
@@ -33,6 +33,7 @@ class SearchField extends Component {
     name: PropTypes.string,
     query: PropTypes.string,
     showScannerIcon: PropTypes.bool,
+    TabBar: PropTypes.func,
     widgetSettings: PropTypes.shape(),
   };
 
@@ -41,16 +42,8 @@ class SearchField extends Component {
     name: 'search',
     query: '',
     widgetSettings: {},
+    TabBar: null,
   };
-
-  /**
- * Fetch the search suggestions, debounced to reduce the request amount.
- */
-  fetchSuggestions = debounce((query) => {
-    if (query.length >= suggestionsMinChars) {
-      this.props.fetchSuggestions(query);
-    }
-  }, 200, { maxWait: 400 });
 
   /**
    * Creates a new search field instance.
@@ -83,6 +76,15 @@ class SearchField extends Component {
   }
 
   /**
+   * Fetch the search suggestions, debounced to reduce the request amount.
+   */
+  fetchSuggestions = debounce((query) => {
+    if (query.length >= suggestionsMinChars) {
+      this.props.fetchSuggestions(query);
+    }
+  }, 200, { maxWait: 400 });
+
+  /**
    * Sets a reference to the input fields DOM element.
    * @param {HTMLElement} ref The reference.
    */
@@ -103,7 +105,7 @@ class SearchField extends Component {
   };
 
   /**
-   * @param {Event} event The event.
+   * resets the state
    */
   reset = () => {
     setTimeout(() => {
@@ -131,6 +133,9 @@ class SearchField extends Component {
    * @param {boolean} focused Whether the element currently became focused.
    */
   handleFocusChange = (focused) => {
+    const { TabBar } = this.props;
+    const bufferTimeout = 100;
+
     setTimeout(() => {
       /*
        * Delay the execution of the state change until the next cycle
@@ -138,6 +143,18 @@ class SearchField extends Component {
        */
       this.setState({ focused });
     }, 0);
+
+    if (!TabBar) {
+      return;
+    }
+
+    if (!focused) {
+      setTimeout(() => {
+        TabBar.show();
+      }, bufferTimeout);
+    } else {
+      TabBar.hide();
+    }
   };
 
   /**
@@ -267,8 +284,9 @@ class SearchField extends Component {
 
         {
           /**
-          * Since we use React-portal to render outside theme tree
-           * we need to pass theme context value down for children
+           * Since we use React-portal to render outside theme tree (since the theme context will
+           * not be available anymore) we need to pass theme context value down for children
+           *
           */
         }
 
@@ -302,4 +320,9 @@ class SearchField extends Component {
   }
 }
 
-export default withWidgetSettings(connect(SearchField), '@shopgate/engage/components/AppBar');
+export default withTheme(
+  withWidgetSettings(
+    connect(SearchField),
+    '@shopgate/engage/components/AppBar'
+  )
+);
