@@ -115,11 +115,16 @@ class Item extends Component {
     }
 
     return (
-      <div aria-hidden onClick={this.props.onClick} data-test-id={this.props.testId}>
+      <button
+        type="button"
+        onClick={this.props.onClick}
+        data-test-id={this.props.testId}
+        aria-label={this.props.title}
+      >
         <Glow className={this.props.className}>
           {this.renderContent()}
         </Glow>
-      </div>
+      </button>
     );
   }
 }
