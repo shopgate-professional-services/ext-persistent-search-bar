@@ -169,12 +169,13 @@ class SearchField extends Component {
     if (!query) {
       return;
     }
+    setTimeout(() => {
+      router.update(this.props.pageId, { query });
 
-    router.update(this.props.pageId, { query });
-
-    this.setState({ focused: false });
-    this.input.blur();
-    this.props.submitSearch(query);
+      this.setState({ focused: false });
+      this.input.blur();
+      this.props.submitSearch(query);
+    }, 0);
   };
 
   /**
