@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+## [1.4.2] - 2021-08-10
+## Added
+- show/hide TabBar when input focus changed
+
 ## [1.4.1] - 2020-07-28
 ## Fixed
 - Handle missing ref
