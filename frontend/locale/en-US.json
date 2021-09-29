@@ -1,6 +1,8 @@
 {
   "persistent_search_bar": {
     "label": "Search",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "open_scanner": "Open scanner."
+
   }
 }

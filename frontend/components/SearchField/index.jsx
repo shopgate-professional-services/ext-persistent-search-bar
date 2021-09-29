@@ -3,7 +3,7 @@ import ReactPortal from 'react-portal';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
-import { withWidgetSettings, withTheme } from '@shopgate/engage/core';
+import { withWidgetSettings, withTheme, i18n } from '@shopgate/engage/core';
 import { ThemeContext } from '@shopgate/pwa-common/context';
 import event from '@shopgate/pwa-core/classes/Event';
 import { EVENT_KEYBOARD_WILL_CHANGE } from '@shopgate/pwa-core/constants/AppEvents';
@@ -234,9 +234,8 @@ class SearchField extends Component {
     if (!this.props.showScannerIcon || this.state.focused !== null) {
       return null;
     }
-
     return (
-      <button className={styles.scannerIcon} onClick={this.props.openScanner} type="button">
+      <button className={styles.scannerIcon} onClick={this.props.openScanner} type="button" aria-label={i18n.text('persistent_search_bar.open_scanner')}>
         <BarcodeScannerIcon />
       </button>
 
