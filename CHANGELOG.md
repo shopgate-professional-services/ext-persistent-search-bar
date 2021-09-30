@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+## [1.4.3] - 2021-09-30
+## Added
+- Voice reader support
+
 ## [1.4.2] - 2021-08-10
 ## Added
 - show/hide TabBar when input focus changed
