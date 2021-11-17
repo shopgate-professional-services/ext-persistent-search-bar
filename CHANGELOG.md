@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+## [1.4.4] - 2021-11-17
+## Added
+- new config `hideOnScroll`
+
 ## [1.4.3] - 2021-09-30
 ## Added
 - Voice reader support
