@@ -1,5 +1,5 @@
 # Shopgate Connect - Extension persistent-search-bar
-Will render a Search Bar Field beneath the App Bar of the iOS and GMD themes. 
+Will render a Search Bar Field beneath the App Bar of the iOS and GMD themes.
 
 ## Configuration
 Add the persistent-search-bar extension to your Shopgate Connect deployment config.
@@ -29,7 +29,8 @@ Set the following value in your Shopgate Connect Admin:
   "searchBarBlacklist": [
     "/browse",
     "/cart",
-    "/filter",
+    "/category/:categoryId/filter",
+    "/search/filter",
     "/login",
     "/checkout",
     "/item/:productId/gallery/:slide",

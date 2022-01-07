@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 
 ## [Unreleased]
 
+## [1.4.5] - 2022-01-07
+## Fixed
+- wrong url in blacklist for "filter"
+
 ## [1.4.4] - 2021-11-17
 ## Added
 - new config `hideOnScroll`
