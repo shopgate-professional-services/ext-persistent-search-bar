@@ -63,6 +63,24 @@
         "label": "Background color of the suggestion list"
       }
     },
+    "border": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "1px solid #c6c6c6",
+      "params": {
+        "type": "textarea",
+        "label": "Border styling for the search input"
+      }
+    },
+    "borderRadius": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": 10,
+      "params": {
+        "type": "textarea",
+        "label": "Border radius for the search input"
+      }
+    },
     "textColor": {
       "type": "admin",
       "destination": "frontend",
@@ -70,6 +88,15 @@
       "params": {
         "type": "textarea",
         "label": "Text color of the suggestion list"
+      }
+    },
+    "searchIconColor": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "#ceaf7a",
+      "params": {
+        "type": "textarea",
+        "label": "Color of the search icon"
       }
     },
     "suggestionsMinChars": {

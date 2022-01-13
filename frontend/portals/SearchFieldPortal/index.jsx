@@ -5,7 +5,7 @@ import SearchField from '../../components/SearchField';
 import ScrollHeader from '../../components/ScrollHeader';
 
 /**
- * Renders SeachedField component in app-bar.below.before portal
+ * Renders SearchField component in app-bar.below.before portal
  * @returns {JSX}
  */
 const SearchFieldPortal = () => {

@@ -13,12 +13,12 @@ import Input from '@shopgate/pwa-common/components/Input/';
 import SearchIcon from '@shopgate/pwa-ui-shared/icons/MagnifierIcon';
 import { router } from '@virtuous/conductor';
 import BarcodeScannerIcon from '@shopgate/pwa-ui-shared/icons/BarcodeScannerIcon';
+import { SurroundPortals } from '@shopgate/engage/components';
 import SuggestionList from './components/SearchSuggestions/components/SuggestionList';
 import SearchSuggestions from './components/SearchSuggestions';
 import connect from './connector';
 import styles from './style';
 import { barBgColor, suggestionsMinChars } from '../../config';
-
 /**
  * The SearchField component.
  */
@@ -188,9 +188,6 @@ class SearchField extends Component {
       htmlFor={this.props.name}
       className={styles.label}
     >
-      <div className={styles.icon}>
-        <SearchIcon />
-      </div>
       {!this.state.query.length && <I18n.Text string="persistent_search_bar.label" />}
     </label>
   );
@@ -240,7 +237,6 @@ class SearchField extends Component {
       <button className={styles.scannerIcon} onClick={this.props.openScanner} type="button" aria-label={i18n.text('persistent_search_bar.open_scanner')}>
         <BarcodeScannerIcon />
       </button>
-
     );
   }
 
@@ -260,7 +256,7 @@ class SearchField extends Component {
       background = barBgColor;
     }
 
-    const overlayClassname = classNames(styles.overlay, {
+    const overlayClassName = classNames(styles.overlay, {
       [styles.overlayIOS]: this.props.isIOSTheme(),
       [styles.overlayGmd]: !this.props.isIOSTheme(),
     });
@@ -271,16 +267,27 @@ class SearchField extends Component {
           className={styles.container}
           {...background && { style: { backgroundColor: background } }}
         >
-          <div className={styles.inputWrapper}>
-            <form onSubmit={this.handleSubmit} action=".">
-              {this.renderLabelElement()}
-              {this.renderInputField()}
-              {this.renderScannerIcon()}
-            </form>
-          </div>
-          <div>
-            {this.renderCancelButton()}
-          </div>
+          <SurroundPortals
+            portalName="persistent-search-bar.input.wrapper"
+            portalProps={{
+              focused: this.state.focused,
+              query: this.state.query,
+            }}
+          >
+            <div className={styles.inputWrapper}>
+              <div className={styles.icon}>
+                <SearchIcon />
+              </div>
+              <form onSubmit={this.handleSubmit} action="." className={styles.form}>
+                {this.renderLabelElement()}
+                {this.renderInputField()}
+                {this.renderScannerIcon()}
+              </form>
+            </div>
+            <div>
+              {this.renderCancelButton()}
+            </div>
+          </SurroundPortals>
         </div>
 
         {
@@ -295,7 +302,7 @@ class SearchField extends Component {
           {theme => (
             <ReactPortal isOpened={focused !== null}>
               <ThemeContext.Provider value={theme}>
-                <div className={overlayClassname}>
+                <div className={overlayClassName}>
                   <SearchSuggestions
                     searchPhrase={this.state.query}
                     bottomHeight={this.state.bottomHeight}

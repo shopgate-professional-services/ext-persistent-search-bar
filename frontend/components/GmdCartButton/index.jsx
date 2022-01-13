@@ -44,7 +44,7 @@ class GMDCartButton extends PureComponent {
         {state => (
           <Fragment key="cart">
             <Portal name={APP_BAR_CART_BUTTON_BEFORE} />
-            <Portal name={APP_BAR_CART_BUTTON} >
+            <Portal name={APP_BAR_CART_BUTTON}>
               <div className={styles.transition} style={transition[state]}>
                 <AppBar.Icon
                   background={colors.primary}
@@ -66,3 +66,4 @@ class GMDCartButton extends PureComponent {
 }
 
 export default connect(GMDCartButton);
+

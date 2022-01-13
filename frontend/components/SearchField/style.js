@@ -1,5 +1,6 @@
 import { css } from 'glamor';
 import { themeConfig } from '@shopgate/pwa-common/helpers/config';
+import { border, borderRadius, searchIconColor } from '../../config';
 
 const { colors } = themeConfig;
 export const HEADER_HEIGHT = 56;
@@ -8,30 +9,58 @@ export const GMD_SEARCH_HEIGHT = 58;
 
 const container = css({
   display: 'flex',
-  position: 'relative',
-  flexDirection: 'row',
+  justifyContent: 'space-between',
   flexWrap: 'nowrap',
-  paddingLeft: 10,
-  paddingRight: 10,
-  paddingTop: 10,
-  paddingBottom: 10,
+  alignItems: 'center',
+  padding: '8px 16px',
   backgroundColor: 'white',
+  flex: 1,
 }).toString();
 
 const inputWrapper = css({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
   position: 'relative',
-  flexGrow: 1,
+  flex: 1,
+  overflow: 'hidden',
+  ...(border ? { border } : null),
+  ...(borderRadius ? { borderRadius } : null),
+  padding: `0px ${border ? '8px' : '0px'}`,
+}).toString();
+
+const form = css({
+  display: 'flex',
+  flex: 1,
 }).toString();
 
 const input = css({
-  borderRadius: 10,
-  width: '100%',
-  padding: '4px 10px 4px 30px',
+  display: 'flex',
+  flex: 1,
   lineHeight: '28px',
+  padding: '4px 0',
   outline: 'none',
   background: colors.background,
-  verticalAlign: 'middle',
   WebkitAppearance: 'none',
+}).toString();
+
+const scannerIcon = css({
+  padding: '4px 6px 4px 4px',
+  color: '#8a8a8f',
+  fontSize: '1.7rem',
+  right: 0,
+}).toString();
+
+const button = css({
+  color: colors.accent,
+  paddingLeft: 16,
+  paddingRight: 0,
+  marginLeft: 0,
+  marginRight: 0,
+}).toString();
+
+const hidden = css({
+  display: 'none',
 }).toString();
 
 const label = css({
@@ -48,33 +77,12 @@ const labelHidden = css({
   display: 'none',
 }).toString();
 
-const button = css({
-  lineHeight: '36px',
-  color: colors.accent,
-  paddingTop: 0,
-  paddingLeft: 20,
-  paddingRight: 0,
-  marginLeft: 0,
-  marginRight: 0,
-  verticalAlign: 'middle',
-}).toString();
-
-const hidden = css({
-  display: 'none',
-}).toString();
-
 const icon = css({
-  padding: '0 6px',
+  marginRight: 8,
+  flexShrink: 0,
   color: '#8a8a8f',
   fontSize: '1.235rem',
-}).toString();
-
-const scannerIcon = css({
-  padding: '4px 6px 4px 4px',
-  color: '#8a8a8f',
-  fontSize: '1.7rem',
-  position: 'absolute',
-  right: 0,
+  ...(searchIconColor ? { color: searchIconColor } : null),
 }).toString();
 
 const overlay = css({
@@ -100,12 +108,13 @@ export default {
   container,
   inputWrapper,
   input,
+  form,
+  scannerIcon,
+  button,
+  hidden,
+  icon,
   label,
   labelHidden,
-  hidden,
-  button,
-  icon,
-  scannerIcon,
   overlay,
   overlayIOS,
   overlayGmd,
