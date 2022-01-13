@@ -32,6 +32,7 @@ const inputWrapper = css({
 const form = css({
   display: 'flex',
   flex: 1,
+  alignItems: 'center',
 }).toString();
 
 const input = css({
@@ -67,7 +68,6 @@ const label = css({
   alignItems: 'center',
   color: '#8a8a8f',
   display: 'flex',
-  height: '36px',
   position: 'absolute',
   pointerEvents: 'none',
   width: '100%',
@@ -78,7 +78,7 @@ const labelHidden = css({
 }).toString();
 
 const icon = css({
-  marginRight: 8,
+  marginRight: 4,
   flexShrink: 0,
   color: '#8a8a8f',
   fontSize: '1.235rem',
