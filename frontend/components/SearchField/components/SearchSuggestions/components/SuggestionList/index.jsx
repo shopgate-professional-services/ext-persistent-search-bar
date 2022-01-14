@@ -13,8 +13,8 @@ import { bgColor, textColor } from '../../../../../../config';
 class SuggestionList extends Component {
   static propTypes = {
     bottomHeight: PropTypes.number.isRequired,
-    isIOSTheme: PropTypes.func.isRequired,
     onClick: PropTypes.func.isRequired,
+    topGap: PropTypes.number.isRequired,
     fetching: PropTypes.bool,
     searchPhrase: PropTypes.string,
     suggestions: PropTypes.arrayOf(PropTypes.string),
@@ -49,7 +49,7 @@ class SuggestionList extends Component {
    */
   render() {
     const {
-      onClick, suggestions, bottomHeight, widgetSettings, searchPhrase,
+      onClick, suggestions, bottomHeight, widgetSettings, searchPhrase, topGap,
     } = this.props;
 
     if (searchPhrase === '' || !suggestions || suggestions.length === 0) {
@@ -67,7 +67,9 @@ class SuggestionList extends Component {
     }
 
     return (
-      <div className={styles.list(this.props.isIOSTheme(), bottomHeight, background, color)}>
+      <div
+        className={`persistent-search-bar__suggestions ${styles.list(topGap, bottomHeight, background, color)}`}
+      >
         <List>
           {suggestions.map(suggestion =>
             (<SearchSuggestion

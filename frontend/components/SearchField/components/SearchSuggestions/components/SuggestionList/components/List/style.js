@@ -16,6 +16,7 @@ const innerContainer = css({
   // marginLeft: -72,
   minHeight: 56,
   position: 'relative',
+  display: 'flex',
 }).toString();
 
 const glow = css({

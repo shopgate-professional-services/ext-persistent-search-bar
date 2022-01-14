@@ -3,9 +3,6 @@ import { themeConfig } from '@shopgate/pwa-common/helpers/config';
 import { border, borderRadius, searchIconColor } from '../../config';
 
 const { colors } = themeConfig;
-export const HEADER_HEIGHT = 56;
-export const IOS_SEARCH_HEIGHT = 44;
-export const GMD_SEARCH_HEIGHT = 58;
 
 const container = css({
   display: 'flex',
@@ -96,14 +93,6 @@ const overlay = css({
   outline: 'none',
 }).toString();
 
-const overlayIOS = css({
-  top: `calc(var(--safe-area-inset-top) + ${HEADER_HEIGHT}px + ${IOS_SEARCH_HEIGHT}px )`,
-}).toString();
-
-const overlayGmd = css({
-  top: `calc(var(--safe-area-inset-top) + ${HEADER_HEIGHT}px + ${GMD_SEARCH_HEIGHT}px )`,
-}).toString();
-
 export default {
   container,
   inputWrapper,
@@ -116,6 +105,4 @@ export default {
   label,
   labelHidden,
   overlay,
-  overlayIOS,
-  overlayGmd,
 };

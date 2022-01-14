@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import ReactPortal from 'react-portal';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
@@ -14,22 +14,24 @@ import SearchIcon from '@shopgate/pwa-ui-shared/icons/MagnifierIcon';
 import { router } from '@virtuous/conductor';
 import BarcodeScannerIcon from '@shopgate/pwa-ui-shared/icons/BarcodeScannerIcon';
 import { SurroundPortals } from '@shopgate/engage/components';
+import { withView } from '../../helpers/hocs';
 import SuggestionList from './components/SearchSuggestions/components/SuggestionList';
 import SearchSuggestions from './components/SearchSuggestions';
 import connect from './connector';
 import styles from './style';
 import { barBgColor, suggestionsMinChars } from '../../config';
+
 /**
  * The SearchField component.
  */
 class SearchField extends Component {
   static propTypes = {
     fetchSuggestions: PropTypes.func.isRequired,
-    isIOSTheme: PropTypes.func.isRequired,
     isVisible: PropTypes.bool.isRequired,
     openScanner: PropTypes.func.isRequired,
     pageId: PropTypes.string.isRequired,
     submitSearch: PropTypes.func.isRequired,
+    view: PropTypes.shape().isRequired,
     name: PropTypes.string,
     query: PropTypes.string,
     showScannerIcon: PropTypes.bool,
@@ -51,13 +53,16 @@ class SearchField extends Component {
    */
   constructor(props) {
     super(props);
+
     this.state = {
       focused: null,
       bottomHeight: 0,
+      topGap: 0,
       query: this.props.query || '',
     };
 
     this.input = null;
+    this.containerRef = createRef();
   }
 
   /**
@@ -93,6 +98,33 @@ class SearchField extends Component {
   };
 
   /**
+   * Retrieves the current overflow style from the View component
+   * @returns {string|null}
+   */
+  getViewOverflow = () => {
+    const viewRef = this.props.view.getContentRef();
+
+    if (viewRef.current) {
+      return viewRef.current.style.overflow;
+    }
+
+    return null;
+  };
+
+  /**
+   * Updates the overflow property of the surrounding View to prevent scrolling of the view
+   * "through" the search field.
+   * @param {boolean} reset Wether the overflow needs to be reset
+   */
+  setViewOverflow = (reset = false) => {
+    const viewRef = this.props.view.getContentRef();
+
+    if (viewRef.current && this.initialOverflow !== null) {
+      viewRef.current.style.overflow = reset ? this.initialOverflow : 'hidden';
+    }
+  };
+
+  /**
    * Handler for keyboardWillChange event.
    * @param {Object} props Props.
    * @param {number} props.overlap Current overlap.
@@ -117,6 +149,9 @@ class SearchField extends Component {
         query: '',
         focused: null,
       });
+
+      // reset the view overflow to the original state
+      this.setViewOverflow(true);
     }, 0);
   }
 
@@ -136,12 +171,29 @@ class SearchField extends Component {
     const { TabBar } = this.props;
     const bufferTimeout = 100;
 
+    let newTopGap = this.state.topGap;
+
+    if (this.state.focused === null) {
+      // When the search overlay opens, save the original overflow style of the View
+      this.initialOverflow = this.getViewOverflow();
+      // Prevent View scrolling while the search is open
+      this.setViewOverflow();
+
+      // Measure the container distance to the top of the viewport
+      if (this.containerRef.current) {
+        ({ bottom: newTopGap } = this.containerRef.current.getBoundingClientRect());
+      }
+    }
+
     setTimeout(() => {
       /*
        * Delay the execution of the state change until the next cycle
        * to give pending click events a chance to run.
        */
-      this.setState({ focused });
+      this.setState({
+        focused,
+        topGap: newTopGap,
+      });
     }, 0);
 
     if (!TabBar) {
@@ -256,13 +308,8 @@ class SearchField extends Component {
       background = barBgColor;
     }
 
-    const overlayClassName = classNames(styles.overlay, {
-      [styles.overlayIOS]: this.props.isIOSTheme(),
-      [styles.overlayGmd]: !this.props.isIOSTheme(),
-    });
-
     return (
-      <div data-test-id="SearchField">
+      <div data-test-id="SearchField" ref={this.containerRef}>
         <div
           className={styles.container}
           {...background && { style: { backgroundColor: background } }}
@@ -302,7 +349,7 @@ class SearchField extends Component {
           {theme => (
             <ReactPortal isOpened={focused !== null}>
               <ThemeContext.Provider value={theme}>
-                <div className={overlayClassName}>
+                <div className={styles.overlay} style={{ top: this.state.topGap }}>
                   <SearchSuggestions
                     searchPhrase={this.state.query}
                     bottomHeight={this.state.bottomHeight}
@@ -311,10 +358,10 @@ class SearchField extends Component {
                   >
                     {focused !== null && (
                     <SuggestionList
-                      isIOSTheme={this.props.isIOSTheme}
                       searchPhrase={this.state.query}
                       onClick={this.handleSubmit}
                       bottomHeight={this.state.bottomHeight}
+                      topGap={this.state.topGap}
                     />
                     )}
                   </SearchSuggestions>
@@ -329,8 +376,10 @@ class SearchField extends Component {
 }
 
 export default withTheme(
-  withWidgetSettings(
-    connect(SearchField),
-    '@shopgate/engage/components/AppBar'
+  withView(
+    withWidgetSettings(
+      connect(SearchField),
+      '@shopgate/engage/components/AppBar'
+    )
   )
 );
