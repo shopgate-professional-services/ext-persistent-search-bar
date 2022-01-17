@@ -13,8 +13,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 - surrounded the input wrapper with `persistent-search-bar.input.wrapper` portal to enable leading and trailing elements like a burger menu
 ## Fixed
 - Prevented scrolling of the content while search is focused
-- Improved styling of the suggestion list (alignment and click area of entries)
 - Positioning of suggestions and overlay is more reliable
+- iOS TabBar was shown when search field was blurred (not when search bar was reset)
 
 ## [1.4.5] - 2022-01-07
 ## Fixed

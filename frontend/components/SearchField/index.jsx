@@ -152,6 +152,10 @@ class SearchField extends Component {
 
       // reset the view overflow to the original state
       this.setViewOverflow(true);
+
+      if (this.props.TabBar) {
+        this.props.TabBar.show();
+      }
     }, 0);
   }
 
@@ -169,8 +173,6 @@ class SearchField extends Component {
    */
   handleFocusChange = (focused) => {
     const { TabBar } = this.props;
-    const bufferTimeout = 100;
-
     let newTopGap = this.state.topGap;
 
     if (this.state.focused === null) {
@@ -178,10 +180,13 @@ class SearchField extends Component {
       this.initialOverflow = this.getViewOverflow();
       // Prevent View scrolling while the search is open
       this.setViewOverflow();
-
       // Measure the container distance to the top of the viewport
       if (this.containerRef.current) {
         ({ bottom: newTopGap } = this.containerRef.current.getBoundingClientRect());
+      }
+      // Hide the TabBar
+      if (TabBar) {
+        TabBar.hide();
       }
     }
 
@@ -195,18 +200,6 @@ class SearchField extends Component {
         topGap: newTopGap,
       });
     }, 0);
-
-    if (!TabBar) {
-      return;
-    }
-
-    if (!focused) {
-      setTimeout(() => {
-        TabBar.show();
-      }, bufferTimeout);
-    } else {
-      TabBar.hide();
-    }
   };
 
   /**
