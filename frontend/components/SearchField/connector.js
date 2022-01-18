@@ -9,6 +9,7 @@ import { hasScannerSupport } from '@shopgate/pwa-common/selectors/client';
 import { getScannerRoute } from '@shopgate/pwa-common-commerce/scanner/helpers';
 import fetchSearchSuggestions from '@shopgate/pwa-common-commerce/search/actions/fetchSearchSuggestions';
 import { SEARCH_PATH } from '@shopgate/pwa-common-commerce/search/constants';
+import { getCurrentRoute } from '@shopgate/pwa-common/helpers/router';
 import { isSearchBarVisible } from '../../selectors';
 
 const { hasNoScanner, scanner: { showSearchFieldIcon } = {} } = appConfig;
@@ -22,6 +23,7 @@ const showScannerIcon = !hasNoScanner && showSearchFieldIcon;
 const mapStateToProps = state => ({
   showScannerIcon: showScannerIcon && hasScannerSupport(state),
   isVisible: isSearchBarVisible(state),
+  currentRoute: getCurrentRoute(state),
 });
 
 /**

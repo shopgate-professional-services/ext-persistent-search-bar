@@ -32,6 +32,7 @@ class SearchField extends Component {
     pageId: PropTypes.string.isRequired,
     submitSearch: PropTypes.func.isRequired,
     view: PropTypes.shape().isRequired,
+    currentRoute: PropTypes.shape(),
     name: PropTypes.string,
     query: PropTypes.string,
     showScannerIcon: PropTypes.bool,
@@ -44,6 +45,7 @@ class SearchField extends Component {
     name: 'search',
     query: '',
     widgetSettings: {},
+    currentRoute: {},
     TabBar: null,
   };
 
@@ -71,6 +73,16 @@ class SearchField extends Component {
   componentDidMount() {
     registerEvents([EVENT_KEYBOARD_WILL_CHANGE]);
     event.addCallback(EVENT_KEYBOARD_WILL_CHANGE, this.handleKeyboardChange);
+  }
+
+  /**
+   * Resets search bar on route changes
+   * @param {Object} nextProps The next props
+   */
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    if (nextProps.currentRoute.pathname !== this.props.currentRoute.pathname) {
+      this.reset();
+    }
   }
 
   /**
