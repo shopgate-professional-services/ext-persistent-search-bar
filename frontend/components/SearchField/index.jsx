@@ -3,6 +3,7 @@ import ReactPortal from 'react-portal';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
+import get from 'lodash/get';
 import { withWidgetSettings, withTheme, i18n } from '@shopgate/engage/core';
 import { ThemeContext } from '@shopgate/pwa-common/context';
 import event from '@shopgate/pwa-core/classes/Event';
@@ -64,6 +65,8 @@ class SearchField extends Component {
 
     this.input = null;
     this.containerRef = createRef();
+    this.initialOverflow = null;
+    this.mounted = null;
   }
 
   /**
@@ -72,6 +75,7 @@ class SearchField extends Component {
   componentDidMount() {
     registerEvents([EVENT_KEYBOARD_WILL_CHANGE]);
     event.addCallback(EVENT_KEYBOARD_WILL_CHANGE, this.handleKeyboardChange);
+    this.mounted = true;
   }
 
   /**
@@ -89,6 +93,7 @@ class SearchField extends Component {
    */
   componentWillUnmount() {
     event.removeCallback(EVENT_KEYBOARD_WILL_CHANGE, this.handleKeyboardChange);
+    this.mounted = false;
   }
 
   /**
@@ -129,8 +134,7 @@ class SearchField extends Component {
    */
   setViewOverflow = (reset = false) => {
     const viewRef = this.props.view.getContentRef();
-
-    if (viewRef.current && this.initialOverflow !== null) {
+    if (get(viewRef, 'current.style.overflow') && this.initialOverflow !== null) {
       viewRef.current.style.overflow = reset ? this.initialOverflow : 'hidden';
     }
   };
@@ -156,10 +160,12 @@ class SearchField extends Component {
        * Delay the execution of the state change until the next cycle
        * to give pending click events a chance to run.
        */
-      this.setState({
-        query: '',
-        focused: null,
-      });
+      if (this.mounted) {
+        this.setState({
+          query: '',
+          focused: null,
+        });
+      }
 
       // reset the view overflow to the original state
       this.setViewOverflow(true);
