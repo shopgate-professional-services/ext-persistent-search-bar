@@ -23,7 +23,7 @@ const inputWrapper = css({
   overflow: 'hidden',
   ...(border ? { border } : null),
   ...(borderRadius ? { borderRadius } : null),
-  padding: `0px ${border ? '8px' : '0px'}`,
+  padding: 0,
   background: colors.background,
 }).toString();
 
