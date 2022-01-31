@@ -27,7 +27,6 @@ import { barBgColor, suggestionsMinChars } from '../../config';
 class SearchField extends Component {
   static propTypes = {
     fetchSuggestions: PropTypes.func.isRequired,
-    isVisible: PropTypes.bool.isRequired,
     openScanner: PropTypes.func.isRequired,
     pageId: PropTypes.string.isRequired,
     submitSearch: PropTypes.func.isRequired,
@@ -303,10 +302,6 @@ class SearchField extends Component {
    */
   render() {
     const { focused } = this.state;
-
-    if (!this.props.isVisible) {
-      return null;
-    }
 
     let { widgetSettings: { background } } = this.props;
     if (barBgColor) {

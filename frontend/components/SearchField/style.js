@@ -9,7 +9,7 @@ const container = css({
   justifyContent: 'space-between',
   flexWrap: 'nowrap',
   alignItems: 'center',
-  padding: '8px 16px',
+  padding: '8px 10px',
   backgroundColor: 'white',
   flex: 1,
 }).toString();
@@ -24,6 +24,7 @@ const inputWrapper = css({
   ...(border ? { border } : null),
   ...(borderRadius ? { borderRadius } : null),
   padding: `0px ${border ? '8px' : '0px'}`,
+  background: colors.background,
 }).toString();
 
 const form = css({
@@ -38,7 +39,6 @@ const input = css({
   lineHeight: '28px',
   padding: '4px 0',
   outline: 'none',
-  background: colors.background,
   WebkitAppearance: 'none',
 }).toString();
 
@@ -47,6 +47,7 @@ const scannerIcon = css({
   color: '#8a8a8f',
   fontSize: '1.7rem',
   right: 0,
+  marginRight: 4,
 }).toString();
 
 const button = css({
@@ -75,7 +76,8 @@ const labelHidden = css({
 }).toString();
 
 const icon = css({
-  marginRight: 4,
+  marginRight: 6,
+  marginLeft: 6,
   flexShrink: 0,
   color: '#8a8a8f',
   fontSize: '1.235rem',
