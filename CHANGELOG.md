@@ -4,8 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
-
+## [1.5.0] - 2022-04-08
 ## Added
 - new config `border` to add border styling to the search input (1px solid #000)
 - new config `borderRadius` to add a border radius styling to the search input (8px)
