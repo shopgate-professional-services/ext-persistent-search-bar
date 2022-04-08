@@ -19,6 +19,7 @@ const title = css({
   hyphens: 'auto',
   overflowWrap: 'break-word',
   wordBreak: 'break-word',
+  textAlign: 'left',
 }).toString();
 
 const grid = css({
@@ -37,10 +38,15 @@ const image = css({
   width: 40,
 }).toString();
 
+const button = css({
+  flex: 1,
+}).toString();
+
 export default {
   disabled,
   selected,
   title,
   grid,
   image,
+  button,
 };

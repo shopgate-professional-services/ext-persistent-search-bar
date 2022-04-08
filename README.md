@@ -19,9 +19,16 @@ Set the following value in your Shopgate Connect Admin:
 
 * textColor - (string) Text color of the SearchSuggestionList. By default the extension will use the text color configured for the AppBar
 
+* border - (string) Border styling for the input wrapper (1px solid #000)
+
+* borderRadius - (number) Border radius of the input wrapper
+
+* searchIconColor - (string) Color of the search icon
+
 * searchBarBlacklist - (Array) Desired array of pathname values given as strings.
 
 * suggestionsMinChars - (number) Minimum number of chars to trigger search suggestions.
+
 
 ## Default searchBarBlacklist value
 ```json

@@ -4,7 +4,7 @@ import { themeConfig } from '@shopgate/pwa-common/helpers/config';
 const { colors } = themeConfig;
 
 const item = css({
-  //marginLeft: 72,
+  // marginLeft: 72,
 }).toString();
 
 const itemNotLast = css({
@@ -13,9 +13,10 @@ const itemNotLast = css({
 }).toString();
 
 const innerContainer = css({
-  //marginLeft: -72,
+  // marginLeft: -72,
   minHeight: 56,
   position: 'relative',
+  display: 'flex',
 }).toString();
 
 const glow = css({

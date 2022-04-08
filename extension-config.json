@@ -1,10 +1,13 @@
 {
-  "version": "1.4.5",
+  "version": "1.5.0",
   "id": "@shopgate-project/persistent-search-bar",
   "components": [
     {
       "type": "portals",
-      "target": "view.content.before",
+      "target": [
+        "filter-bar.content.before",
+        "view.content.before"
+      ],
       "path": "frontend/portals/SearchFieldPortal",
       "id": "SearchField"
     },
@@ -23,6 +26,21 @@
       "type": "translations",
       "path": "frontend/locale/de-DE.json",
       "id": "locale/de-DE"
+    },
+    {
+      "type": "translations",
+      "path": "frontend/locale/es-ES.json",
+      "id": "locale/es-ES"
+    },
+    {
+      "type": "translations",
+      "path": "frontend/locale/fr-FR.json",
+      "id": "locale/fr-FR"
+    },
+    {
+      "type": "translations",
+      "path": "frontend/locale/it-IT.json",
+      "id": "locale/it-IT"
     }
   ],
   "configuration": {
@@ -63,6 +81,24 @@
         "label": "Background color of the suggestion list"
       }
     },
+    "border": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "",
+      "params": {
+        "type": "text",
+        "label": "Border styling for the search input"
+      }
+    },
+    "borderRadius": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": 10,
+      "params": {
+        "type": "text",
+        "label": "Border radius for the search input"
+      }
+    },
     "textColor": {
       "type": "admin",
       "destination": "frontend",
@@ -70,6 +106,15 @@
       "params": {
         "type": "textarea",
         "label": "Text color of the suggestion list"
+      }
+    },
+    "searchIconColor": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "",
+      "params": {
+        "type": "text",
+        "label": "Color of the search icon"
       }
     },
     "suggestionsMinChars": {

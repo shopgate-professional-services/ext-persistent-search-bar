@@ -1,44 +1,74 @@
 import { css } from 'glamor';
 import { themeConfig } from '@shopgate/pwa-common/helpers/config';
+import { border, borderRadius, searchIconColor } from '../../config';
 
 const { colors } = themeConfig;
-export const HEADER_HEIGHT = 56;
-export const IOS_SEARCH_HEIGHT = 44;
-export const GMD_SEARCH_HEIGHT = 58;
 
 const container = css({
   display: 'flex',
-  position: 'relative',
-  flexDirection: 'row',
+  justifyContent: 'space-between',
   flexWrap: 'nowrap',
-  paddingLeft: 10,
-  paddingRight: 10,
-  paddingTop: 10,
-  paddingBottom: 10,
+  alignItems: 'center',
+  padding: '8px 10px',
   backgroundColor: 'white',
+  flex: 1,
+  overflow: 'hidden',
 }).toString();
 
 const inputWrapper = css({
+  display: 'flex',
+  justifyContent: 'space-between',
+  alignItems: 'center',
   position: 'relative',
-  flexGrow: 1,
+  ...(border ? { border } : null),
+  ...(borderRadius ? { borderRadius } : null),
+  padding: 0,
+  background: colors.background,
+  width: '100%',
+}).toString();
+
+const form = css({
+  display: 'flex',
+  flex: 1,
+  alignItems: 'center',
 }).toString();
 
 const input = css({
-  borderRadius: 10,
-  width: '100%',
-  padding: '4px 10px 4px 30px',
+  display: 'flex',
+  flex: 1,
   lineHeight: '28px',
+  padding: '4px 0',
   outline: 'none',
-  background: colors.background,
-  verticalAlign: 'middle',
   WebkitAppearance: 'none',
+  width: '0%',
+}).toString();
+
+const scannerIcon = css({
+  padding: '4px 6px 4px 4px',
+  color: '#8a8a8f',
+  fontSize: '1.7rem',
+  right: 0,
+  marginRight: 4,
+  flexShrink: 0,
+}).toString();
+
+const button = css({
+  color: colors.accent,
+  paddingLeft: 10,
+  paddingRight: 0,
+  marginLeft: 0,
+  marginRight: 0,
+  outline: 0,
+}).toString();
+
+const hidden = css({
+  display: 'none',
 }).toString();
 
 const label = css({
   alignItems: 'center',
   color: '#8a8a8f',
   display: 'flex',
-  height: '36px',
   position: 'absolute',
   pointerEvents: 'none',
   width: '100%',
@@ -48,33 +78,13 @@ const labelHidden = css({
   display: 'none',
 }).toString();
 
-const button = css({
-  lineHeight: '36px',
-  color: colors.accent,
-  paddingTop: 0,
-  paddingLeft: 20,
-  paddingRight: 0,
-  marginLeft: 0,
-  marginRight: 0,
-  verticalAlign: 'middle',
-}).toString();
-
-const hidden = css({
-  display: 'none',
-}).toString();
-
 const icon = css({
-  padding: '0 6px',
+  marginRight: 6,
+  marginLeft: 6,
+  flexShrink: 0,
   color: '#8a8a8f',
   fontSize: '1.235rem',
-}).toString();
-
-const scannerIcon = css({
-  padding: '4px 6px 4px 4px',
-  color: '#8a8a8f',
-  fontSize: '1.7rem',
-  position: 'absolute',
-  right: 0,
+  ...(searchIconColor ? { color: searchIconColor } : null),
 }).toString();
 
 const overlay = css({
@@ -88,25 +98,16 @@ const overlay = css({
   outline: 'none',
 }).toString();
 
-const overlayIOS = css({
-  top: `calc(var(--safe-area-inset-top) + ${HEADER_HEIGHT}px + ${IOS_SEARCH_HEIGHT}px )`,
-}).toString();
-
-const overlayGmd = css({
-  top: `calc(var(--safe-area-inset-top) + ${HEADER_HEIGHT}px + ${GMD_SEARCH_HEIGHT}px )`,
-}).toString();
-
 export default {
   container,
   inputWrapper,
   input,
+  form,
+  scannerIcon,
+  button,
+  hidden,
+  icon,
   label,
   labelHidden,
-  hidden,
-  button,
-  icon,
-  scannerIcon,
   overlay,
-  overlayIOS,
-  overlayGmd,
 };

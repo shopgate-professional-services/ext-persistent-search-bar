@@ -120,6 +120,7 @@ class Item extends Component {
         onClick={this.props.onClick}
         data-test-id={this.props.testId}
         aria-label={this.props.title}
+        className={styles.button}
       >
         <Glow className={this.props.className}>
           {this.renderContent()}

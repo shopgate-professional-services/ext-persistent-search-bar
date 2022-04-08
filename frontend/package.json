@@ -1,6 +1,6 @@
 {
   "name": "@shopgate-project/persistent-search-bar",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "description": "Adds a search bar beneath header on user defined pages",
   "license": "Apache-2.0",
   "scripts": {
@@ -11,14 +11,14 @@
     "coverage:watch": "npm run coverage -- --watch"
   },
   "devDependencies": {
-    "@shopgate/engage": "^6.13.0",
-    "@shopgate/eslint-config": "^6.13.0",
-    "@shopgate/pwa-common": "^6.13.0",
-    "@shopgate/pwa-common-commerce": "^6.13.0",
-    "@shopgate/pwa-core": "^6.13.0",
-    "@shopgate/pwa-ui-ios": "^6.13.0",
-    "@shopgate/pwa-ui-shared": "^6.13.0",
-    "@shopgate/pwa-unit-test": "^6.13.0",
+    "@shopgate/engage": "^6.18.7-beta.6",
+    "@shopgate/eslint-config": "^6.18.7-beta.6",
+    "@shopgate/pwa-common": "^6.18.7-beta.6",
+    "@shopgate/pwa-common-commerce": "^6.18.7-beta.6",
+    "@shopgate/pwa-core": "^6.18.7-beta.6",
+    "@shopgate/pwa-ui-ios": "^6.18.7-beta.6",
+    "@shopgate/pwa-ui-shared": "^6.18.7-beta.6",
+    "@shopgate/pwa-unit-test": "^6.18.7-beta.6",
     "babel-core": "^6.26.0",
     "babel-plugin-react-transform": "^3.0.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
@@ -41,11 +41,11 @@
     "@shopgate-ps/pwa-extension-kit": "^0.6.0"
   },
   "peerDependencies": {
-    "@shopgate/engage": "^6.13.0",
-    "@shopgate/pwa-common": "^6.13.0",
-    "@shopgate/pwa-common-commerce": "^6.13.0",
-    "@shopgate/pwa-core": "^6.13.0",
-    "@shopgate/pwa-ui-shared": "^6.13.0",
+    "@shopgate/engage": "^6.18.7-beta.7 || ^7.6.0-beta.3",
+    "@shopgate/pwa-common": "^6.18.7-beta.7 || ^7.6.0-beta.3",
+    "@shopgate/pwa-common-commerce": "^6.18.7-beta.7 || ^7.6.0-beta.3",
+    "@shopgate/pwa-core": "^6.18.7-beta.7 || ^7.6.0-beta.3",
+    "@shopgate/pwa-ui-shared": "^6.18.7-beta.7 || ^7.6.0-beta.3",
     "classnames": "^2.2.5",
     "react-portal": "^3.1.0"
   }

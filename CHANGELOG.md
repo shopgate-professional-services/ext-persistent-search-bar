@@ -4,7 +4,16 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [Unreleased]
+## [1.5.0] - 2022-04-08
+## Added
+- new config `border` to add border styling to the search input (1px solid #000)
+- new config `borderRadius` to add a border radius styling to the search input (8px)
+- new config `searchIconColor` to colorize the search icon
+- surrounded the input wrapper with `persistent-search-bar.input.wrapper` portal to enable leading and trailing elements like a burger menu
+## Fixed
+- Prevented scrolling of the content while search is focused
+- Positioning of suggestions and overlay is more reliable
+- iOS TabBar was shown when search field was blurred (not when search bar was reset)
 
 ## [1.4.5] - 2022-01-07
 ## Fixed
