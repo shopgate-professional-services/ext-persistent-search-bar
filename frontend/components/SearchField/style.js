@@ -12,6 +12,7 @@ const container = css({
   padding: '8px 10px',
   backgroundColor: 'white',
   flex: 1,
+  overflow: 'hidden',
 }).toString();
 
 const inputWrapper = css({
@@ -19,12 +20,11 @@ const inputWrapper = css({
   justifyContent: 'space-between',
   alignItems: 'center',
   position: 'relative',
-  flex: 1,
-  overflow: 'hidden',
   ...(border ? { border } : null),
   ...(borderRadius ? { borderRadius } : null),
   padding: 0,
   background: colors.background,
+  width: '100%',
 }).toString();
 
 const form = css({
@@ -40,6 +40,7 @@ const input = css({
   padding: '4px 0',
   outline: 'none',
   WebkitAppearance: 'none',
+  width: '0%',
 }).toString();
 
 const scannerIcon = css({
@@ -48,14 +49,16 @@ const scannerIcon = css({
   fontSize: '1.7rem',
   right: 0,
   marginRight: 4,
+  flexShrink: 0,
 }).toString();
 
 const button = css({
   color: colors.accent,
-  paddingLeft: 16,
+  paddingLeft: 10,
   paddingRight: 0,
   marginLeft: 0,
   marginRight: 0,
+  outline: 0,
 }).toString();
 
 const hidden = css({
