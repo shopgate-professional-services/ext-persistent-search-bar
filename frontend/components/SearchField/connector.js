@@ -31,8 +31,9 @@ const mapStateToProps = state => ({
  */
 const mapDispatchToProps = dispatch => ({
   fetchSuggestions: query => dispatch(fetchSearchSuggestions(query)),
-  submitSearch: query => dispatch(historyPush({
+  submitSearch: (query, filters) => dispatch(historyPush({
     pathname: `${SEARCH_PATH}?s=${encodeURIComponent(query)}`,
+    state: { filters },
   })),
   openScanner: () => dispatch(historyPush({
     pathname: getScannerRoute(SCANNER_SCOPE_DEFAULT, SCANNER_TYPE_BARCODE),

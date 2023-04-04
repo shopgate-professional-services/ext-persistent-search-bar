@@ -233,11 +233,13 @@ class SearchField extends Component {
     }
     // setTimeout prevents double click while VoiceOver is active
     setTimeout(() => {
+      const { filters = {} } = this.props.currentRoute.state;
+
       router.update(this.props.pageId, { query });
 
       this.setState({ focused: false });
       this.input.blur();
-      this.props.submitSearch(query);
+      this.props.submitSearch(query, filters);
     }, 0);
   };
 

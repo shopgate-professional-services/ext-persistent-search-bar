@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.6.0] - 2023-04-04
+## Added
+- added `filters` property to the search to allow a filtered search preview
+
 ## [1.5.0] - 2022-04-08
 ## Added
 - new config `border` to add border styling to the search input (1px solid #000)
