@@ -1,6 +1,6 @@
 {
   "name": "@shopgate-project/persistent-search-bar",
-  "version": "1.5.0",
+  "version": "1.6.0",
   "description": "Adds a search bar beneath header on user defined pages",
   "license": "Apache-2.0",
   "scripts": {
