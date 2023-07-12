@@ -29,6 +29,7 @@ Set the following value in your Shopgate Connect Admin:
 
 * suggestionsMinChars - (number) Minimum number of chars to trigger search suggestions.
 
+* searchFieldLabel - (string) Add a custom label to the search field
 
 ## Default searchBarBlacklist value
 ```json

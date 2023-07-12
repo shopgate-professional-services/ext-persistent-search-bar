@@ -20,7 +20,7 @@ import SuggestionList from './components/SearchSuggestions/components/Suggestion
 import SearchSuggestions from './components/SearchSuggestions';
 import connect from './connector';
 import styles from './style';
-import { barBgColor, suggestionsMinChars } from '../../config';
+import { barBgColor, suggestionsMinChars, searchFieldLabel } from '../../config';
 
 /**
  * The SearchField component.
@@ -252,7 +252,8 @@ class SearchField extends Component {
       htmlFor={this.props.name}
       className={styles.label}
     >
-      {!this.state.query.length && <I18n.Text string="persistent_search_bar.label" />}
+      {!this.state.query.length && searchFieldLabel && <I18n.Text string={searchFieldLabel} />}
+      {!this.state.query.length && !searchFieldLabel && <I18n.Text string="persistent_search_bar.label" />}
     </label>
   );
 
