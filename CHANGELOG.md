@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.7.0] - 2023-07-12
+## Added
+- new config `searchFieldLabel` to add a custom label to the search field
+
 ## [1.6.0] - 2023-04-04
 ## Added
 - added `filters` property to the search to allow a filtered search preview

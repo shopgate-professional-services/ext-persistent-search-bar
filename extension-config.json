@@ -1,5 +1,5 @@
 {
-  "version": "1.6.0",
+  "version": "1.7.0",
   "id": "@shopgate-project/persistent-search-bar",
   "components": [
     {
@@ -133,6 +133,15 @@
       "params": {
         "type": "checkbox",
         "label": "config if the bar should go away while scrolling"
+      }
+    },
+    "searchFieldLabel": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": "",
+      "params": {
+        "type": "text",
+        "label": "Search Field Label"
       }
     }
   }
