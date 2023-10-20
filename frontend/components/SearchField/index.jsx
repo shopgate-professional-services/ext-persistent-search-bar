@@ -20,7 +20,12 @@ import SuggestionList from './components/SearchSuggestions/components/Suggestion
 import SearchSuggestions from './components/SearchSuggestions';
 import connect from './connector';
 import styles from './style';
-import { barBgColor, suggestionsMinChars, searchFieldLabel } from '../../config';
+import {
+  barBgColor,
+  suggestionsMinChars,
+  searchFieldLabel,
+  showLastSearchQuery,
+} from '../../config';
 
 /**
  * The SearchField component.
@@ -57,10 +62,12 @@ class SearchField extends Component {
     super(props);
 
     this.state = {
-      focused: null,
+      focused: false,
       bottomHeight: 0,
       topGap: 0,
       query: this.props.query || '',
+      lastQuery: showLastSearchQuery ? this.props.currentRoute.query.s : '',
+      lastQueryWasChanged: false,
     };
 
     this.input = null;
@@ -163,7 +170,7 @@ class SearchField extends Component {
       if (this.mounted) {
         this.setState({
           query: '',
-          focused: null,
+          focused: false,
         });
       }
 
@@ -180,8 +187,20 @@ class SearchField extends Component {
    * @param {string} value The updated value.
    */
   update = (value) => {
-    this.fetchSuggestions(value);
-    this.setState({ query: value });
+    // The last search query was changed on the the search page
+    const changed = (
+      !this.state.lastQueryWasChanged &&
+      this.state.query &&
+      this.state.lastQuery
+    ) ? true : this.state.lastQueryWasChanged;
+
+    if (this.mounted) {
+      this.fetchSuggestions(value);
+      this.setState({
+        query: value,
+        lastQueryWasChanged: changed,
+      });
+    }
   };
 
   /**
@@ -192,7 +211,7 @@ class SearchField extends Component {
     const { TabBar } = this.props;
     let newTopGap = this.state.topGap;
 
-    if (this.state.focused === null) {
+    if (this.state.focused === false) {
       // When the search overlay opens, save the original overflow style of the View
       this.initialOverflow = this.getViewOverflow();
       // Prevent View scrolling while the search is open
@@ -231,6 +250,7 @@ class SearchField extends Component {
     if (!query) {
       return;
     }
+
     // setTimeout prevents double click while VoiceOver is active
     setTimeout(() => {
       const { filters = {} } = this.props.currentRoute.state;
@@ -252,8 +272,12 @@ class SearchField extends Component {
       htmlFor={this.props.name}
       className={styles.label}
     >
-      {!this.state.query.length && searchFieldLabel && <I18n.Text string={searchFieldLabel} />}
-      {!this.state.query.length && !searchFieldLabel && <I18n.Text string="persistent_search_bar.label" />}
+      {!this.state.query.length && searchFieldLabel && !this.state.lastQuery && (
+        <I18n.Text string={searchFieldLabel} />
+      )}
+      {!this.state.query.length && !searchFieldLabel && !this.state.lastQuery && (
+        <I18n.Text string="persistent_search_bar.label" />
+      )}
     </label>
   );
 
@@ -264,7 +288,7 @@ class SearchField extends Component {
   renderCancelButton = () => (
     <button
       className={classNames(styles.button, {
-        [styles.hidden]: this.state.focused === null,
+        [styles.hidden]: this.state.focused === false,
       })}
       onClick={this.reset}
       type="button"
@@ -277,25 +301,34 @@ class SearchField extends Component {
    * Renders the input field.
    * @return {JSX}
    */
-  renderInputField = () => (
-    <Input
-      autoComplete={false}
-      className={styles.input}
-      onFocusChange={this.handleFocusChange}
-      onChange={this.update}
-      onSubmit={this.handleSubmit}
-      value={this.state.query}
-      setRef={this.setInputRef}
-      type="search"
-    />
-  );
+  renderInputField = () => {
+    let fieldValue = this.state.query;
+
+    // After the search query was sent, the search value is displayed in the search field
+    if (!this.state.lastQueryWasChanged && this.state.lastQuery && !this.state.query.length) {
+      fieldValue = this.state.lastQuery;
+    }
+
+    return (
+      <Input
+        autoComplete={false}
+        className={styles.input}
+        onFocusChange={this.handleFocusChange}
+        onChange={this.update}
+        onSubmit={this.handleSubmit}
+        value={fieldValue}
+        setRef={this.setInputRef}
+        type="search"
+      />
+    );
+  };
 
   /**
- * Renders the scanner icon
- * @returns {JSX}
- */
+   * Renders the scanner icon
+   * @returns {JSX}
+   */
   renderScannerIcon = () => {
-    if (!this.props.showScannerIcon || this.state.focused !== null) {
+    if (!this.props.showScannerIcon || this.state.focused) {
       return null;
     }
     return (
@@ -356,16 +389,16 @@ class SearchField extends Component {
 
         <ThemeContext.Consumer>
           {theme => (
-            <ReactPortal isOpened={focused !== null}>
+            <ReactPortal isOpened={focused}>
               <ThemeContext.Provider value={theme}>
                 <div className={styles.overlay} style={{ top: this.state.topGap }}>
                   <SearchSuggestions
                     searchPhrase={this.state.query}
                     bottomHeight={this.state.bottomHeight}
                     onClick={this.handleSubmit}
-                    visible={focused !== null}
+                    visible={focused}
                   >
-                    {focused !== null && (
+                    {focused && (
                     <SuggestionList
                       searchPhrase={this.state.query}
                       onClick={this.handleSubmit}

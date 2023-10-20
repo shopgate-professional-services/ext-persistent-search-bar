@@ -1,5 +1,5 @@
 {
-  "version": "1.7.0",
+  "version": "1.8.0-beta.1",
   "id": "@shopgate-project/persistent-search-bar",
   "components": [
     {
@@ -55,7 +55,6 @@
         "/login",
         "/checkout",
         "/item/:productId/gallery/:slide",
-        "/search",
         "/scanner"
       ],
       "params": {
@@ -142,6 +141,15 @@
       "params": {
         "type": "text",
         "label": "Search Field Label"
+      }
+    },
+    "showLastSearchQuery": {
+      "type": "admin",
+      "destination": "frontend",
+      "default": true,
+      "params": {
+        "type": "checkbox",
+        "label": "Show last search query on search page"
       }
     }
   }
