@@ -8,6 +8,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## Added
 - new config `showLastSearchQuery` to display the last search query on the search results page
 ## Fixed
+- Missing cart icon on GMD home page when the cart contains items
 - Old search terms were not clickable
 - After submitting a new search query, the suggestions close again
 
