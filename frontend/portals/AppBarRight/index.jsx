@@ -17,12 +17,11 @@ const AppBarRight = ({
   if (isIOSTheme() || !isVisible) {
     return children;
   }
-  if (pattern === INDEX_PATH) {
+  if (pattern === INDEX_PATH && count === 0) {
     return (
       <Placeholder />
     );
   }
-
   return (<GMDCartButton count={count} />);
 };
 

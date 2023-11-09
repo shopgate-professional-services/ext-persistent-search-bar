@@ -29,7 +29,11 @@ Set the following value in your Shopgate Connect Admin:
 
 * suggestionsMinChars - (number) Minimum number of chars to trigger search suggestions.
 
+* hideOnScroll - (boolean) Hide search bar when scrolling
+
 * searchFieldLabel - (string) Add a custom label to the search field
+
+* showLastSearchQuery - (boolean) Display the last search query in the search field on the results page 
 
 ## Default searchBarBlacklist value
 ```json
@@ -42,10 +46,18 @@ Set the following value in your Shopgate Connect Admin:
     "/login",
     "/checkout",
     "/item/:productId/gallery/:slide",
-    "/search",
     "/scanner"
   ],
-  "suggestionsMinChars": 3
+  "barBgColor": "",
+  "bgColor": "",
+  "border": "",
+  "borderRadius": 10,
+  "textColor": "",
+  "searchIconColor": "",
+  "suggestionsMinChars": 3,
+  "hideOnScroll": true,
+  "searchFieldLabel": "",
+  "showLastSearchQuery": true
 }
 ```
 

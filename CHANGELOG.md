@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.8.0] - 2023-10-20
+## Added
+- new config `showLastSearchQuery` to display the last search query on the search results page
+## Fixed
+- Missing cart icon on GMD home page when the cart contains items
+- Old search terms were not clickable
+- After submitting a new search query, the suggestions close again
+
 ## [1.7.0] - 2023-07-12
 ## Added
 - new config `searchFieldLabel` to add a custom label to the search field
