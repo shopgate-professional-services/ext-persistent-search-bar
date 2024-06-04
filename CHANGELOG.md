@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.8.1] - 2024-06-04
+## Added
+- dutch translation
+
 ## [1.8.0] - 2023-10-20
 ## Added
 - new config `showLastSearchQuery` to display the last search query on the search results page
