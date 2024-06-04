@@ -1,5 +1,5 @@
 {
-  "version": "1.8.0",
+  "version": "1.8.1",
   "id": "@shopgate-project/persistent-search-bar",
   "components": [
     {
@@ -41,6 +41,11 @@
       "type": "translations",
       "path": "frontend/locale/it-IT.json",
       "id": "locale/it-IT"
+    },
+    {
+      "type": "translations",
+      "path": "frontend/locale/nl-NL.json",
+      "id": "locale/nl-NL"
     }
   ],
   "configuration": {
