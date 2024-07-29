@@ -13,6 +13,7 @@ const SearchSuggestions = ({
   suggestions,
   bottomHeight,
   onClick,
+  closeSearch,
   visible,
   children,
 }) => (
@@ -23,6 +24,7 @@ const SearchSuggestions = ({
       suggestions,
       bottomHeight,
       onClick,
+      closeSearch,
       visible,
     }}
   >
@@ -32,6 +34,7 @@ const SearchSuggestions = ({
 
 SearchSuggestions.propTypes = {
   bottomHeight: PropTypes.number.isRequired,
+  closeSearch: PropTypes.func.isRequired,
   onClick: PropTypes.func.isRequired,
   visible: PropTypes.bool.isRequired,
   children: PropTypes.node,
