@@ -21,7 +21,7 @@ const makeGetIsFilterBarRoute = () => createSelector(
   (_, props) => props.route,
   (route) => {
     const { pattern } = route;
-    return [CATEGORY_PATTERN, SEARCH_PATTERN].includes(pattern);
+    return [CATEGORY_PATTERN, SEARCH_PATTERN, '/category/:categoryId/all'].includes(pattern);
   }
 );
 

@@ -7,6 +7,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ## [1.9.0] - 2024-07-29
 ## Fixed
 - improved component behavior when search suggestion is selected
+- fixed issues on `category/all` route
 
 ## [1.8.1] - 2024-06-04
 ## Added
