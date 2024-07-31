@@ -62,12 +62,10 @@ class SearchField extends Component {
     super(props);
 
     this.state = {
-      focused: false,
+      focused: null,
       bottomHeight: 0,
       topGap: 0,
-      query: this.props.query || '',
-      lastQuery: showLastSearchQuery ? this.props.currentRoute.query.s : '',
-      lastQueryWasChanged: false,
+      query: showLastSearchQuery && this.props.query ? this.props.query : '',
     };
 
     this.input = null;
@@ -83,6 +81,10 @@ class SearchField extends Component {
     registerEvents([EVENT_KEYBOARD_WILL_CHANGE]);
     event.addCallback(EVENT_KEYBOARD_WILL_CHANGE, this.handleKeyboardChange);
     this.mounted = true;
+
+    if (showLastSearchQuery && this.state.query) {
+      this.update(this.props.query);
+    }
   }
 
   /**
@@ -169,8 +171,9 @@ class SearchField extends Component {
        */
       if (this.mounted) {
         this.setState({
-          query: '',
-          focused: false,
+          // Reset the query to the current search term when component closes
+          query: showLastSearchQuery && this.props.query ? this.props.query : '',
+          focused: null,
         });
       }
 
@@ -187,18 +190,10 @@ class SearchField extends Component {
    * @param {string} value The updated value.
    */
   update = (value) => {
-    // The last search query was changed on the the search page
-    const changed = (
-      !this.state.lastQueryWasChanged &&
-      this.state.query &&
-      this.state.lastQuery
-    ) ? true : this.state.lastQueryWasChanged;
-
     if (this.mounted) {
       this.fetchSuggestions(value);
       this.setState({
         query: value,
-        lastQueryWasChanged: changed,
       });
     }
   };
@@ -211,7 +206,7 @@ class SearchField extends Component {
     const { TabBar } = this.props;
     let newTopGap = this.state.topGap;
 
-    if (this.state.focused === false) {
+    if (this.state.focused === null) {
       // When the search overlay opens, save the original overflow style of the View
       this.initialOverflow = this.getViewOverflow();
       // Prevent View scrolling while the search is open
@@ -244,6 +239,7 @@ class SearchField extends Component {
    * @param {string} searchQuery Defaults to query in state.
    */
   handleSubmit = (e, searchQuery) => {
+    e.stopPropagation();
     e.preventDefault();
 
     const query = searchQuery || this.state.query;
@@ -260,6 +256,7 @@ class SearchField extends Component {
       this.setState({ focused: false });
       this.input.blur();
       this.props.submitSearch(query, filters);
+      this.reset();
     }, 0);
   };
 
@@ -272,14 +269,14 @@ class SearchField extends Component {
       htmlFor={this.props.name}
       className={styles.label}
     >
-      {!this.state.query.length && searchFieldLabel && !this.state.lastQuery && (
-        <I18n.Text string={searchFieldLabel} />
+      {!this.state.query.length && searchFieldLabel && (
+      <I18n.Text string={searchFieldLabel} />
       )}
-      {!this.state.query.length && !searchFieldLabel && !this.state.lastQuery && (
-        <I18n.Text string="persistent_search_bar.label" />
+      {!this.state.query.length && !searchFieldLabel && (
+      <I18n.Text string="persistent_search_bar.label" />
       )}
     </label>
-  );
+  )
 
   /**
    * Renders the cancel button.
@@ -288,7 +285,7 @@ class SearchField extends Component {
   renderCancelButton = () => (
     <button
       className={classNames(styles.button, {
-        [styles.hidden]: this.state.focused === false,
+        [styles.hidden]: this.state.focused === null,
       })}
       onClick={this.reset}
       type="button"
@@ -301,34 +298,25 @@ class SearchField extends Component {
    * Renders the input field.
    * @return {JSX}
    */
-  renderInputField = () => {
-    let fieldValue = this.state.query;
-
-    // After the search query was sent, the search value is displayed in the search field
-    if (!this.state.lastQueryWasChanged && this.state.lastQuery && !this.state.query.length) {
-      fieldValue = this.state.lastQuery;
-    }
-
-    return (
-      <Input
-        autoComplete={false}
-        className={styles.input}
-        onFocusChange={this.handleFocusChange}
-        onChange={this.update}
-        onSubmit={this.handleSubmit}
-        value={fieldValue}
-        setRef={this.setInputRef}
-        type="search"
-      />
-    );
-  };
+  renderInputField = () => (
+    <Input
+      autoComplete={false}
+      className={styles.input}
+      onFocusChange={this.handleFocusChange}
+      onChange={this.update}
+      onSubmit={this.handleSubmit}
+      value={this.state.query}
+      setRef={this.setInputRef}
+      type="search"
+    />
+  )
 
   /**
    * Renders the scanner icon
    * @returns {JSX}
    */
   renderScannerIcon = () => {
-    if (!this.props.showScannerIcon || this.state.focused) {
+    if (!this.props.showScannerIcon || this.state.focused !== null) {
       return null;
     }
     return (
@@ -389,19 +377,31 @@ class SearchField extends Component {
 
         <ThemeContext.Consumer>
           {theme => (
-            <ReactPortal isOpened={focused}>
+            <ReactPortal isOpened={focused !== null}>
               <ThemeContext.Provider value={theme}>
-                <div className={styles.overlay} style={{ top: this.state.topGap }}>
+                {/* eslint-disable-next-line max-len */}
+                {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
+                <div
+                  className={styles.overlay}
+                  style={{ top: this.state.topGap }}
+                  onClick={(e) => {
+                    if (e.target?.className?.includes(styles.overlay)) {
+                      this.reset();
+                    }
+                  }}
+                >
                   <SearchSuggestions
                     searchPhrase={this.state.query}
                     bottomHeight={this.state.bottomHeight}
                     onClick={this.handleSubmit}
-                    visible={focused}
+                    closeSearch={this.reset}
+                    visible={focused !== null}
                   >
-                    {focused && (
+                    {focused !== null && (
                     <SuggestionList
                       searchPhrase={this.state.query}
                       onClick={this.handleSubmit}
+                      closeSearch={this.reset}
                       bottomHeight={this.state.bottomHeight}
                       topGap={this.state.topGap}
                     />

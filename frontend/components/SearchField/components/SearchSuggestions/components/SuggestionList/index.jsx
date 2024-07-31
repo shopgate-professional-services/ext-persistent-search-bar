@@ -15,6 +15,7 @@ class SuggestionList extends Component {
     bottomHeight: PropTypes.number.isRequired,
     onClick: PropTypes.func.isRequired,
     topGap: PropTypes.number.isRequired,
+    closeSearch: PropTypes.func,
     fetching: PropTypes.bool,
     searchPhrase: PropTypes.string,
     suggestions: PropTypes.arrayOf(PropTypes.string),
@@ -22,6 +23,7 @@ class SuggestionList extends Component {
   };
 
   static defaultProps = {
+    closeSearch: () => {},
     suggestions: [],
     fetching: false,
     searchPhrase: '',
@@ -66,9 +68,16 @@ class SuggestionList extends Component {
       color = textColor;
     }
 
+    /* eslint-disable jsx-a11y/click-events-have-key-events,
+      jsx-a11y/no-static-element-interactions */
     return (
       <div
         className={`persistent-search-bar__suggestions ${styles.list(topGap, bottomHeight, background, color)}`}
+        onClick={(e) => {
+          if (e.target?.className?.includes('persistent-search-bar__suggestions')) {
+            this.props.closeSearch();
+          }
+        }}
       >
         <List>
           {suggestions.map(suggestion =>
@@ -80,6 +89,8 @@ class SuggestionList extends Component {
         </List>
       </div>
     );
+    /* eslint-enable jsx-a11y/click-events-have-key-events,
+      jsx-a11y/no-static-element-interactions */
   }
 }
 
