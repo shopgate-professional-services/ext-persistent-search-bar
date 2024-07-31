@@ -4,10 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## [1.9.0] - 2024-07-29
+## [1.9.0] - 2024-07-31
 ## Fixed
 - improved component behavior when search suggestion is selected
-- fixed issues on `category/all` route
+- fixed issue on `/category/:categoryId/all` route where extension was rendered twice
+- added `/category/:categoryId/all/filter` route to `searchBarBlacklist` config
 
 ## [1.8.1] - 2024-06-04
 ## Added
