@@ -61,7 +61,22 @@
         "/login",
         "/checkout",
         "/item/:productId/gallery/:slide",
-        "/scanner"
+        "/scanner",
+        "/privacy-settings",
+        "/register",
+        "/forgot-password",
+        "/storefinder",
+        "/orders/:orderId",
+        "/order-details/:orderNumber",
+        "/account/profile/contact",
+        "/account/:tab",
+        "/account",
+        "/checkout",
+        "/checkout/guest",
+        "/checkout/guest/payment",
+        "/checkout/addresses/:type",
+        "/checkout/addresses/:type/contact",
+        "/checkout/success"
       ],
       "params": {
         "type": "json",
