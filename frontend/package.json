@@ -46,7 +46,6 @@
     "@shopgate/pwa-common-commerce": "^6.18.7-beta.7 || ^7.6.0-beta.3",
     "@shopgate/pwa-core": "^6.18.7-beta.7 || ^7.6.0-beta.3",
     "@shopgate/pwa-ui-shared": "^6.18.7-beta.7 || ^7.6.0-beta.3",
-    "classnames": "^2.2.5",
-    "react-portal": "^3.1.0"
+    "classnames": "^2.2.5"
   }
 }

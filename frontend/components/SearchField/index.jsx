@@ -1,11 +1,10 @@
 import React, { Component, createRef } from 'react';
-import ReactPortal from 'react-portal';
+import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
 import get from 'lodash/get';
 import { withWidgetSettings, withTheme, i18n } from '@shopgate/engage/core';
-import { ThemeContext } from '@shopgate/pwa-common/context';
 import event from '@shopgate/pwa-core/classes/Event';
 import { EVENT_KEYBOARD_WILL_CHANGE } from '@shopgate/pwa-core/constants/AppEvents';
 import registerEvents from '@shopgate/pwa-core/commands/registerEvents';
@@ -26,6 +25,8 @@ import {
   searchFieldLabel,
   showLastSearchQuery,
 } from '../../config';
+
+const portalNode = document.getElementById('portals');
 
 /**
  * The SearchField component.
@@ -367,51 +368,38 @@ class SearchField extends Component {
           </SurroundPortals>
         </div>
 
-        {
-          /**
-           * Since we use React-portal to render outside theme tree (since the theme context will
-           * not be available anymore) we need to pass theme context value down for children
-           *
-          */
-        }
-
-        <ThemeContext.Consumer>
-          {theme => (
-            <ReactPortal isOpened={focused !== null}>
-              <ThemeContext.Provider value={theme}>
-                {/* eslint-disable-next-line max-len */}
-                {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-                <div
-                  className={styles.overlay}
-                  style={{ top: this.state.topGap }}
-                  onClick={(e) => {
-                    if (e.target?.className?.includes(styles.overlay)) {
-                      this.reset();
-                    }
-                  }}
-                >
-                  <SearchSuggestions
-                    searchPhrase={this.state.query}
-                    bottomHeight={this.state.bottomHeight}
-                    onClick={this.handleSubmit}
-                    closeSearch={this.reset}
-                    visible={focused !== null}
-                  >
-                    {focused !== null && (
-                    <SuggestionList
-                      searchPhrase={this.state.query}
-                      onClick={this.handleSubmit}
-                      closeSearch={this.reset}
-                      bottomHeight={this.state.bottomHeight}
-                      topGap={this.state.topGap}
-                    />
-                    )}
-                  </SearchSuggestions>
-                </div>
-              </ThemeContext.Provider>
-            </ReactPortal>
-          )}
-        </ThemeContext.Consumer>
+        { focused !== null && createPortal(
+          /* eslint-disable-next-line max-len */
+          /* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
+          <div
+            className={styles.overlay}
+            style={{ top: this.state.topGap }}
+            onClick={(e) => {
+              if (e.target?.className?.includes(styles.overlay)) {
+                this.reset();
+              }
+            }}
+          >
+            <SearchSuggestions
+              searchPhrase={this.state.query}
+              bottomHeight={this.state.bottomHeight}
+              onClick={this.handleSubmit}
+              closeSearch={this.reset}
+              visible={focused !== null}
+            >
+              {focused !== null && (
+              <SuggestionList
+                searchPhrase={this.state.query}
+                onClick={this.handleSubmit}
+                closeSearch={this.reset}
+                bottomHeight={this.state.bottomHeight}
+                topGap={this.state.topGap}
+              />
+              )}
+            </SearchSuggestions>
+          </div>,
+          portalNode
+        )}
       </div>
     );
   }
