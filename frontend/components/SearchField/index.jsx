@@ -42,7 +42,7 @@ class SearchField extends Component {
     name: PropTypes.string,
     query: PropTypes.string,
     showScannerIcon: PropTypes.bool,
-    TabBar: PropTypes.func,
+    TabBar: PropTypes.elementType,
     widgetSettings: PropTypes.shape(),
   };
 
