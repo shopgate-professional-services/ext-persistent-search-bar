@@ -7,7 +7,7 @@ Add the persistent-search-bar extension to your Shopgate Connect deployment conf
 (...)
   {
     "id": "@shopgate-project/persistent-search-bar",
-    "version": "1.1.0"
+    "version": "1.11.0"
   }
 (...)
 ```
@@ -33,7 +33,7 @@ Set the following value in your Shopgate Connect Admin:
 
 * searchFieldLabel - (string) Add a custom label to the search field
 
-* showLastSearchQuery - (boolean) Display the last search query in the search field on the results page 
+* showLastSearchQuery - (boolean) Display the last search query in the search field on the results page
 
 ## Default searchBarBlacklist value
 ```json
@@ -42,11 +42,27 @@ Set the following value in your Shopgate Connect Admin:
     "/browse",
     "/cart",
     "/category/:categoryId/filter",
+    "/category/:categoryId/all/filter",
     "/search/filter",
     "/login",
-    "/checkout",
     "/item/:productId/gallery/:slide",
-    "/scanner"
+    "/scanner",
+    "/privacy-settings",
+    "/register",
+    "/forgot-password",
+    "/storefinder",
+    "/orders/:orderId",
+    "/order-details/:orderNumber",
+    "/account/profile/contact",
+    "/account/:tab",
+    "/account",
+    "/checkout",
+    "/checkout/guest",
+    "/checkout/guest/payment",
+    "/checkout/addresses/:type",
+    "/checkout/addresses/:type/contact",
+    "/checkout/success",
+    "/store-details/:code"
   ],
   "barBgColor": "",
   "bgColor": "",
