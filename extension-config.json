@@ -59,7 +59,6 @@
         "/category/:categoryId/all/filter",
         "/search/filter",
         "/login",
-        "/checkout",
         "/item/:productId/gallery/:slide",
         "/scanner",
         "/privacy-settings",
