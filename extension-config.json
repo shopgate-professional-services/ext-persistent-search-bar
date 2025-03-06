@@ -1,5 +1,5 @@
 {
-  "version": "1.10.1",
+  "version": "1.11.0",
   "id": "@shopgate-project/persistent-search-bar",
   "components": [
     {
@@ -76,7 +76,8 @@
         "/checkout/guest/payment",
         "/checkout/addresses/:type",
         "/checkout/addresses/:type/contact",
-        "/checkout/success"
+        "/checkout/success",
+        "/store-details/:code"
       ],
       "params": {
         "type": "json",

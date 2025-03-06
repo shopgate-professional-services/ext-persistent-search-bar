@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.11.0] - 2025-03-06
+## Added
+- Added store detail page to blacklist config
+
 ## [1.10.1] - 2025-01-06
 ## Fixed
 - Updated some prop type definitions of components
