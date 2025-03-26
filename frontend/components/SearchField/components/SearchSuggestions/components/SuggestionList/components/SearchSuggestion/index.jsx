@@ -7,7 +7,7 @@ import List from '../List';
  * @param {Object} props The component props.
  * @param {string} props.suggestion The search suggestion text.
  * @param {Function} props.onClick The action that is triggered on click.
- * @returns {JSX}
+ * @returns {JSX.Element}
  */
 const SearchSuggestion = ({ suggestion, onClick }) => (
   <List.Item

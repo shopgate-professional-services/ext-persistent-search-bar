@@ -2,6 +2,7 @@
   "persistent_search_bar": {
     "label": "Suche",
     "cancel": "Abbrechen",
-    "open_scanner": "Scanner öffnen."
+    "open_scanner": "Scanner öffnen.",
+    "suggestions": "Suchvorschläge:"
   }
 }

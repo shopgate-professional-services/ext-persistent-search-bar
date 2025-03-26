@@ -35,7 +35,7 @@ class Item extends Component {
   /**
    * Should only update what the `selected` or `disabled` props change.
    * @param {Object} nextProps The next set of component props.
-   * @returns {JSX}
+   * @returns {boolean}
    */
   shouldComponentUpdate(nextProps) {
     return (
@@ -46,7 +46,7 @@ class Item extends Component {
 
   /**
    * Renders the bulk of the content.
-   * @returns {JSX}
+   * @returns {JSX.Element}
    */
   renderContent() {
     const {
@@ -89,7 +89,7 @@ class Item extends Component {
 
   /**
    * Renders the component.
-   * @returns {JSX}
+   * @returns {JSX.Element}
    */
   render() {
     /**
@@ -103,7 +103,6 @@ class Item extends Component {
       return this.renderContent();
     }
 
-    // Wrap with a <Link> if the `link` prop is set.
     if (this.props.link) {
       return (
         <Glow className={this.props.className}>

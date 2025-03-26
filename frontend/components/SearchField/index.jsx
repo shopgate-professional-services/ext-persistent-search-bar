@@ -8,12 +8,11 @@ import { withWidgetSettings, withTheme, i18n } from '@shopgate/engage/core';
 import event from '@shopgate/pwa-core/classes/Event';
 import { EVENT_KEYBOARD_WILL_CHANGE } from '@shopgate/pwa-core/constants/AppEvents';
 import registerEvents from '@shopgate/pwa-core/commands/registerEvents';
-import I18n from '@shopgate/pwa-common/components/I18n/';
 import Input from '@shopgate/pwa-common/components/Input/';
 import SearchIcon from '@shopgate/pwa-ui-shared/icons/MagnifierIcon';
 import { router } from '@virtuous/conductor';
 import BarcodeScannerIcon from '@shopgate/pwa-ui-shared/icons/BarcodeScannerIcon';
-import { SurroundPortals } from '@shopgate/engage/components';
+import { SurroundPortals, I18n } from '@shopgate/engage/components';
 import { withView } from '../../helpers/hocs';
 import SuggestionList from './components/SearchSuggestions/components/SuggestionList';
 import SearchSuggestions from './components/SearchSuggestions';
@@ -297,7 +296,7 @@ class SearchField extends Component {
 
   /**
    * Renders the input field.
-   * @return {JSX}
+   * @return {JSX.Element}
    */
   renderInputField = () => (
     <Input
@@ -329,7 +328,7 @@ class SearchField extends Component {
 
   /**
    * Renders the text field.
-   * @return {JSX}
+   * @return {JSX.Element}
    */
   render() {
     const { focused } = this.state;

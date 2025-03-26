@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withWidgetSettings } from '@shopgate/engage/core';
+import { withWidgetSettings, i18n } from '@shopgate/engage/core';
 import List from './components/List';
 import SearchSuggestion from './components/SearchSuggestion';
 import connect from '../../connector';
@@ -47,7 +47,7 @@ class SuggestionList extends Component {
   }
 
   /**
-   * @return {JSX}
+   * @return {JSX.Element}
    */
   render() {
     const {
@@ -68,18 +68,28 @@ class SuggestionList extends Component {
       color = textColor;
     }
 
-    /* eslint-disable jsx-a11y/click-events-have-key-events,
-      jsx-a11y/no-static-element-interactions */
     return (
       <div
+        role="button"
+        tabIndex={-1}
+        aria-live="polite"
+        aria-atomic="true"
         className={`persistent-search-bar__suggestions ${styles.list(topGap, bottomHeight, background, color)}`}
         onClick={(e) => {
           if (e.target?.className?.includes('persistent-search-bar__suggestions')) {
             this.props.closeSearch();
           }
         }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            this.props.closeSearch();
+          }
+        }}
       >
-        <List>
+        <div className="sr-only" id="suggestions-announcement">
+          {i18n.text('persistent_search_bar.suggestions')}
+        </div>
+        <List aria-labelledby="suggestions-announcement">
           {suggestions.map(suggestion =>
             (<SearchSuggestion
               key={suggestion}
@@ -89,8 +99,6 @@ class SuggestionList extends Component {
         </List>
       </div>
     );
-    /* eslint-enable jsx-a11y/click-events-have-key-events,
-      jsx-a11y/no-static-element-interactions */
   }
 }
 
