@@ -24,7 +24,6 @@ const list = (topGap, paddingBottom, bgColor, textColor) => css({
   paddingBottom,
 }).toString();
 
-// global class for screen readers only, visually hidden
 const srOnly = ({
   border: '0',
   clip: 'rect(0 0 0 0)',
