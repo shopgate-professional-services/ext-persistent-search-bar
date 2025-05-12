@@ -3,7 +3,7 @@ import { ViewContext } from '@shopgate/engage/components/View';
 
 /**
  * Injects the view properties into the desired component.
- * @param {Function} WrappedComponent The react component to wrap.
+ * @param {JSX} WrappedComponent The react component to wrap.
  * @returns {JSX}
  */
 export function withView(WrappedComponent) {

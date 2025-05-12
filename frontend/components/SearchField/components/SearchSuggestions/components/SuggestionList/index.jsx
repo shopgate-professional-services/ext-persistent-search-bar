@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withWidgetSettings, i18n } from '@shopgate/engage/core';
+import { withWidgetSettings } from '@shopgate/engage/core/hocs';
+import { i18n } from '@shopgate/engage/core/helpers';
 import List from './components/List';
 import SearchSuggestion from './components/SearchSuggestion';
 import connect from '../../connector';
@@ -71,7 +72,7 @@ class SuggestionList extends Component {
     return (
       <div
         role="button"
-        tabIndex={-1}
+        tabIndex={0}
         aria-live="polite"
         aria-atomic="true"
         className={`persistent-search-bar__suggestions ${styles.list(topGap, bottomHeight, background, color)}`}

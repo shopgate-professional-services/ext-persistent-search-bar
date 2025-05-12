@@ -139,7 +139,7 @@ class SearchField extends Component {
   /**
    * Updates the overflow property of the surrounding View to prevent scrolling of the view
    * "through" the search field.
-   * @param {boolean} reset Wether the overflow needs to be reset
+   * @param {boolean} reset Whether the overflow needs to be reset
    */
   setViewOverflow = (reset = false) => {
     const viewRef = this.props.view.getContentRef();
@@ -262,7 +262,7 @@ class SearchField extends Component {
 
   /**
    * Renders the hint element.
-   * @return {JSX}
+   * @return {JSX.Element}
    */
   renderLabelElement = () => (
     <label
@@ -280,7 +280,7 @@ class SearchField extends Component {
 
   /**
    * Renders the cancel button.
-   * @return {JSX}
+   * @return {JSX.Element}
    */
   renderCancelButton = () => (
     <button
@@ -313,7 +313,7 @@ class SearchField extends Component {
 
   /**
    * Renders the scanner icon
-   * @returns {JSX}
+   * @returns {JSX.Element}
    */
   renderScannerIcon = () => {
     if (!this.props.showScannerIcon || this.state.focused !== null) {
