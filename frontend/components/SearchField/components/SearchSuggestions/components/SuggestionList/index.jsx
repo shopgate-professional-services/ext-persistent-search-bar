@@ -87,7 +87,7 @@ class SuggestionList extends Component {
           }
         }}
       >
-        <div className="sr-only" id="suggestions-announcement">
+        <div className={styles.srOnly} id="suggestions-announcement">
           {i18n.text('persistent_search_bar.suggestions')}
         </div>
         <List aria-labelledby="suggestions-announcement">
