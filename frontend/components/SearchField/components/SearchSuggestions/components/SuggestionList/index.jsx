@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { withWidgetSettings } from '@shopgate/engage/core/hocs';
-import { i18n } from '@shopgate/engage/core/helpers';
+import { withWidgetSettings, i18n } from '@shopgate/engage/core';
 import List from './components/List';
 import SearchSuggestion from './components/SearchSuggestion';
 import connect from '../../connector';

@@ -1,8 +1,8 @@
 {
   "persistent_search_bar": {
-    "label": "Busque en",
+    "label": "Buscar",
     "cancel": "Cancelar",
-    "open_scanner": "Escáner abierto.",
+    "open_scanner": "Abrir escáner.",
     "suggestions": "Sugerencias de búsqueda:"
   }
 }

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import { i18n } from '@shopgate/engage/core/helpers';
+import { i18n } from '@shopgate/engage/core';
 import { CART_MAX_ITEMS } from '../../../../constants';
 import styles from './style';
 

@@ -18,34 +18,74 @@
       "id": "AppBarRight"
     },
     {
-      "type": "translations",
-      "path": "frontend/locale/en-US.json",
-      "id": "locale/en-US"
-    },
-    {
-      "type": "translations",
+      "id": "locale/de-DE",
       "path": "frontend/locale/de-DE.json",
-      "id": "locale/de-DE"
+      "type": "translations"
     },
     {
-      "type": "translations",
+      "id": "locale/en-US",
+      "path": "frontend/locale/en-US.json",
+      "type": "translations"
+    },
+    {
+      "id": "locale/cs-CZ",
+      "path": "frontend/locale/cs-CZ.json",
+      "type": "translations"
+    },
+    {
+      "id": "locale/es-ES",
       "path": "frontend/locale/es-ES.json",
-      "id": "locale/es-ES"
+      "type": "translations"
     },
     {
-      "type": "translations",
+      "id": "locale/el-GR",
+      "path": "frontend/locale/el-GR.json",
+      "type": "translations"
+    },
+    {
+      "id": "locale/fi-FI",
+      "path": "frontend/locale/fi-FI.json",
+      "type": "translations"
+    },
+    {
+      "id": "locale/fr-FR",
       "path": "frontend/locale/fr-FR.json",
-      "id": "locale/fr-FR"
+      "type": "translations"
     },
     {
-      "type": "translations",
+      "id": "locale/it-IT",
       "path": "frontend/locale/it-IT.json",
-      "id": "locale/it-IT"
+      "type": "translations"
     },
     {
-      "type": "translations",
+      "id": "locale/hu-HU",
+      "path": "frontend/locale/hu-HU.json",
+      "type": "translations"
+    },
+    {
+      "id": "locale/nl-NL",
       "path": "frontend/locale/nl-NL.json",
-      "id": "locale/nl-NL"
+      "type": "translations"
+    },
+    {
+      "id": "locale/pl-PL",
+      "path": "frontend/locale/pl-PL.json",
+      "type": "translations"
+    },
+    {
+      "id": "locale/pt-PT",
+      "path": "frontend/locale/pt-PT.json",
+      "type": "translations"
+    },
+    {
+      "id": "locale/ro-RO",
+      "path": "frontend/locale/ro-RO.json",
+      "type": "translations"
+    },
+    {
+      "id": "locale/sv-SE",
+      "path": "frontend/locale/sv-SE.json",
+      "type": "translations"
     }
   ],
   "configuration": {

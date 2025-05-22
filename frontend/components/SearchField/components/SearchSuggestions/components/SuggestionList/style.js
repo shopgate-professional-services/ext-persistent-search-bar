@@ -24,7 +24,7 @@ const list = (topGap, paddingBottom, bgColor, textColor) => css({
   paddingBottom,
 }).toString();
 
-const srOnly = ({
+const srOnly = css({
   border: '0',
   clip: 'rect(0 0 0 0)',
   height: '1px',
