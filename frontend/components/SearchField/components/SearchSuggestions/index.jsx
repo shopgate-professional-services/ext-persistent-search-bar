@@ -6,7 +6,7 @@ import connect from './connector';
 
 /**
  * SearchSuggestions
- * @return {JSX}
+ * @return {JSX.Element}
  */
 const SearchSuggestions = ({
   searchPhrase,

@@ -1,0 +1,8 @@
+{
+  "persistent_search_bar": {
+    "label": "Keresés",
+    "cancel": "Mégse",
+    "open_scanner": "Szkenner megnyitása.",
+    "suggestions": "Keresési javaslatok:"
+  }
+}

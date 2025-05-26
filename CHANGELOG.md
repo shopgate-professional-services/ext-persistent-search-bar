@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](http://keepachangelog.com/) and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.12.0] - 2025-05-22
+## Added
+- Improved accessibility for screen readers
+- Added translations for more languages
+
 ## [1.11.0] - 2025-03-06
 ## Added
 - Added store detail page to blacklist config

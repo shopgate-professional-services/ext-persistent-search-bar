@@ -21,7 +21,7 @@ class List extends Component {
 
   /**
    * Renders the component.
-   * @returns {JSX}
+   * @returns {JSX.Element}
    */
   render() {
     const { children } = this.props;

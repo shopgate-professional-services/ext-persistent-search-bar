@@ -1,7 +1,8 @@
 {
   "persistent_search_bar": {
-    "label": "Zoek",
+    "label": "Zoeken",
     "cancel": "Annuleren",
-    "open_scanner": "Scanner openen."
+    "open_scanner": "Scanner openen.",
+    "suggestions": "Zoeksuggesties:"
   }
 }

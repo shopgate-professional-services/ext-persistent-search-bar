@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
+import { i18n } from '@shopgate/engage/core';
 import { CART_MAX_ITEMS } from '../../../../constants';
 import styles from './style';
 
@@ -27,11 +28,19 @@ class CartButtonBadge extends PureComponent {
   }
 
   /**
-   * @returns {JSX}
+   * @returns {JSX.Element}
    */
   render() {
+    const ariaLabel = `${i18n.text('navigation.cart')}. ${i18n.text('common.products')}: ${this.productCount}.`;
+
     return (
-      <div className={styles}>{this.productCount}</div>
+      <div
+        aria-label={ariaLabel}
+        aria-hidden={this.productCount === '0'}
+        className={styles}
+      >
+        {this.productCount}
+      </div>
     );
   }
 }

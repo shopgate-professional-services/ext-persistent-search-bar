@@ -3,8 +3,8 @@ import styles from './style';
 
 /**
  * Renders placeholder component for home page GMD route
- * @returns {JSX}
+ * @returns {JSX.Element}
  */
 export const Placeholder = () => (
-  <div className={styles.placeholder} />
+  <div aria-hidden className={styles.placeholder} />
 );
