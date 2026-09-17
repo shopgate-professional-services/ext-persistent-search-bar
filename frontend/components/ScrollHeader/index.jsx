@@ -2,10 +2,23 @@ import React, {
   useState, useContext, useRef, useCallback,
 } from 'react';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 import { ViewContext } from '@shopgate/engage/components/View';
+import { makeStyles } from '@shopgate/engage/styles';
 import { useScroll } from './useScroll';
-import { header, hidden } from './style';
+
+const useStyles = makeStyles()(() => ({
+  header: {
+    position: 'sticky',
+    top: 0,
+    left: 0,
+    zIndex: 100,
+    transform: 'translateY(0)',
+    transition: 'transform 0.3s ease',
+  },
+  hidden: {
+    transform: 'translateY(-110%)',
+  },
+}));
 
 /**
  * Scroll Header component
@@ -15,6 +28,7 @@ import { header, hidden } from './style';
  * @refactor since Engage 6.14.0
  */
 function ScrollHeader({ children }) {
+  const { classes, cx } = useStyles();
   const ref = useRef();
   const [shouldHideHeader, setShouldHideHeader] = useState(false);
   const { contentRef } = useContext(ViewContext);
@@ -42,10 +56,7 @@ function ScrollHeader({ children }) {
   return (
     <div
       ref={ref}
-      className={classNames(
-        header,
-        shouldHideHeader && hidden
-      )}
+      className={cx(classes.header, shouldHideHeader && classes.hidden)}
     >
       {children}
     </div>

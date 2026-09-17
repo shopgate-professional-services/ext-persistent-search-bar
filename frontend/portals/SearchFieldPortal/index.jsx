@@ -1,18 +1,24 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { ConditionalWrapper } from '@shopgate/engage/components';
-import isIOSTheme from '@shopgate-ps/pwa-extension-kit/env/helpers/isIOSTheme';
-import { withRoute, useRoute } from '@shopgate/engage/core';
+import { useRoute } from '@shopgate/engage/core';
+import { makeGetIsSearchBarVisible } from '../../selectors';
 import SearchField from '../../components/SearchField';
 import ScrollHeader from '../../components/ScrollHeader';
-import connect from './connector';
 
 /**
  * Renders SearchField component in app-bar.below.before portal
+ * @param {Object} props Props.
  * @returns {JSX}
  */
-const SearchFieldPortal = ({ name, isVisible }) => {
-  const { id } = useRoute();
+const SearchFieldPortal = ({ name }) => {
+  const route = useRoute();
+  const getIsSearchBarVisible = useMemo(makeGetIsSearchBarVisible, []);
+  const isVisible = useSelector(state => getIsSearchBarVisible(state, {
+    route,
+    name,
+  }));
 
   if (!isVisible) {
     return null;
@@ -27,15 +33,14 @@ const SearchFieldPortal = ({ name, isVisible }) => {
         </ScrollHeader>
       )}
     >
-      <SearchField pageId={id} isIOSTheme={isIOSTheme} />
+      <SearchField pageId={route.id} />
 
     </ConditionalWrapper>
   );
 };
 
 SearchFieldPortal.propTypes = {
-  isVisible: PropTypes.bool.isRequired,
   name: PropTypes.string.isRequired,
 };
 
-export default withRoute(connect(SearchFieldPortal), { prop: 'route' });
+export default SearchFieldPortal;

@@ -1,69 +1,68 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import BaseList from '@shopgate/pwa-common/components/List';
 import BaseListItem from '@shopgate/pwa-common/components/List/components/Item';
+import { makeStyles } from '@shopgate/engage/styles';
 import Item from './components/Item';
-import styles from './style';
+
+const useStyles = makeStyles()(theme => ({
+  item: {},
+  itemNotLast: {
+    borderBottom: `1px solid ${theme.components.separatorLine.borderColor}`,
+  },
+  innerContainer: {
+    minHeight: 56,
+    position: 'relative',
+    display: 'flex',
+  },
+}));
 
 /**
  * The list component.
+ * @param {Object} props Props.
+ * @returns {JSX.Element|null}
  */
-class List extends Component {
-  static Item = Item;
+const List = ({ children }) => {
+  const { classes, cx } = useStyles();
 
-  static propTypes = {
-    children: PropTypes.node,
-  };
-
-  static defaultProps = {
-    children: null,
-  };
-
-  /**
-   * Renders the component.
-   * @returns {JSX.Element}
-   */
-  render() {
-    const { children } = this.props;
-
-    if (!React.Children.count(children)) {
-      return null;
-    }
-
-    return (
-      <BaseList>
-        {React.Children.map(children, (child, index) => {
-          if (!React.isValidElement(child)) {
-            return null;
-          }
-          // The key for each child.
-          const key = `child-${index}`;
-          // Selected state for the child.
-          const { isSelected } = child.props;
-          // Whether or not this child is the last.
-          const isLast = (index === children.length - 1);
-
-          let classes = styles.item;
-
-          if (!isLast) {
-            classes += ` ${styles.itemNotLast}`;
-          }
-
-          return (
-            <BaseListItem
-              className={classes}
-              isSelected={isSelected}
-              key={key}
-            >
-              <div className={styles.innerContainer}>
-                {child}
-              </div>
-            </BaseListItem>
-          );
-        })}
-      </BaseList>
-    );
+  if (!React.Children.count(children)) {
+    return null;
   }
-}
+
+  return (
+    <BaseList>
+      {React.Children.map(children, (child, index) => {
+        if (!React.isValidElement(child)) {
+          return null;
+        }
+        const key = `child-${index}`;
+        const { isSelected } = child.props;
+        const isLast = index === children.length - 1;
+
+        return (
+          <BaseListItem
+            className={cx(classes.item, !isLast && classes.itemNotLast)}
+            isSelected={isSelected}
+            key={key}
+          >
+            <div className={classes.innerContainer}>
+              {child}
+            </div>
+          </BaseListItem>
+        );
+      })}
+    </BaseList>
+  );
+};
+
+List.Item = Item;
+
+List.propTypes = {
+  children: PropTypes.node,
+};
+
+List.defaultProps = {
+  children: null,
+};
 
 export default List;

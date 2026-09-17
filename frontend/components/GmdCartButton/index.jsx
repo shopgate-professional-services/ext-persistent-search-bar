@@ -1,73 +1,67 @@
-import React, { Fragment, PureComponent } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
 import Transition from 'react-transition-group/Transition';
 import { AppBar } from '@shopgate/pwa-ui-material';
 import { CartIcon } from '@shopgate/pwa-ui-shared';
-import { Portal } from '@shopgate/pwa-common/components';
-import {
-  APP_BAR_CART_BUTTON,
-  APP_BAR_CART_BUTTON_BEFORE,
-  APP_BAR_CART_BUTTON_AFTER,
-} from '@shopgate/pwa-common/constants/Portals';
-import { themeConfig } from '@shopgate/pwa-common/helpers/config';
+import { SurroundPortals } from '@shopgate/engage/components';
+import { historyPush } from '@shopgate/pwa-common/actions/router';
+import { CART_PATH } from '@shopgate/pwa-common-commerce/cart/constants';
+import { APP_BAR_CART_BUTTON } from '@shopgate/pwa-common/constants/Portals';
+import { makeStyles } from '@shopgate/engage/styles';
 import Badge from './components/CartBadge';
-import connect from './connector';
-import styles from './style';
-import transition from './transition';
 
-const { colors } = themeConfig;
+const useStyles = makeStyles()(() => ({
+  transition: {
+    flexShrink: 0,
+    overflow: 'hidden',
+    transition: 'width 250ms cubic-bezier(0.25, 0.1, 0.25, 1)',
+  },
+}));
+
+const transitionStyles = {
+  entering: { width: 56 },
+  entered: { width: 56 },
+  exiting: { width: 0 },
+  exited: { width: 0 },
+};
+
 /**
- * The CartButton component.
+ * The GMD CartButton component.
+ * @param {Object} props Props.
+ * @param {number} props.count The cart product count.
+ * @returns {JSX.Element}
  */
-class GMDCartButton extends PureComponent {
-  static propTypes = {
-    count: PropTypes.number.isRequired,
-    navigate: PropTypes.func.isRequired,
-  };
+const GMDCartButton = ({ count }) => {
+  const { classes, theme } = useStyles();
+  const dispatch = useDispatch();
 
-  /**
-   * @returns {JSX}
-   */
-  get badge() {
-    const { count } = this.props;
-    return () => <Badge count={count} />;
-  }
+  return (
+    <Transition in={count > 0} timeout={250}>
+      {state => (
+        <SurroundPortals portalName={APP_BAR_CART_BUTTON}>
+          <div
+            aria-hidden={count === 0}
+            className={classes.transition}
+            style={transitionStyles[state]}
+          >
+            <AppBar.Icon
+              background={theme.palette.primary.main}
+              badge={() => <Badge count={count} />}
+              color={theme.palette.primary.contrastText}
+              icon={CartIcon}
+              onClick={() => dispatch(historyPush({ pathname: CART_PATH }))}
+              testId="CartButton"
+            />
+          </div>
+        </SurroundPortals>
+      )}
+    </Transition>
+  );
+};
 
-  /**
-   * @returns {JSX}
-   */
-  render() {
-    const { count, navigate } = this.props;
+GMDCartButton.propTypes = {
+  count: PropTypes.number.isRequired,
+};
 
-    return (
-      <Transition in={count > 0} timeout={250}>
-        {state => (
-          <Fragment key="cart">
-            <Portal name={APP_BAR_CART_BUTTON_BEFORE} />
-            <Portal name={APP_BAR_CART_BUTTON}>
-              <div
-                aria-hidden={count === 0}
-                className={styles.transition}
-                style={transition[state]}
-              >
-                <AppBar.Icon
-                  background={colors.primary}
-                  badge={this.badge}
-                  color={colors.primaryContrast}
-                  icon={CartIcon}
-                  onClick={navigate}
-                  testId="CartButton"
-                />
-              </div>
-            </Portal>
-            <Portal name={APP_BAR_CART_BUTTON_AFTER} />
-          </Fragment>
-        )
-      }
-      </Transition>
-    );
-  }
-}
-
-export default connect(GMDCartButton);
-
+export default GMDCartButton;

@@ -1,36 +1,41 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { SEARCH_SUGGESTIONS } from '@shopgate/engage/search';
+import { getSuggestions } from '@shopgate/pwa-common-commerce/search/selectors';
 import { SurroundPortals } from '@shopgate/engage/components';
-import connect from './connector';
 
 /**
  * SearchSuggestions
+ * @param {Object} props Props.
  * @return {JSX.Element}
  */
 const SearchSuggestions = ({
   searchPhrase,
-  suggestions,
   bottomHeight,
   onClick,
   closeSearch,
   visible,
   children,
-}) => (
-  <SurroundPortals
-    portalName={`persistent-search-bar.${SEARCH_SUGGESTIONS}`}
-    portalProps={{
-      searchPhrase,
-      suggestions,
-      bottomHeight,
-      onClick,
-      closeSearch,
-      visible,
-    }}
-  >
-    {children}
-  </SurroundPortals>
-);
+}) => {
+  const suggestions = useSelector(state => getSuggestions(state, { searchPhrase }));
+
+  return (
+    <SurroundPortals
+      portalName={`persistent-search-bar.${SEARCH_SUGGESTIONS}`}
+      portalProps={{
+        searchPhrase,
+        suggestions,
+        bottomHeight,
+        onClick,
+        closeSearch,
+        visible,
+      }}
+    >
+      {children}
+    </SurroundPortals>
+  );
+};
 
 SearchSuggestions.propTypes = {
   bottomHeight: PropTypes.number.isRequired,
@@ -39,13 +44,11 @@ SearchSuggestions.propTypes = {
   visible: PropTypes.bool.isRequired,
   children: PropTypes.node,
   searchPhrase: PropTypes.string,
-  suggestions: PropTypes.arrayOf(PropTypes.string),
 };
 
 SearchSuggestions.defaultProps = {
-  suggestions: [],
   children: null,
   searchPhrase: '',
 };
 
-export default connect(SearchSuggestions);
+export default SearchSuggestions;

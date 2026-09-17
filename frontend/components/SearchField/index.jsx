@@ -1,414 +1,394 @@
-import React, { Component, createRef } from 'react';
+import React, {
+  useState, useEffect, useRef, useCallback, useMemo, useContext,
+} from 'react';
 import { createPortal } from 'react-dom';
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
+import { useSelector, useDispatch } from 'react-redux';
 import debounce from 'lodash/debounce';
 import get from 'lodash/get';
-import { withWidgetSettings, withTheme, i18n } from '@shopgate/engage/core';
+import { i18n } from '@shopgate/engage/core';
+import { makeStyles } from '@shopgate/engage/styles';
+import { ViewContext } from '@shopgate/engage/components/View';
 import event from '@shopgate/pwa-core/classes/Event';
 import { EVENT_KEYBOARD_WILL_CHANGE } from '@shopgate/pwa-core/constants/AppEvents';
 import registerEvents from '@shopgate/pwa-core/commands/registerEvents';
+import {
+  SCANNER_SCOPE_DEFAULT,
+  SCANNER_TYPE_BARCODE,
+} from '@shopgate/pwa-core/constants/Scanner';
 import Input from '@shopgate/pwa-common/components/Input/';
+import appConfig from '@shopgate/pwa-common/helpers/config';
+import { historyPush } from '@shopgate/pwa-common/actions/router';
+import { hasScannerSupport } from '@shopgate/pwa-common/selectors/client';
+import { getCurrentRoute } from '@shopgate/pwa-common/helpers/router';
+import { getCurrentSearchQuery } from '@shopgate/pwa-common/selectors/router';
 import SearchIcon from '@shopgate/pwa-ui-shared/icons/MagnifierIcon';
 import { router } from '@virtuous/conductor';
 import BarcodeScannerIcon from '@shopgate/pwa-ui-shared/icons/BarcodeScannerIcon';
+import { getScannerRoute } from '@shopgate/pwa-common-commerce/scanner/helpers';
+import fetchSearchSuggestions from '@shopgate/pwa-common-commerce/search/actions/fetchSearchSuggestions';
+import { SEARCH_PATH } from '@shopgate/pwa-common-commerce/search/constants';
 import { SurroundPortals, I18n } from '@shopgate/engage/components';
-import { withView } from '../../helpers/hocs';
 import SuggestionList from './components/SearchSuggestions/components/SuggestionList';
 import SearchSuggestions from './components/SearchSuggestions';
-import connect from './connector';
-import styles from './style';
-import {
-  barBgColor,
+import config from '../../config.json';
+
+const {
+  border,
   suggestionsMinChars,
   searchFieldLabel,
   showLastSearchQuery,
-} from '../../config';
+} = config;
 
 const portalNode = document.getElementById('portals');
 
+const { hasNoScanner, scanner: { showSearchFieldIcon } = {} } = appConfig;
+const scannerIconEnabled = !hasNoScanner && showSearchFieldIcon;
+
+const useStyles = makeStyles()(theme => ({
+  container: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    flexWrap: 'nowrap',
+    alignItems: 'center',
+    padding: '8px 10px',
+    backgroundColor: theme.palette.background.surface,
+    flex: 1,
+    overflow: 'hidden',
+  },
+  inputWrapper: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    position: 'relative',
+    ...(border ? { border } : null),
+    borderRadius: theme.shape.borderRadius,
+    padding: 0,
+    background: theme.components.input.background,
+    width: '100%',
+  },
+  form: {
+    display: 'flex',
+    flex: 1,
+    alignItems: 'center',
+  },
+  input: {
+    display: 'flex',
+    flex: 1,
+    lineHeight: '28px',
+    padding: '4px 0',
+    outline: 'none',
+    WebkitAppearance: 'none',
+    width: '0%',
+    color: theme.components.input.text,
+  },
+  scannerIcon: {
+    padding: '4px 6px 4px 4px',
+    color: theme.components.input.text,
+    fontSize: '1.7rem',
+    right: 0,
+    marginRight: 4,
+    flexShrink: 0,
+  },
+  button: {
+    color: theme.palette.secondary.main,
+    paddingLeft: 10,
+    paddingRight: 0,
+    marginLeft: 0,
+    marginRight: 0,
+    outline: 0,
+  },
+  hidden: {
+    display: 'none',
+  },
+  label: {
+    alignItems: 'center',
+    color: theme.components.input.text,
+    display: 'flex',
+    position: 'absolute',
+    pointerEvents: 'none',
+    width: '100%',
+  },
+  icon: {
+    marginRight: 6,
+    marginLeft: 6,
+    flexShrink: 0,
+    color: theme.components.input.text,
+    fontSize: '1.235rem',
+  },
+  overlay: {
+    background: 'rgba(0,0,0, 0.4)',
+    position: 'fixed',
+    left: 0,
+    width: '100%',
+    bottom: 0,
+    zIndex: 2,
+    overflow: 'hidden',
+    outline: 'none',
+  },
+}));
+
 /**
  * The SearchField component.
+ * @param {Object} props The component props.
+ * @returns {JSX.Element}
  */
-class SearchField extends Component {
-  static propTypes = {
-    fetchSuggestions: PropTypes.func.isRequired,
-    openScanner: PropTypes.func.isRequired,
-    pageId: PropTypes.string.isRequired,
-    submitSearch: PropTypes.func.isRequired,
-    view: PropTypes.shape().isRequired,
-    currentRoute: PropTypes.shape(),
-    name: PropTypes.string,
-    query: PropTypes.string,
-    showScannerIcon: PropTypes.bool,
-    TabBar: PropTypes.elementType,
-    widgetSettings: PropTypes.shape(),
-  };
+const SearchField = ({ pageId, name, TabBar }) => {
+  const { classes, cx } = useStyles();
+  const dispatch = useDispatch();
+  const view = useContext(ViewContext);
 
-  static defaultProps = {
-    showScannerIcon: true,
-    name: 'search',
-    query: '',
-    widgetSettings: {},
-    currentRoute: {},
-    TabBar: null,
-  };
+  const hasScanner = useSelector(hasScannerSupport);
+  const currentRoute = useSelector(getCurrentRoute);
+  const currentSearchQuery = useSelector(getCurrentSearchQuery);
 
-  /**
-   * Creates a new search field instance.
-   * @param {Object} props The component properties.
-   */
-  constructor(props) {
-    super(props);
+  const [focused, setFocused] = useState(null);
+  const [bottomHeight, setBottomHeight] = useState(0);
+  const [topGap, setTopGap] = useState(0);
+  const [query, setQuery] = useState(
+    showLastSearchQuery && currentSearchQuery ? currentSearchQuery : ''
+  );
 
-    this.state = {
-      focused: null,
-      bottomHeight: 0,
-      topGap: 0,
-      query: showLastSearchQuery && this.props.query ? this.props.query : '',
-    };
+  const inputRef = useRef(null);
+  const containerRef = useRef(null);
+  const initialOverflowRef = useRef(null);
+  const mountedRef = useRef(false);
+  const didMountRef = useRef(false);
 
-    this.input = null;
-    this.containerRef = createRef();
-    this.initialOverflow = null;
-    this.mounted = null;
-  }
+  const showScannerIcon = scannerIconEnabled && hasScanner;
 
-  /**
-   * Adds callback for keyboardWillChange.
-   */
-  componentDidMount() {
-    registerEvents([EVENT_KEYBOARD_WILL_CHANGE]);
-    event.addCallback(EVENT_KEYBOARD_WILL_CHANGE, this.handleKeyboardChange);
-    this.mounted = true;
+  const setInputRef = useCallback((ref) => {
+    inputRef.current = ref;
+  }, []);
 
-    if (showLastSearchQuery && this.state.query) {
-      this.update(this.props.query);
+  const fetchSuggestions = useMemo(() => debounce((value) => {
+    if (value.length >= suggestionsMinChars) {
+      dispatch(fetchSearchSuggestions(value));
     }
-  }
+  }, 200, { maxWait: 400 }), [dispatch]);
 
-  /**
-   * Resets search bar on route changes
-   * @param {Object} nextProps The next props
-   */
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.currentRoute.pathname !== this.props.currentRoute.pathname) {
-      this.reset();
+  const update = useCallback((value) => {
+    if (mountedRef.current) {
+      fetchSuggestions(value);
+      setQuery(value);
     }
-  }
+  }, [fetchSuggestions]);
 
-  /**
-   * Removing callback for keyboardWillChange.
-   */
-  componentWillUnmount() {
-    event.removeCallback(EVENT_KEYBOARD_WILL_CHANGE, this.handleKeyboardChange);
-    this.mounted = false;
-  }
-
-  /**
-   * Fetch the search suggestions, debounced to reduce the request amount.
-   */
-  fetchSuggestions = debounce((query) => {
-    if (query.length >= suggestionsMinChars) {
-      this.props.fetchSuggestions(query);
-    }
-  }, 200, { maxWait: 400 });
-
-  /**
-   * Sets a reference to the input fields DOM element.
-   * @param {HTMLElement} ref The reference.
-   */
-  setInputRef = (ref) => {
-    this.input = ref;
-  };
-
-  /**
-   * Retrieves the current overflow style from the View component
-   * @returns {string|null}
-   */
-  getViewOverflow = () => {
-    const viewRef = this.props.view.getContentRef();
+  const getViewOverflow = useCallback(() => {
+    const viewRef = view.getContentRef();
 
     if (viewRef.current) {
       return viewRef.current.style.overflow;
     }
 
     return null;
-  };
+  }, [view]);
 
-  /**
-   * Updates the overflow property of the surrounding View to prevent scrolling of the view
-   * "through" the search field.
-   * @param {boolean} reset Whether the overflow needs to be reset
-   */
-  setViewOverflow = (reset = false) => {
-    const viewRef = this.props.view.getContentRef();
-    if (get(viewRef, 'current.style.overflow') && this.initialOverflow !== null) {
-      viewRef.current.style.overflow = reset ? this.initialOverflow : 'hidden';
+  const setViewOverflow = useCallback((reset = false) => {
+    const viewRef = view.getContentRef();
+    if (get(viewRef, 'current.style.overflow') && initialOverflowRef.current !== null) {
+      viewRef.current.style.overflow = reset ? initialOverflowRef.current : 'hidden';
     }
-  };
+  }, [view]);
 
-  /**
-   * Handler for keyboardWillChange event.
-   * @param {Object} props Props.
-   * @param {number} props.overlap Current overlap.
-   * @type {func}
-   */
-  handleKeyboardChange = ({ overlap }) => {
-    this.setState({
-      bottomHeight: overlap,
-    });
-  };
+  const handleKeyboardChange = useCallback(({ overlap }) => {
+    setBottomHeight(overlap);
+  }, []);
 
-  /**
-   * resets the state
-   */
-  reset = () => {
+  const reset = useCallback(() => {
     setTimeout(() => {
-      /*
-       * Delay the execution of the state change until the next cycle
-       * to give pending click events a chance to run.
-       */
-      if (this.mounted) {
-        this.setState({
-          // Reset the query to the current search term when component closes
-          query: showLastSearchQuery && this.props.query ? this.props.query : '',
-          focused: null,
-        });
+      if (mountedRef.current) {
+        setQuery(showLastSearchQuery && currentSearchQuery ? currentSearchQuery : '');
+        setFocused(null);
       }
 
-      // reset the view overflow to the original state
-      this.setViewOverflow(true);
+      setViewOverflow(true);
 
-      if (this.props.TabBar) {
-        this.props.TabBar.show();
+      if (TabBar) {
+        TabBar.show();
       }
     }, 0);
-  }
+  }, [currentSearchQuery, setViewOverflow, TabBar]);
 
-  /**
-   * @param {string} value The updated value.
-   */
-  update = (value) => {
-    if (this.mounted) {
-      this.fetchSuggestions(value);
-      this.setState({
-        query: value,
-      });
-    }
-  };
+  const handleFocusChange = useCallback((isFocused) => {
+    let newTopGap = topGap;
 
-  /**
-   * Handles changes to the focus of the input element.
-   * @param {boolean} focused Whether the element currently became focused.
-   */
-  handleFocusChange = (focused) => {
-    const { TabBar } = this.props;
-    let newTopGap = this.state.topGap;
-
-    if (this.state.focused === null) {
-      // When the search overlay opens, save the original overflow style of the View
-      this.initialOverflow = this.getViewOverflow();
-      // Prevent View scrolling while the search is open
-      this.setViewOverflow();
-      // Measure the container distance to the top of the viewport
-      if (this.containerRef.current) {
-        ({ bottom: newTopGap } = this.containerRef.current.getBoundingClientRect());
+    if (focused === null) {
+      initialOverflowRef.current = getViewOverflow();
+      setViewOverflow();
+      if (containerRef.current) {
+        ({ bottom: newTopGap } = containerRef.current.getBoundingClientRect());
       }
-      // Hide the TabBar
       if (TabBar) {
         TabBar.hide();
       }
     }
 
     setTimeout(() => {
-      /*
-       * Delay the execution of the state change until the next cycle
-       * to give pending click events a chance to run.
-       */
-      this.setState({
-        focused,
-        topGap: newTopGap,
-      });
+      setFocused(isFocused);
+      setTopGap(newTopGap);
     }, 0);
-  };
+  }, [focused, topGap, getViewOverflow, setViewOverflow, TabBar]);
 
-  /**
-   * Handles the form submit event.
-   * @param {Object} e The event object.
-   * @param {string} searchQuery Defaults to query in state.
-   */
-  handleSubmit = (e, searchQuery) => {
+  const handleSubmit = useCallback((e, searchQuery) => {
     e.stopPropagation();
     e.preventDefault();
 
-    const query = searchQuery || this.state.query;
-    if (!query) {
+    const submitQuery = searchQuery || query;
+    if (!submitQuery) {
       return;
     }
 
     // setTimeout prevents double click while VoiceOver is active
     setTimeout(() => {
-      const { filters = {} } = this.props.currentRoute.state;
+      const { filters = {} } = currentRoute.state;
 
-      router.update(this.props.pageId, { query });
+      router.update(pageId, { query: submitQuery });
 
-      this.setState({ focused: false });
-      this.input.blur();
-      this.props.submitSearch(query, filters);
-      this.reset();
+      setFocused(false);
+      inputRef.current.blur();
+      dispatch(historyPush({
+        pathname: `${SEARCH_PATH}?s=${encodeURIComponent(submitQuery)}`,
+        state: { filters },
+      }));
+      reset();
     }, 0);
-  };
+  }, [query, currentRoute, pageId, dispatch, reset]);
 
-  /**
-   * Renders the hint element.
-   * @return {JSX.Element}
-   */
-  renderLabelElement = () => (
-    <label
-      htmlFor={this.props.name}
-      className={styles.label}
-    >
-      {!this.state.query.length && searchFieldLabel && (
-      <I18n.Text string={searchFieldLabel} />
-      )}
-      {!this.state.query.length && !searchFieldLabel && (
-      <I18n.Text string="persistent_search_bar.label" />
-      )}
-    </label>
-  )
+  const openScanner = useCallback(() => {
+    dispatch(historyPush({
+      pathname: getScannerRoute(SCANNER_SCOPE_DEFAULT, SCANNER_TYPE_BARCODE),
+      title: 'navigation.scanner',
+    }));
+  }, [dispatch]);
 
-  /**
-   * Renders the cancel button.
-   * @return {JSX.Element}
-   */
-  renderCancelButton = () => (
-    <button
-      className={classNames(styles.button, {
-        [styles.hidden]: this.state.focused === null,
-      })}
-      onClick={this.reset}
-      type="button"
-    >
-      <I18n.Text string="persistent_search_bar.cancel" />
-    </button>
-  );
+  useEffect(() => {
+    registerEvents([EVENT_KEYBOARD_WILL_CHANGE]);
+    event.addCallback(EVENT_KEYBOARD_WILL_CHANGE, handleKeyboardChange);
+    mountedRef.current = true;
 
-  /**
-   * Renders the input field.
-   * @return {JSX.Element}
-   */
-  renderInputField = () => (
-    <Input
-      autoComplete={false}
-      className={styles.input}
-      onFocusChange={this.handleFocusChange}
-      onChange={this.update}
-      onSubmit={this.handleSubmit}
-      value={this.state.query}
-      setRef={this.setInputRef}
-      type="search"
-    />
-  )
-
-  /**
-   * Renders the scanner icon
-   * @returns {JSX.Element}
-   */
-  renderScannerIcon = () => {
-    if (!this.props.showScannerIcon || this.state.focused !== null) {
-      return null;
-    }
-    return (
-      <button className={styles.scannerIcon} onClick={this.props.openScanner} type="button" aria-label={i18n.text('persistent_search_bar.open_scanner')}>
-        <BarcodeScannerIcon />
-      </button>
-    );
-  }
-
-  /**
-   * Renders the text field.
-   * @return {JSX.Element}
-   */
-  render() {
-    const { focused } = this.state;
-
-    let { widgetSettings: { background } } = this.props;
-    if (barBgColor) {
-      background = barBgColor;
+    if (showLastSearchQuery && query) {
+      update(currentSearchQuery);
     }
 
-    return (
-      <div data-test-id="SearchField" ref={this.containerRef}>
-        <div
-          className={styles.container}
-          {...background && { style: { backgroundColor: background } }}
+    return () => {
+      event.removeCallback(EVENT_KEYBOARD_WILL_CHANGE, handleKeyboardChange);
+      mountedRef.current = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!didMountRef.current) {
+      didMountRef.current = true;
+      return;
+    }
+    reset();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentRoute.pathname]);
+
+  return (
+    <div data-test-id="SearchField" ref={containerRef}>
+      <div className={classes.container}>
+        <SurroundPortals
+          portalName="persistent-search-bar.input.wrapper"
+          portalProps={{
+            focused,
+            query,
+          }}
         >
-          <SurroundPortals
-            portalName="persistent-search-bar.input.wrapper"
-            portalProps={{
-              focused: this.state.focused,
-              query: this.state.query,
-            }}
-          >
-            <div className={styles.inputWrapper}>
-              <div className={styles.icon}>
-                <SearchIcon />
-              </div>
-              <form onSubmit={this.handleSubmit} action="." className={styles.form}>
-                {this.renderLabelElement()}
-                {this.renderInputField()}
-                {this.renderScannerIcon()}
-              </form>
+          <div className={classes.inputWrapper}>
+            <div className={classes.icon}>
+              <SearchIcon />
             </div>
-            <div>
-              {this.renderCancelButton()}
-            </div>
-          </SurroundPortals>
-        </div>
-
-        { focused !== null && createPortal(
-          /* eslint-disable-next-line max-len */
-          /* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-          <div
-            className={styles.overlay}
-            style={{ top: this.state.topGap }}
-            onClick={(e) => {
-              if (e.target?.className?.includes(styles.overlay)) {
-                this.reset();
-              }
-            }}
-          >
-            <SearchSuggestions
-              searchPhrase={this.state.query}
-              bottomHeight={this.state.bottomHeight}
-              onClick={this.handleSubmit}
-              closeSearch={this.reset}
-              visible={focused !== null}
-            >
-              {focused !== null && (
-              <SuggestionList
-                searchPhrase={this.state.query}
-                onClick={this.handleSubmit}
-                closeSearch={this.reset}
-                bottomHeight={this.state.bottomHeight}
-                topGap={this.state.topGap}
+            <form onSubmit={handleSubmit} action="." className={classes.form}>
+              <label htmlFor={name} className={classes.label}>
+                {!query.length && searchFieldLabel && (
+                  <I18n.Text string={searchFieldLabel} />
+                )}
+                {!query.length && !searchFieldLabel && (
+                  <I18n.Text string="persistent_search_bar.label" />
+                )}
+              </label>
+              <Input
+                autoComplete={false}
+                className={classes.input}
+                onFocusChange={handleFocusChange}
+                onChange={update}
+                onSubmit={handleSubmit}
+                value={query}
+                setRef={setInputRef}
+                type="search"
               />
+              {showScannerIcon && focused === null && (
+                <button
+                  className={classes.scannerIcon}
+                  onClick={openScanner}
+                  type="button"
+                  aria-label={i18n.text('persistent_search_bar.open_scanner')}
+                >
+                  <BarcodeScannerIcon />
+                </button>
               )}
-            </SearchSuggestions>
-          </div>,
-          portalNode
-        )}
+            </form>
+          </div>
+          <div>
+            <button
+              className={cx(classes.button, { [classes.hidden]: focused === null })}
+              onClick={reset}
+              type="button"
+            >
+              <I18n.Text string="persistent_search_bar.cancel" />
+            </button>
+          </div>
+        </SurroundPortals>
       </div>
-    );
-  }
-}
 
-export default withTheme(
-  withView(
-    withWidgetSettings(
-      connect(SearchField),
-      '@shopgate/engage/components/AppBar'
-    )
-  )
-);
+      { focused !== null && createPortal(
+        /* eslint-disable-next-line max-len */
+        /* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
+        <div
+          className={classes.overlay}
+          style={{ top: topGap }}
+          onClick={(e) => {
+            if (e.target?.className?.includes(classes.overlay)) {
+              reset();
+            }
+          }}
+        >
+          <SearchSuggestions
+            searchPhrase={query}
+            bottomHeight={bottomHeight}
+            onClick={handleSubmit}
+            closeSearch={reset}
+            visible={focused !== null}
+          >
+            {focused !== null && (
+              <SuggestionList
+                searchPhrase={query}
+                onClick={handleSubmit}
+                closeSearch={reset}
+                bottomHeight={bottomHeight}
+                topGap={topGap}
+              />
+            )}
+          </SearchSuggestions>
+        </div>,
+        portalNode
+      )}
+    </div>
+  );
+};
+
+SearchField.propTypes = {
+  pageId: PropTypes.string.isRequired,
+  name: PropTypes.string,
+  TabBar: PropTypes.elementType,
+};
+
+SearchField.defaultProps = {
+  name: 'search',
+  TabBar: null,
+};
+
+export default SearchField;

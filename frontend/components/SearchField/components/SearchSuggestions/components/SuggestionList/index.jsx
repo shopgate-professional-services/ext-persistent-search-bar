@@ -1,105 +1,117 @@
-import React, { Component } from 'react';
+import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
-import { withWidgetSettings, i18n } from '@shopgate/engage/core';
+import { useSelector } from 'react-redux';
+import { i18n } from '@shopgate/engage/core';
+import { getSuggestions } from '@shopgate/pwa-common-commerce/search/selectors';
+import { makeStyles } from '@shopgate/engage/styles';
 import List from './components/List';
 import SearchSuggestion from './components/SearchSuggestion';
-import connect from '../../connector';
-import styles from './style';
-import { bgColor, textColor } from '../../../../../../config';
+
+const useStyles = makeStyles()((theme, {
+  topGap,
+  paddingBottom,
+}) => ({
+  srOnly: {
+    border: 0,
+    clip: 'rect(0 0 0 0)',
+    height: 1,
+    margin: -1,
+    overflow: 'hidden',
+    padding: 0,
+    position: 'absolute',
+    width: 1,
+    whiteSpace: 'nowrap',
+  },
+  list: {
+    fontSize: 16,
+    fontWeight: 400,
+    bottom: 0,
+    position: 'fixed',
+    left: 0,
+    right: 0,
+    top: topGap,
+    background: theme.palette.background.surface,
+    color: theme.palette.text.primary,
+    overflowY: 'scroll',
+    zIndex: 3,
+    borderTop: `0.5px solid ${theme.components.separatorLine.borderColor}`,
+    paddingTop: 5,
+    paddingBottom,
+  },
+}));
 
 /**
  * The SuggestionList component.
+ * @param {Object} props Props.
+ * @returns {JSX.Element|null}
  */
-class SuggestionList extends Component {
-  static propTypes = {
-    bottomHeight: PropTypes.number.isRequired,
-    onClick: PropTypes.func.isRequired,
-    topGap: PropTypes.number.isRequired,
-    closeSearch: PropTypes.func,
-    fetching: PropTypes.bool,
-    searchPhrase: PropTypes.string,
-    suggestions: PropTypes.arrayOf(PropTypes.string),
-    widgetSettings: PropTypes.shape(),
-  };
+const SuggestionList = ({
+  onClick, bottomHeight, searchPhrase, topGap, closeSearch,
+}) => {
+  const rawSuggestions = useSelector(state => getSuggestions(state, { searchPhrase }));
 
-  static defaultProps = {
-    closeSearch: () => {},
-    suggestions: [],
-    fetching: false,
-    searchPhrase: '',
-    widgetSettings: {},
-  };
+  const lastSuggestions = useRef(rawSuggestions);
+  if (rawSuggestions) {
+    lastSuggestions.current = rawSuggestions;
+  }
+  const suggestions = rawSuggestions === null && searchPhrase.length > 2
+    ? lastSuggestions.current
+    : rawSuggestions;
 
-  /**
-   * @param { Object } nextProps Next props.
-   * @return {boolean}
-   */
-  shouldComponentUpdate(nextProps) {
-    if (
-      nextProps.suggestions === null &&
-      this.props.suggestions !== null &&
-      nextProps.searchPhrase.length > 2) {
-      return false;
-    }
+  const { classes, cx } = useStyles({
+    topGap,
+    paddingBottom: bottomHeight,
+  });
 
-    return (nextProps.fetching === false && nextProps.suggestions) ||
-      this.props.searchPhrase !== nextProps.searchPhrase;
+  if (searchPhrase === '' || !suggestions || suggestions.length === 0) {
+    return null;
   }
 
-  /**
-   * @return {JSX.Element}
-   */
-  render() {
-    const {
-      onClick, suggestions, bottomHeight, widgetSettings, searchPhrase, topGap,
-    } = this.props;
-
-    if (searchPhrase === '' || !suggestions || suggestions.length === 0) {
-      return null;
-    }
-
-    let { background, color } = widgetSettings;
-
-    if (bgColor) {
-      background = bgColor;
-    }
-
-    if (textColor) {
-      color = textColor;
-    }
-
-    return (
-      <div
-        role="button"
-        tabIndex={0}
-        aria-live="polite"
-        aria-atomic="true"
-        className={`persistent-search-bar__suggestions ${styles.list(topGap, bottomHeight, background, color)}`}
-        onClick={(e) => {
-          if (e.target?.className?.includes('persistent-search-bar__suggestions')) {
-            this.props.closeSearch();
-          }
-        }}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            this.props.closeSearch();
-          }
-        }}
-      >
-        <div className={styles.srOnly} id="suggestions-announcement">
-          {i18n.text('persistent_search_bar.suggestions')}
-        </div>
-        <List aria-labelledby="suggestions-announcement">
-          {suggestions.map(suggestion =>
-            (<SearchSuggestion
-              key={suggestion}
-              suggestion={suggestion}
-              onClick={e => onClick(e, suggestion)}
-            />))}
-        </List>
+  return (
+    <div
+      role="button"
+      tabIndex={0}
+      aria-live="polite"
+      aria-atomic="true"
+      className={cx('persistent-search-bar__suggestions', classes.list)}
+      onClick={(e) => {
+        if (e.target?.className?.includes('persistent-search-bar__suggestions')) {
+          closeSearch();
+        }
+      }}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          closeSearch();
+        }
+      }}
+    >
+      <div className={classes.srOnly} id="suggestions-announcement">
+        {i18n.text('persistent_search_bar.suggestions')}
       </div>
-    );
-  }
-}
+      <List aria-labelledby="suggestions-announcement">
+        {suggestions.map(suggestion => (
+          <SearchSuggestion
+            key={suggestion}
+            suggestion={suggestion}
+            onClick={e => onClick(e, suggestion)}
+          />
+        ))}
+      </List>
+    </div>
+  );
+};
 
-export default withWidgetSettings(connect(SuggestionList), '@shopgate/engage/components/AppBar');
+SuggestionList.propTypes = {
+  bottomHeight: PropTypes.number.isRequired,
+  onClick: PropTypes.func.isRequired,
+  topGap: PropTypes.number.isRequired,
+  closeSearch: PropTypes.func,
+  searchPhrase: PropTypes.string,
+};
+
+SuggestionList.defaultProps = {
+  closeSearch: () => {},
+  searchPhrase: '',
+};
+
+export default SuggestionList;
