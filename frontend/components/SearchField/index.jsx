@@ -225,6 +225,9 @@ const SearchField = ({ pageId, name, TabBar }) => {
     }
 
     setTimeout(() => {
+      if (!mountedRef.current) {
+        return;
+      }
       setFocused(isFocused);
       setTopGap(newTopGap);
     }, 0);
@@ -243,10 +246,10 @@ const SearchField = ({ pageId, name, TabBar }) => {
     setTimeout(() => {
       const { filters = {} } = currentRoute.state;
 
-      router.update(pageId, { query: submitQuery });
-
       setFocused(false);
       inputRef.current.blur();
+
+      router.update(pageId, { query: submitQuery });
       dispatch(historyPush({
         pathname: `${SEARCH_PATH}?s=${encodeURIComponent(submitQuery)}`,
         state: { filters },
