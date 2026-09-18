@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { i18n } from '@shopgate/engage/core';
-import { getSuggestions } from '@shopgate/pwa-common-commerce/search/selectors';
+import { getSuggestions } from '@shopgate/engage/search';
 import { makeStyles } from '@shopgate/engage/styles';
 import List from './components/List';
 import SearchSuggestion from './components/SearchSuggestion';

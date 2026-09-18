@@ -6,29 +6,31 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import debounce from 'lodash/debounce';
 import get from 'lodash/get';
-import { i18n } from '@shopgate/engage/core';
-import { makeStyles } from '@shopgate/engage/styles';
-import { ViewContext } from '@shopgate/engage/components/View';
-import event from '@shopgate/pwa-core/classes/Event';
-import { EVENT_KEYBOARD_WILL_CHANGE } from '@shopgate/pwa-core/constants/AppEvents';
-import registerEvents from '@shopgate/pwa-core/commands/registerEvents';
 import {
+  i18n,
+  event,
+  registerEvents,
+  EVENT_KEYBOARD_WILL_CHANGE,
   SCANNER_SCOPE_DEFAULT,
   SCANNER_TYPE_BARCODE,
-} from '@shopgate/pwa-core/constants/Scanner';
-import Input from '@shopgate/pwa-common/components/Input/';
-import appConfig from '@shopgate/pwa-common/helpers/config';
-import { historyPush } from '@shopgate/pwa-common/actions/router';
-import { hasScannerSupport } from '@shopgate/pwa-common/selectors/client';
-import { getCurrentRoute } from '@shopgate/pwa-common/helpers/router';
-import { getCurrentSearchQuery } from '@shopgate/pwa-common/selectors/router';
-import SearchIcon from '@shopgate/pwa-ui-shared/icons/MagnifierIcon';
+  historyPush,
+  hasScannerSupport,
+  getCurrentRoute,
+  getCurrentSearchQuery,
+} from '@shopgate/engage/core';
+import { appConfig } from '@shopgate/engage';
+import { makeStyles } from '@shopgate/engage/styles';
+import { ViewContext } from '@shopgate/engage/components/View';
+import {
+  SurroundPortals,
+  I18n,
+  Input,
+  MagnifierIcon as SearchIcon,
+  BarcodeScannerIcon,
+} from '@shopgate/engage/components';
 import { router } from '@virtuous/conductor';
-import BarcodeScannerIcon from '@shopgate/pwa-ui-shared/icons/BarcodeScannerIcon';
-import { getScannerRoute } from '@shopgate/pwa-common-commerce/scanner/helpers';
-import fetchSearchSuggestions from '@shopgate/pwa-common-commerce/search/actions/fetchSearchSuggestions';
-import { SEARCH_PATH } from '@shopgate/pwa-common-commerce/search/constants';
-import { SurroundPortals, I18n } from '@shopgate/engage/components';
+import { getScannerRoute } from '@shopgate/engage/scanner';
+import { fetchSearchSuggestions, SEARCH_PATH } from '@shopgate/engage/search';
 import SuggestionList from './components/SearchSuggestions/components/SuggestionList';
 import SearchSuggestions from './components/SearchSuggestions';
 import config from '../../config.json';

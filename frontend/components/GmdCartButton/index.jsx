@@ -2,12 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
 import Transition from 'react-transition-group/Transition';
-import { AppBar } from '@shopgate/pwa-ui-material';
-import { CartIcon } from '@shopgate/pwa-ui-shared';
-import { SurroundPortals } from '@shopgate/engage/components';
-import { historyPush } from '@shopgate/pwa-common/actions/router';
-import { CART_PATH } from '@shopgate/pwa-common-commerce/cart/constants';
-import { APP_BAR_CART_BUTTON } from '@shopgate/pwa-common/constants/Portals';
+import { SurroundPortals, AppBarAndroid, CartIcon } from '@shopgate/engage/components';
+import { historyPush, APP_BAR_CART_BUTTON } from '@shopgate/engage/core';
+import { CART_PATH } from '@shopgate/engage/cart';
 import { makeStyles } from '@shopgate/engage/styles';
 import Badge from './components/CartBadge';
 
@@ -45,7 +42,7 @@ const GMDCartButton = ({ count }) => {
             className={classes.transition}
             style={transitionStyles[state]}
           >
-            <AppBar.Icon
+            <AppBarAndroid.Icon
               background={theme.palette.primary.main}
               badge={() => <Badge count={count} />}
               color={theme.palette.primary.contrastText}

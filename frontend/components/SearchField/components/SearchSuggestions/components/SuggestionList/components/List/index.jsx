@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import BaseList from '@shopgate/pwa-common/components/List';
-import BaseListItem from '@shopgate/pwa-common/components/List/components/Item';
+import { List as BaseList } from '@shopgate/engage/components';
 import { makeStyles } from '@shopgate/engage/styles';
 import Item from './components/Item';
 
@@ -40,7 +39,7 @@ const List = ({ children }) => {
         const isLast = index === children.length - 1;
 
         return (
-          <BaseListItem
+          <BaseList.Item
             className={cx(classes.item, !isLast && classes.itemNotLast)}
             isSelected={isSelected}
             key={key}
@@ -48,7 +47,7 @@ const List = ({ children }) => {
             <div className={classes.innerContainer}>
               {child}
             </div>
-          </BaseListItem>
+          </BaseList.Item>
         );
       })}
     </BaseList>

@@ -1,10 +1,8 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { isIOSTheme } from '@shopgate/engage/core';
-import { INDEX_PATH } from '@shopgate/pwa-common/constants/RoutePaths';
-import { getCurrentRoute } from '@shopgate/pwa-common/helpers/router';
-import { getCartProductDisplayCount } from '@shopgate/pwa-common-commerce/cart/selectors';
+import { isIOSTheme, INDEX_PATH, getCurrentRoute } from '@shopgate/engage/core';
+import { getCartProductDisplayCount } from '@shopgate/engage/cart';
 import { makeGetIsAppBarIconVisible } from '../../selectors';
 import GMDCartButton from '../../components/GmdCartButton';
 import { Placeholder } from '../../components/Placeholder';

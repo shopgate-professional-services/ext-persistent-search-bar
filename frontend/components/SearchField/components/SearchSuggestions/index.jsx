@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
-import { SEARCH_SUGGESTIONS } from '@shopgate/engage/search';
-import { getSuggestions } from '@shopgate/pwa-common-commerce/search/selectors';
+import { SEARCH_SUGGESTIONS, getSuggestions } from '@shopgate/engage/search';
 import { SurroundPortals } from '@shopgate/engage/components';
 
 /**
