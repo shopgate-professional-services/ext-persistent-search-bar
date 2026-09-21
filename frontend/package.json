@@ -4,14 +4,14 @@
   "description": "Adds a search bar beneath header on user defined pages",
   "license": "Apache-2.0",
   "scripts": {
-    "lint": "eslint --ignore-path ../.gitignore --ignore-path .eslintignore --ext .js --ext .jsx .",
+    "lint": "eslint --ignore-path ../.gitignore --ext .js --ext .jsx .",
     "test": "jest",
     "test:watch": "npm run test -- --watch",
     "coverage": "jest --coverage",
     "coverage:watch": "npm run coverage -- --watch"
   },
   "devDependencies": {
-    "@shopgate/engage": ">=7.32.0-beta.19",
+    "@shopgate/engage": "^7.32.0-beta.19",
     "@shopgate/eslint-config": "^7.31.8",
     "@shopgate/pwa-unit-test": "^7.31.8",
     "eslint": "^8.57.1",

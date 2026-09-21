@@ -1,6 +1,8 @@
 import { useEffect, useState, useCallback } from 'react';
 import throttle from 'lodash/throttle';
-import { hideOnScroll } from '../../config';
+import config from '../../config.json';
+
+const { hideOnScroll } = config;
 
 /**
  *
@@ -32,7 +34,7 @@ export function useScroll(callback, element) {
 
   useEffect(() => {
     if (!hideOnScroll) {
-      return;
+      return undefined;
     }
 
     (element || window).addEventListener('scroll', handleDocumentScroll);
