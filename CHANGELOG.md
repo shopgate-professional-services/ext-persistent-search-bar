@@ -8,11 +8,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/) and this p
 ### Changed
 - adopted the new engage theme: the search field now sources its background, input text and placeholder text colors and border radius from the theme config
 - migrated all styling from glamor to `@shopgate/engage/styles`
-- modernized the frontend toolchain (removed legacy babel/react dev dependencies)
+- the hide-on-scroll behavior now uses the `ScrollHeader` component from `@shopgate/engage`
+- `@shopgate/engage` `>=7.32.0-beta.19` is now a peer dependency (drops PWA 6 support)
+- modernized the frontend toolchain (removed legacy babel/react dev dependencies and the unused babel config)
 
 ### Removed
 - removed the `bgColor`, `textColor`, `barBgColor`, `borderRadius` and `searchIconColor` settings — the search bar background, input border radius, search icon color and suggestion list background/text color now come from the theme
-- `@shopgate/engage` is now a `7.32.0-beta.20` peer dependency (drops PWA 6 support)
 - replaced `@shopgate-ps/pwa-extension-kit` with engage-native equivalents (`isIOSTheme`, `useRoute`)
 
 ## [1.12.0] - 2025-05-22
