@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Grid from '@shopgate/pwa-common/components/Grid';
-import Link from '@shopgate/pwa-common/components/Link';
-import Glow from '@shopgate/pwa-ui-shared/Glow';
-import styles from './style';
+import { Grid, Link, Glow } from '@shopgate/engage/components';
+import { withStyles, cx } from '@shopgate/engage/styles';
 
 /**
  * The list item component.
  */
 class Item extends Component {
   static propTypes = {
+    classes: PropTypes.shape().isRequired,
     title: PropTypes.string.isRequired,
     className: PropTypes.string,
     image: PropTypes.element,
@@ -50,39 +49,24 @@ class Item extends Component {
    */
   renderContent() {
     const {
-      isDisabled, isSelected, title, image,
+      isDisabled, isSelected, title, image, classes,
     } = this.props;
 
-    let gridStyles = styles.grid;
-    let titleStyles = styles.title;
-
-    if (isSelected) {
-      gridStyles += ` ${styles.selected}`;
-    }
-
-    if (isDisabled) {
-      titleStyles += ` ${styles.disabled}`;
-    }
-
     return (
-      <Grid className={gridStyles} component="div">
-        {!!image && (
-          <div className={styles.image}>
-            {image}
-          </div>)
-        }
+      <Grid className={cx(classes.grid, isSelected && classes.selected)} component="div">
+        {!!image && <div className={classes.image}>{image}</div>}
         <Grid.Item
-          className={titleStyles}
+          className={cx(classes.title, isDisabled && classes.disabled)}
           component="div"
           grow={1}
         >
           {title}
         </Grid.Item>
-        {this.props.rightComponent &&
+        {this.props.rightComponent && (
           <Grid.Item component="div" grow={1}>
             {this.props.rightComponent}
           </Grid.Item>
-        }
+        )}
       </Grid>
     );
   }
@@ -92,10 +76,6 @@ class Item extends Component {
    * @returns {JSX.Element}
    */
   render() {
-    /**
-     * If this item is disabled, selected or doesn't have a valid
-     * link or click handler then wrap the content with other components.
-     */
     if (
       this.props.isDisabled ||
       (!this.props.link && !this.props.onClick)
@@ -119,7 +99,7 @@ class Item extends Component {
         onClick={this.props.onClick}
         data-test-id={this.props.testId}
         aria-label={this.props.title}
-        className={styles.button}
+        className={this.props.classes.button}
       >
         <Glow className={this.props.className}>
           {this.renderContent()}
@@ -129,4 +109,38 @@ class Item extends Component {
   }
 }
 
-export default Item;
+export default withStyles(Item, () => ({
+  disabled: {
+    color: '#ccc',
+  },
+  selected: {
+    background: '#eaeaea',
+    boxShadow: '0 -1px 0 0 #eaeaea, 0 1px 0 0 #eaeaea',
+  },
+  title: {
+    width: '100%',
+    marginTop: 2,
+    paddingRight: 16,
+    hyphens: 'auto',
+    overflowWrap: 'break-word',
+    wordBreak: 'break-word',
+    textAlign: 'left',
+  },
+  grid: {
+    alignItems: 'center',
+    minHeight: 56,
+    padding: '8px 0',
+    paddingLeft: 40,
+    position: 'relative',
+    zIndex: 2,
+  },
+  image: {
+    alignSelf: 'flex-start',
+    flexShrink: 0,
+    margin: '0 16px',
+    width: 40,
+  },
+  button: {
+    flex: 1,
+  },
+}));

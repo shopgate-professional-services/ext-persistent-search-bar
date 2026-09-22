@@ -1,5 +1,5 @@
 {
-  "version": "1.12.0",
+  "version": "2.0.0",
   "id": "@shopgate-project/persistent-search-bar",
   "components": [
     {
@@ -123,24 +123,6 @@
         "label": "Path values for blacklisting"
       }
     },
-    "barBgColor": {
-      "type": "admin",
-      "destination": "frontend",
-      "default": "",
-      "params": {
-        "type": "textarea",
-        "label": "Background color of the search bar"
-      }
-    },
-    "bgColor": {
-      "type": "admin",
-      "destination": "frontend",
-      "default": "",
-      "params": {
-        "type": "textarea",
-        "label": "Background color of the suggestion list"
-      }
-    },
     "border": {
       "type": "admin",
       "destination": "frontend",
@@ -148,33 +130,6 @@
       "params": {
         "type": "text",
         "label": "Border styling for the search input"
-      }
-    },
-    "borderRadius": {
-      "type": "admin",
-      "destination": "frontend",
-      "default": 10,
-      "params": {
-        "type": "text",
-        "label": "Border radius for the search input"
-      }
-    },
-    "textColor": {
-      "type": "admin",
-      "destination": "frontend",
-      "default": "",
-      "params": {
-        "type": "textarea",
-        "label": "Text color of the suggestion list"
-      }
-    },
-    "searchIconColor": {
-      "type": "admin",
-      "destination": "frontend",
-      "default": "",
-      "params": {
-        "type": "text",
-        "label": "Color of the search icon"
       }
     },
     "suggestionsMinChars": {
