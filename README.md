@@ -11,19 +11,11 @@ Add the persistent-search-bar extension to your Shopgate Connect deployment conf
   }
 (...)
 ```
+The search bar background, input border radius, search icon color and the suggestion list background and text color are sourced from the active theme and are no longer configurable.
+
 Set the following value in your Shopgate Connect Admin:
 
-* barBgColor - (string) Background color of the search bar. By default the extension will use the background color configured for the AppBar
-
-* bgColor - (string) Background color of the SearchSuggestionList. By default the extension will use the background color configured for the AppBar
-
-* textColor - (string) Text color of the SearchSuggestionList. By default the extension will use the text color configured for the AppBar
-
 * border - (string) Border styling for the input wrapper (1px solid #000)
-
-* borderRadius - (number) Border radius of the input wrapper
-
-* searchIconColor - (string) Color of the search icon
 
 * searchBarBlacklist - (Array) Desired array of pathname values given as strings.
 
@@ -64,12 +56,7 @@ Set the following value in your Shopgate Connect Admin:
     "/checkout/success",
     "/store-details/:code"
   ],
-  "barBgColor": "",
-  "bgColor": "",
   "border": "",
-  "borderRadius": 10,
-  "textColor": "",
-  "searchIconColor": "",
   "suggestionsMinChars": 3,
   "hideOnScroll": true,
   "searchFieldLabel": "",

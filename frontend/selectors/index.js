@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 import { CATEGORY_PATTERN } from '@shopgate/engage/category';
 import { SEARCH_PATTERN } from '@shopgate/engage/search';
-import { getCurrentRoute } from '@shopgate/pwa-common/helpers/router';
+import { getCurrentRoute } from '@shopgate/engage/core';
 import { SEARCH_BAR_BLACKLIST, FILTER_BAR_PORTAL } from '../constants';
 
 /**

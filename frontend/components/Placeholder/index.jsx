@@ -1,10 +1,23 @@
 import React from 'react';
-import styles from './style';
+import { makeStyles } from '@shopgate/engage/styles';
+
+const useStyles = makeStyles()(() => ({
+  placeholder: {
+    height: 56,
+    width: 56,
+    ':empty': {
+      height: 56,
+      width: 56,
+    },
+  },
+}));
 
 /**
  * Renders placeholder component for home page GMD route
  * @returns {JSX.Element}
  */
-export const Placeholder = () => (
-  <div aria-hidden className={styles.placeholder} />
-);
+export const Placeholder = () => {
+  const { classes } = useStyles();
+
+  return <div aria-hidden className={classes.placeholder} />;
+};
